@@ -1,0 +1,66 @@
+\ProvidesPackage{style/multidocument}
+
+% \sharetoc
+\def\sharetoc{%
+    \if@filesw
+      \expandafter\newwrite\csname tf@toc\endcsname
+      \immediate\openout \csname tf@toc\endcsname \jobname.toc\relax
+    \fi}
+
+% \includetoc{document-path}
+\def\includetoc#1{%
+    \if@mdblock\else\ClassError{multidocument}{No \string\begin{multidocument}}{}\fi%
+    \addtocontents{toc}{\protect\@input@{#1}}}
+
+% document counter
+\newcount\c@document
+\c@document=0
+\newcommand\thedocument{\@Roman\c@document}
+\def\p@document{\thedocument}
+
+\newif\if@mdblock \@mdblockfalse
+\newif\if@mddoc   \@mddocfalse
+\newif\if@mdmain  \@mdmainfalse
+\gdef\md@jobname{\jobname}
+
+% \initmultidocument{label}{main job name path}
+\def\initmultidocument#1#2{%
+    \if@mddoc%
+        \ClassError{multidocument}{\string\initmultidocument\space already called}{}\fi%
+    \if@mdmain%
+        \ClassError{multidocument}{\string\initmultidocument\space and \string\initmultimaindocument\space can not both be called}{}\fi%
+    \@mddoctrue%
+    \gdef\md@jobname{#1}%
+    \@input@{#2.mpx}}
+
+% \initmultimaindocument
+\def\initmultimaindocument{%
+    \if@mdmain%
+        \ClassError{multidocument}{\string\initmultimaindocument\space already called}{}\fi%
+    \if@mddoc%
+        \ClassError{multidocument}{\string\initmultidocument\space and \string\initmultimaindocument\space can not both be called}{}\fi%
+    \@mdmaintrue%
+    \if@filesw%
+        \newwrite\md@mpx%
+        \immediate\openout\md@mpx\jobname.mpx\relax\fi}
+
+
+\long\gdef\multidocument#1{%
+    \if@mdmain\else%
+        \ClassError{multidocument}{\string\initmultidocumentmain\space not called}{}\fi%
+    \if@mddoc%
+        \ClassError{multidocument}{A non main multi-document can not include other documents}{}\fi%
+    \clearpage%
+    \global\advance\c@document1%
+    \immediate\write\md@mpx{\noexpand\multidocumentpage{#1}{\thepage}\noexpand\multidocumentdoc{#1}{\the\c@document}}%
+    \@mdblocktrue}
+
+\gdef\endmultidocument{\@mdblockfalse}
+
+\def\multidocumentdoc#1#2{%
+    \xdef\@gtempa{#1}%
+    \ifx\@gtempa\md@jobname \setcounter{document}{#2}\fi}
+
+\def\multidocumentpage#1#2{%
+    \xdef\@gtempa{#1}%
+    \ifx\@gtempa\md@jobname \setcounter{page}{#2}\fi}

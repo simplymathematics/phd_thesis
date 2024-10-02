@@ -1,0 +1,84 @@
+\chapter{Introduction}
+Something about the research. \lipsum[1]
+\section{Motivations}
+\subsection{The Trolley Problem}
+I've always thought the trolley problem was a false question. The real answer is that the trolley is going to fast for the conditions. The goal of the engineer is to find the conditions for which that won't happen.
+\lipsum[1-3]
+\subsection{System Failure}
+Here I will discuss some anecdotes from my prior lives about preventable failures and how they could have been overcome by safety critical design.
+\lipsum[1-3]
+
+\section{The Ethics of Big Data}
+\label{sec:ethics}
+The problems with the big data approach to machine learning are numerous. 
+Recently, marginal gains in accuracy have relied on increasingly larger models to produce marginal gains~\cite{desislavov2021compute}. 
+These models rely on massive datasets~\cite{desislavov2021compute,vapnik1994measuring,blumer1989learnability}, from an ever-shrinking number of sources~\cite{koch2021reduced}, leading to gender-biased models~\cite{lu2020gender}, race-biased models~\cite{buolamwini2018gender}, and critical design errors~\cite{banks2018driver}. 
+This trend isn't new and goes back decades~\cite{corsaro1982something,ramirez2000resource,buolamwini2018gender}. 
+Despite this, it has been suggested that neural networks be used to detect (\textit{potentially}) illegal material \cite{abelson2021bugs}. Since client-side monitoring with neural networks was recently the subject of a proposal by the EU parliament to stop the spread of offensive and harmful online contact, it can be used as a simple case study in how \textit{obviously good} models have inherent risks.
+One, these models are nearly reliable enough to be deployed in situations that can negatively effect a human, which is a strict legal requirement \cite{iso26262}. 
+Second, these models can reveal the private data used to train the model \cite{chakraborty_adversarial_2018} or used to generate new types of objectionable content.
+Third, these models are inherently biased--- relying on statistical assumptions that harm already marginalised groups \cite{buolamwini2018gender}. 
+Fourth, the existence of the model comes with unforeseen environmental and societal costs-- potentially chilling dissent or speech~\cite{}, using immense computational resources~\cite{}, outsourcing of the data labelling and pipeline monitoring to low wage workers who have to view the offensive content for low wages~\cite{}, and is unlikely to deter criminals who are familiar with tools like encryption, anonymized routing, or obfuscation~\cite{}.
+
+\subsection{Big Data and Efficacy}
+\lipsum[1]
+\subsection{Big Data and Privacy}
+\label{subsec:privacy}
+\lipsum[1]
+\subsection{Bias}
+ML systems are subject to the same biases as their human creators and their datasets. 
+For example, gender-biased modelling leads to significantly higher fatality in car accidents for female-bodied people~\cite{evans2001gender}. 
+In another instance, researchers found neural networks that unintentionally encode racial information from medical imaging data that should not encode such information~\cite{gichoya2022ai}. 
+Nevertheless, the problems are not intractable. Since these models mathematically agnostic, the problems and solutions are strictly human. 
+After raising awareness about the racial- and gender discrepancies in facial recognition systems \cite{buolamwini2018gender}, subsequent research found that the problem was substantially reduced \cite{raji2019actionable}, perhaps with nothing more than changing the sampling method. However, computer science as a whole has struggled with racial and gender biases during hiring process already exist \cite{rattan2019identical,yarger2020algorithmic} and other research examines how this permeates across the field of machine learning \cite{birhane2021algorithmic}. Some authors \cite{birhane2021algorithmic} recommend a set of ethics that centres machine learning research on groups mostly likely to be adversely effected. However, since these groups tend to be marginalised or statistical outliers compared to dominant groups, there's an inherent tension within this recommendation. Let's take the case of the autonomous (self-driving) car. On one hand, we would like our car to not mistake women, minority groups, or gender non-conforming people for inanimate objects. On the other hand, the statistical variance introduced by these statistically less "normal" subsets of people will cause a degradation of performance for the "average" user. Is it more fair to reduce the accuracy overall for the sake of statistically "abnormal" groups rather than maximise the performance on the statistically average person? This tension was proven to be inherent to the statistical methods underlying machine learning systems \cite{carlini_towards_2017}. This tension is widely discussed in the literature on fairness for machine learning as well \cite{feuerriegel2020fair,van2021fairness,corbett2018measure}.
+\subsection{Environmental Costs}
+\label{subsec:environment}
+
+Furthermore, data collection can be very costly~\cite{roh2019survey}, raise numerous privacy concerns~\cite{bloom2017self}, increases development time~\cite{lam2004new}, and makes it harder to verify a product~\cite{zirger1996effect}. Furthermore, machine learning research as a whole is focused on metrics that tend to be optimistic at best~\cite{madry2017towards}. TODO:
+
+\section{Research questions and problem}
+\label{sec:research-questions-and-problems}
+In this thesis, we attempt to address the following research questions, each of which has a corresponding paper, listed in order.
+\begin{description}
+    \item[R1] To what degree can we trust Neural Networks?
+    \item[R2] Can we overcome that limitation by generating or using more data?
+    \item[R3] How can we quantify the cost benefit relationship between robustness and particular choice in model?
+    \item[R4] How can we automate this selection process while keeping cost in mind?
+    \item[R5] How can we build audit-able and reproducible tests to meet regulatory standards for safety critical systems?
+    \item[R6] Is it possible to build a classifier that circumvents the inherent weaknesses of neural networks?
+\end{description}
+
+\section{Methodology}
+\label{sec:methods}
+The methodology used ...
+\subsection{Data}
+\label{subsec:methods-data}
+\lipsum[1-3]
+\subsection{Model}
+\label{subsec:methods-model}
+Artificial Intelligence (AI) pipelines are often long-running and complex software tool-chains with many tunable hyperparameters. Managing, tracking, and controlling for various parameters is non trivial, but many management tools are available~\cite{dvc, hydra, k8s}. In general, a dataset is split into \textbf{training} and \textbf{test} sets. The training set is then used to determine the best configuration of a given model architecture on a given hardware architecture with the expectation that it will generalize both on the withheld test set and on new data generated by users via application programming interface (API) calls. To verify the training process, the test set validated against the \textit{inference} configuration of a model which may run on different hardware than the \textbf{training} configuration to reduce cost, latency, or power consumption.
+\lipsum[1-3]
+\subsection{Attacks}
+\label{subsec:methods-attacks}
+In the context of machine learning, an adversarial attack refers to deliberate and malicious attempts to manipulate or exploit machine learning models. Adversarial attacks are designed to deceive or mislead the model's behavior by introducing carefully crafted input data that can cause the model to make incorrect predictions or produce undesired outputs.The goal of an adversarial attack is often to exploit vulnerabilities in the model's decision-making process or to probe its weaknesses. 
+These attacks can occur during various stages of the machine learning pipeline, including during training, inference, or deployment. 
+Evasion attacks aim to manipulate input data during the inference phase to deceive the model into misclassifying or ignoring certain inputs. 
+Attackers carefully craft perturbations or modify the input features to mislead the model while still appearing similar to the original input \cite{biggio_evasion_2013,carlini_towards_2017,adversarialpatch,pixelattack,hopskipjump}. 
+In poisoning attacks, the attacker intentionally injects malicious or manipulated training samples into the training dataset where the goal is to influence the model's behaviour during training so that it learns to make incorrect predictions or exhibit unwanted behaviours when presented with specific inputs \cite{biggio_poisoning_2013, saha2020hidden}. 
+Inference attacks exploit the model's output or responses to obtain sensitive information about the training data or other confidential details. By observing the model's predictions or confidence scores for carefully crafted inputs, attackers can extract information that should ideally be kept private \cite{chakraborty_adversarial_2018, orekondy2019knockoff}.
+Model inversion attacks (also called extraction attacks) aim to infer sensitive information about the training data or proprietary model by exploiting the model's outputs. Attackers utilise the model's responses to iteratively reconstruct or approximate training examples that are similar to the ones used during training \cite{chakraborty_adversarial_2018, choquette2021label, li2021membership}.
+
+\subsubsection{Attacks as Worst Case Simulations}
+\lipsum[1]
+\subsection{Metrics}
+\label{subsec:methods-metrics}
+\lipsum[1-3]
+\section{On the use Adversarial Attacks for AI Pipeline Verification }
+
+
+
+
+
+
+
+

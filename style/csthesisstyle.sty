@@ -1,0 +1,408 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{style/csthesisstyle}[2024/01/01 author: author]
+
+\DeclareOption{fancyfnt}{\def\csthesis@fancyfnt{}}
+\DeclareOption{pagehead}{\def\csthesis@pagehead{}}
+\DeclareOption{captions}{\def\csthesis@captions{}}
+\DeclareOption{footnotes}{\def\csthesis@footnotes{}}
+\DeclareOption{headers}{\def\csthesis@headers{}}
+\DeclareOption{toc}{\def\csthesis@toc{}}
+\DeclareOption{contfignum}{\def\csthesis@contfignum{}}
+\DeclareOption*{\@latex@error{Unknown option '\CurrentOption' for package 'csthesisstyle'\MessageBreak
+    Availible options are:\MessageBreak
+    \space\space fancyfnt \space\space - Use other fonts.\MessageBreak
+    \space\space pagehead \space\space - Include a page head.\MessageBreak
+    \space\space toc \space\space\space\space\space\space\space - Restyle foot notes.\MessageBreak
+    \space\space captions \space\space - Restyle captions.\MessageBreak
+    \space\space headers \space\space\space - Restyle headers.\MessageBreak
+    \space\space footnotes \space - Restyle foot notes.\MessageBreak
+    \space\space contfignum - Use contiguous figure numbering
+}\@eha}
+
+\ProcessOptions
+
+%\RequirePackage[latin1]{inputenc}
+
+\ifx\csthesis@fancyfnt\undefined\else
+    \RequirePackage[scaled=0.92]{helvet}
+    \RequirePackage{mathptmx}
+    \RequirePackage{courier}
+    \RequirePackage{avant}
+\fi
+
+% Document style
+% ==============
+\raggedbottom
+
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\floatpagefraction}{0.8}
+\setcounter{totalnumber}{4}
+
+% Captions
+% ========
+\ifx\csthesis@captions\undefined\else
+    \RequirePackage{caption}
+    \newdimen\tableindent
+    \tableindent\parindent
+    \DeclareCaptionFormat{tableindent}{\hskip-\tableindent#1#2#3}
+    \captionsetup{labelfont=sc,font=small}
+    \captionsetup[figure]{labelfont=sc,font=small,
+    format=hang,justification=justified,singlelinecheck=true}
+    \captionsetup[table]{aboveskip=0pt,labelfont=sc,font=small,
+        margin=\tableindent,format=tableindent,indention=0pt,
+        justification=justified,
+        singlelinecheck=false,position=top}
+\fi
+
+% Figures (continuing numbering)
+% ==============================
+\ifx\csthesis@contfignum\undefined\else
+    \ifx\chapter\undefined\else
+        \RequirePackage{remreset}
+        \RequirePackage{float}
+        \@removefromreset{figure}{chapter} \floatstyle{plain}
+        \restylefloat{figure}
+        \renewcommand\thefigure{\mbox{\@arabic\c@figure}}
+    \fi
+\fi
+
+% Page Head
+% ========
+
+\ifx\csthesis@pagehead\undefined\else
+    \RequirePackage{fancyhdr}
+    \pagestyle{fancyplain}
+
+    \def\ps@thesis {
+            \let\@mkboth\markboth
+            \let\sectionmark\ts@sectionmark
+            \let\subsectionmark\ts@subsectionmark}
+    \ifx\csthesis\undefined\else
+        \def\ts@chaptermark#1{\markboth{\@chapapp}{#1}}
+        \def\ts@sectionmark#1{}
+        \def\ts@subsectionmark#1{}
+        \let\ps@csthesis\ps@thesis
+    \fi
+    \ifx\csthesispaper\undefined\else
+        \def\ts@chaptermark#1{}
+        \def\ts@sectionmark#1{\markright{\thesection.\space#1}}
+        \def\ts@subsectionmark#1{}
+        \let\ps@csthesispaper\ps@thesis
+    \fi
+    \ifx\csthesissummary\undefined\else
+        \def\ts@chaptermark#1{\markboth{\@chapapp\space\thechapter}{#1}}
+        \def\ts@sectionmark#1{}
+        \def\ts@subsectionmark#1{}
+        \let\ps@csthesissummary\ps@thesis
+    \fi
+
+    \let\chaptermark\ts@chaptermark
+    \let\sectionmark\ts@sectionmark
+    \let\subsectionmark\ts@subsectionmark
+
+    \advance\headwidth0.33in
+    \advance\headwidth0.33\evensidemargin
+    \lhead[\fancyplain{}{\leftmark}]{}
+    \rhead[]{\fancyplain{}{\rightmark}}
+    \chead{}
+    \lfoot[\fancyplain{\small\thepage}{\small\thepage}]{}
+    \rfoot[]{\fancyplain{\small\thepage}{\small\thepage}}
+    \cfoot{}
+    \renewcommand{\headrulewidth}{0.5pt}
+
+    \ifx\csthesis\undefined\else
+        \renewenvironment{theindex}{%
+            \if@twocolumn
+                \@restonecolfalse
+            \else
+                \@restonecoltrue
+            \fi
+            \addcontentsline{toc}{index}{Index}
+            \twocolumn[\@makeschapterhead{\indexname}]%
+            \@mkboth{\indexname}{\indexname}
+            \thispagestyle{plain}\parindent\z@
+            \parskip\z@ \@plus .3\p@\relax
+            \columnseprule \z@
+            \columnsep 35\p@
+            \let\item\@idxitem}
+        {\if@restonecol\onecolumn\else\clearpage\fi}
+    \fi
+
+    \ifx\csthesispaper\undefined
+        \renewcommand{\bibname}{References}
+
+        \def\@schapter#1{\if@twocolumn
+                   \@topnewpage[\@makeschapterhead{#1}\@mkboth{#1}{#1}]%
+                 \else
+                   \@makeschapterhead{#1}\@mkboth{#1}{#1}%
+                   \@afterheading
+                 \fi}
+
+        \renewenvironment{thebibliography}[1]{%
+            \chapter*{\bibname\@mkboth{\bibname}{\bibname}}%
+            \list{\@biblabel{\@arabic\c@enumiv}}%
+             {\settowidth\labelwidth{\@biblabel{#1}}%
+             \leftmargin\labelwidth
+             \advance\leftmargin\labelsep
+             \@openbib@code
+             \usecounter{enumiv}%
+             \let\p@enumiv\@empty
+             \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+            \sloppy
+            \clubpenalty4000
+            \@clubpenalty \clubpenalty
+            \widowpenalty4000%
+            \sfcode`\.\@m}
+        {\def\@noitemerr
+            {\@latex@warning{Empty `thebibliography' environment}}%
+            \endlist}
+    \else
+        % Redefine Headers
+        % =================
+        \renewcommand\tableofcontents{%
+           \section*{\contentsname
+              \markright{\contentsname}}%
+           \@starttoc{toc}}
+        \renewcommand\listoffigures{%
+           \addcontentsline{toc}{section}{\listfigurename}
+           \section*{\listfigurename}%
+             \markright{\listfigurename}%
+           \@starttoc{lof}}
+        \renewcommand\listoftables{%
+           \addcontentsline{toc}{section}{\listtablename}
+          \section*{\listtablename}%
+           \markright{\listtablename}%
+           \@starttoc{lot}}
+        \renewenvironment{thebibliography}[1]{
+          \addcontentsline{toc}{section}{\refname}
+            \section*{\refname\markright{\refname}}%
+             \list{\@biblabel{\@arabic\c@enumiv}}%
+                   {\settowidth\labelwidth{\@biblabel{#1}}%
+                    \leftmargin\labelwidth
+                  \advance\leftmargin\labelsep
+                  \@openbib@code
+                 \usecounter{enumiv}%
+                  \let\p@enumiv\@empty
+                 \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+              \sloppy
+              \clubpenalty4000
+           \@clubpenalty \clubpenalty
+           \widowpenalty4000%
+             \sfcode`\.\@m}
+           {\def\@noitemerr
+            {\@latex@warning{Empty `thebibliography' environment}}%
+           \endlist}
+    \fi
+\fi
+
+% Footnotes
+% =========
+\ifx\csthesis@footnotes\undefined\else
+    \renewcommand\footnoterule{%
+        \kern-3\p@
+        \nobreak \vfill
+        \hrule\@width.4\columnwidth
+        \kern2.6\p@}
+
+    \setlength{\footnotesep}{0pt}
+    \renewcommand{\@makefntext}[1]{%
+        \setlength{\parindent}{0pt}%
+        \begin{list}{}{%
+            \setlength{\labelwidth}{1.5em}%
+            \setlength{\leftmargin}{\labelwidth}%
+            \setlength{\labelsep}{3pt}%
+            \setlength{\itemsep}{0pt}%
+            \setlength{\parsep}{0pt}%
+            \setlength{\partopsep}{0pt}%
+            \setlength{\topsep}{0pt}%
+            \setlength{\skip\footins}{1.5em}
+            \footnotesize}\item[\hfill\@makefnmark]#1%
+        \end{list}}
+\fi
+
+% Headers
+% =======
+
+\ifx\csthesis@headers\undefined\else
+
+    \newcommand{\headerfontfamily}{\sffamily}
+
+    \ifx\csthesispaper\undefined
+        \def\@makechapterhead#1{%
+            \vspace*{0\p@}%
+         {\renewcommand{\baselinestretch}{1.0}%
+                \parindent \z@ \raggedright \normalfont
+                \ifnum \c@secnumdepth >\m@ne
+                    \LARGE\scshape \@chapapp\space \thechapter\\
+                 \vskip 3\p@
+                  \hrule
+                  \par\nobreak
+                  \vskip 8\p@
+               \fi
+                \interlinepenalty\@M
+                \normalfont\Huge\headerfontfamily\bfseries #1\par\nobreak
+                \vspace*{70\p@}}}
+        \def\@makeschapterhead#1{%
+          \markboth{#1}{#1}%
+          \vspace*{10\p@}%
+          {\parindent \z@ \raggedright
+            \renewcommand{\baselinestretch}{1.0}
+            \normalfont
+            \interlinepenalty\@M
+            \Huge\headerfontfamily\bfseries  #1\par\nobreak
+         \vspace*{60\p@}}}
+    \fi
+
+    \renewcommand{\section}{%
+     \@startsection%
+      {section}%
+      {1}%
+      {0pt}%
+      {-2\baselineskip}%
+      {0.5\baselineskip}%
+      {\normalfont\large\headerfontfamily\bfseries}}
+
+    \renewcommand{\subsection}{%
+     \@startsection%
+      {subsection}%
+      {2}%
+      {0pt}%
+      {-\baselineskip}%
+      {0.25\baselineskip}%
+      {\normalfont\normalsize\headerfontfamily\bfseries}}
+
+    \renewcommand{\subsubsection}{%
+     \@startsection%
+      {subsubsection}%
+      {3}%
+      {0pt}%
+      {0.5\baselineskip}%
+      {1pt}%
+      {\normalfont\normalsize\headerfontfamily}}
+\fi
+
+% Table of Contents
+% =================
+\ifx\csthesis@toc\undefined\else
+
+    \ifx\csthesis\undefined\else
+        % l@part
+        \renewcommand*\l@part[3]{%
+            \ifnum \c@tocdepth >-2\relax
+                \def\@hasparts{}%
+                \addpenalty{-\@highpenalty}%
+                \addvspace{2.25em \@plus\p@}%
+                \setlength\@tempdima{3.0em}%
+                \begingroup
+                  \parindent \z@ \rightskip \@pnumwidth
+                  \parfillskip -\@pnumwidth
+                  \leavevmode
+                   \advance\leftskip\@tempdima
+                    \hskip -\leftskip
+                   {\bfseries\large#1}~
+                 {\large#2}\hfil\mbox{\bfseries#3}\par
+                  \penalty\@highpenalty
+                \endgroup
+            \fi}
+
+        % l@paper
+        \ifx\l@paper\undefined\else
+          \renewcommand*\l@paper[2]{%
+            \ifnum \c@tocdepth >\m@ne
+              \addpenalty{-\@highpenalty}%
+              \vskip \ifx\@hasparts\undefined 1em\else 0.5em\fi \@plus\p@
+              \setlength\@tempdima{1.5em}%
+              \begingroup
+                \parindent \ifx\@hasparts\undefined \z@\else1.5em\fi \rightskip\@pnumwidth
+                \parfillskip -\@pnumwidth
+                \leavevmode \bfseries
+                \advance\leftskip\@tempdima
+                \hskip -\leftskip
+                #1~\nobreak\hfill%
+                \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+                \penalty\@highpenalty
+              \endgroup
+            \fi}
+       \fi
+       % l@index
+        \newcommand*\l@index[2]{%
+          \ifnum \c@tocdepth >\m@ne
+            \addpenalty{-\@highpenalty}%
+            \vskip \ifx\@hasparts\undefined 1em\else2.25em\fi \@plus\p@
+            \setlength\@tempdima{1.5em}%
+            \begingroup
+              \parindent \z@ \rightskip\@pnumwidth
+              \parfillskip -\@pnumwidth
+              \leavevmode \bfseries
+              \advance\leftskip\@tempdima
+              \hskip -\leftskip
+              #1~\nobreak\hfill%
+              \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+              \penalty\@highpenalty
+            \endgroup
+          \fi}
+        % l@chapter
+        \renewcommand*\l@chapter[2]{%
+          \ifnum \c@tocdepth >\m@ne
+            \addpenalty{-\@highpenalty}%
+            \vskip .5em \@plus\p@
+            \setlength\@tempdima{1.5em}%
+            \begingroup
+              \parindent \z@ \rightskip \@pnumwidth
+              \parfillskip -\@pnumwidth
+              \leavevmode \bfseries
+              \advance\leftskip\@tempdima
+              \hskip -\leftskip
+              #1~\nobreak\hfill%
+              \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+              \penalty\@highpenalty
+            \endgroup
+          \fi}
+        % l@list
+        \newcommand*\l@list[2]{%
+          \ifnum \c@tocdepth >\m@ne
+            \addpenalty{-\@highpenalty}%
+            \vskip .5em \@plus\p@
+            \setlength\@tempdima{1.5em}%
+            \begingroup
+              \parindent \z@ \rightskip \@pnumwidth
+              \parfillskip -\@pnumwidth
+              \leavevmode \bfseries
+              \advance\leftskip\@tempdima
+              \hskip -\leftskip
+              #1~\nobreak\hrulefill%
+              \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+              \penalty\@highpenalty
+            \endgroup
+          \fi}
+
+        \renewcommand*\l@section{\@nodottedtocline{1}{1.5em}{2.3em}}
+        \renewcommand*\l@subsection{\@nodottedtocline{2}{3.8em}{3.2em}}
+        \renewcommand*\l@subsubsection{\@nodottedtocline{3}{7em}{4.1em}}
+        \renewcommand*\l@figure{\@nodottedtocline{1}{1.5em}{2.3em}}
+    \fi
+
+    \ifx\csthesispaper\undefined\else
+        \renewcommand*\l@section[2]{%
+          \ifnum \c@tocdepth >\z@
+            \addpenalty\@secpenalty
+            \addvspace{1.0em \@plus\p@}%
+            \setlength\@tempdima{1.5em}%
+            \begingroup
+              \parindent \z@ \rightskip \@pnumwidth
+              \parfillskip -\@pnumwidth
+              \leavevmode \bfseries
+              \advance\leftskip\@tempdima
+              \hskip -\leftskip
+              #1\nobreak\hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
+            \endgroup
+          \fi}
+
+        \renewcommand*\l@subsection{\@nodottedtocline{2}{1.5em}{2.3em}}
+        \renewcommand*\l@subsubsection{\@nodottedtocline{3}{3.8em}{3.2em}}
+        \renewcommand*\l@figure{\@nodottedtocline{1}{1.5em}{2.3em}}
+        \let\l@table\l@figure
+    \fi
+\fi

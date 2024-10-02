@@ -1,0 +1,43 @@
+\chapter{Summary of Contributions and Future Work}
+The papers in this are structured in chronological order or something.
+% Stolen from "Charlie's Paper List", unedited for now
+\section{Paper I}
+Meyers, Charles, Tommy Löfstedt, and Erik Elmroth. "Safety-critical computer vision: an empirical survey of adversarial evasion attacks and defenses on computer vision systems." {\em Artificial Intelligence Review}, Vol. 53, pp. 217--251, Springer, (2023). [Impact Factor 10.7.]
+
+In this paper, we surveyed five years of attacks and defences against each other and included a run-time analysis that was missing from the original sources. In this way, we quantified the marginal cost and benefit for a given defence with respect to the performance on perturbed (adversarial) and unperturbed data.We examined the effect of training epochs and model depth on the ResNet model across a number of benchmark image datasets. It is open access and a link is available  \href{https://link.springer.com/article/10.1007/s10462-023-10521-4}{here.} 
+\section{Paper II}
+Meyers, Charles, Tommy Löfstedt, and Erik Elmroth. “Massively Parallel Evasion Attacks and the Pitfalls of Adversarial Retraining.” {\em EAI Endorsed Transactions of Internet of Things}, vol. 10, pp. 1-16,  2024.
+Presented at {\em EAI Artificial Intelligence for Cybersecurity Conference}. Bratislava, Slovakia, 2023. [Received a Best Paper Award]
+
+This paper focuses on the support vector classifier, since it has considerably lower run-time requirements than modern neural networks and allowed us to generate a large amount of data and examine a large number of attack parameters. In this paper we show that, in practice, an attacker can find adversarial examples in linear time, which puts them at a distinct advantage compared to polynomial-time model builders. We examined the effect of noise distance, model run-time, and model hyperspace geometry on adversarial robustness across several anomaly detection benchmark datasets. It is open access and a link is available \href{https://publications.eai.eu/index.php/IoT/article/view/6652}{here.}
+
+
+\section{Paper III}
+In this paper, we formalized a survival analysis method for machine learning applications that allows us to quantify the robustness of a model in terms of survival time. By comparing this robustness measure (survival time) to the training time, we presented a metric to quickly reject model architectures in which the attacker has the advantage. We examined the effect of training epochs and model depth on the ResNet model across a number of benchmark image datasets. Meyers, Charles, Mohammed Saleh Saledghpour Reza, Tommy Löfstedt, and Erik Elmroth. "A Training Rate and Survival Heuristic for Inference and Robustness Evaluation." {\em International Conference on Machine Learning and Cybernetics. Miyazaki, Japan} (2024): 1-12. This paper, nicknamed TRASHFIRE, has been accepted, but not yet published.
+
+
+\section{Paper IV}
+This paper has been submitted to the \textit{Journal of Cloud Computing} on 7 September.
+Charles Meyers, Mohammad Reza, Tommy Löfstedt, and Erik Elmroth. “A Cost-Aware Approach to Adversarial Robustness in Neural Networks.”
+Using all the tooling built previously, we applied the training rate and survival heuristic from the paper above to neural networks to model the robustness as a function of various model parameters. Instead of examining the effect of model depth and epochs as in the paper above (TRASHFIRE), we investigated the effect of learning rate optimization and hardware architecture on model robustness using the AFT models and parallel experimentation software developed previously. In this work, we not only verified a cost-aware approach for hardware-agnostic model tuning, and showed that models that cost dollars to train can be broken for pennies, we showed that low-cost, 8-bit GPUs are superior not only in cost-efficacy, but also in terms of adversarial robustness. We also verified the technique developed in TRASHFIRE by evaluating the same model in a new context.
+
+\section{Paper V}
+Meyers, Charles,  Aaron MacSween Tommy Löfstedt, and Erik Elmroth. “Privacy-preserving anomaly detection." This will be submitted to the \textit{NEURIPS} Workshop on Machine Learning and Compression in September.
+Privacy-preserving spam detection: All prior research has led to the conclusion that more accurate models tend to be less robust, that subverting an arbitrary model architecture is trivial, and that models are, at best, a compressed version of the data you would like to keep private. Therefore, we have developed a spam-detection model that works only on client-side data, incorporates design decisions designed to subvert a potential attacker, and only exposes the private data of an individual user. The code is a rough JavaScript implementation (for use in a browser), but a Python version would be needed to compare against other models (e.g. outlier detection or neural networks).
+
+\section{Paper VI}
+Meyers, Charles, Tommy Löfstedt, and Erik Elmroth. “Privacy-preserving anomaly detection."
+To meet the legal requirements mentioned throughout the other works, it is necessary to build reproducible, audit-able, and explainable software. 
+Due to the large number of hyper-parameters, specialized hardware requirements, huge amounts of data, and long run-times associated with modern ML models (\textit{i.e.} neural networks), managing and tracking a large number of experiments can be a headache. 
+Furthermore, robustness is discussed, it must always be framed in the context of a particular attack (or a set of attacks) since the dataset, model, and attack surface will vary in practice. 
+While there are software solutions around optimizing a model within a certain framework, they don't natively support evaluating model robustness. Instead of committing one's self to a particular framework (\textit{e.g.} Keras, Pytorch, Tensorflow) and implementing new attacks from scratch in the chosen framework, one can use our flexible framework for expressing entire ML pipelines as declarative and human-readable files. 
+Additionally, this software allows one to run experiments across heterogeneous and distributed hardware and allows the experimenter to divide the pipeline arbitrarily across the available resources.
+By building a way to reliably reproduce ML experiments on arbitrary hardware platforms with arbitrary entry-points, using arbitrary software functions, rather than building around a particular framework, the software remains flexible and useful for a wide variety of existing tool-chains.
+Finally, to account for traditional metrics and various robustness criteria, the software can be used with a variety of multi-objective optimization algorithms
+The package is named \texttt{deckard} after the detective that hunts rogue AIs in the film, \textit{Blade Runner}, as a nod towards its ability to police the safety, privacy, and security of an AI pipeline. 
+In this paper, the software is outlined to show how the developed package meets the safety critical standards dictated by international governing bodies and is a step towards explainable and robust AI.
+To be submitted to the \textit{Journal of Open Source Software} in October.
+
+
+\section{Future Work}
+For future work we thought of the following \lipsum[1-3]

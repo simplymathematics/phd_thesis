@@ -1,0 +1,82 @@
+% Document class and styles
+\documentclass[10pt,twoside]{classes/csthesis}
+\usepackage{style/s5paper}
+
+% Other imported packages
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{lipsum} % For lipsum
+\usepackage[dvipsnames]{xcolor} % Custom Colors
+\definecolor{mygray}{gray}{0.6} % Definining a .6 transparency gray called mygray
+\setlipsum{% Making the lipsum text mygray
+  par-before = \begingroup\color{mygray},
+  par-after = \endgroup
+}
+\usepackage[final]{pdfpages}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{hyperref}
+% Packages imported by you
+
+
+% Library
+\usepackage[backend=biber]{biblatex}
+\addbibresource{library_sample.bib}
+
+\graphicspath{{images/}}
+
+\input{thesis_other_chapters/commands}
+
+% ------------------------------------------------------
+% Begin document
+% ------------------------------------------------------
+\begin{document}
+\pagenumbering{roman}
+
+\input{thesis_other_chapters/titlepage}
+\cleardoublepage
+
+\input{thesis_other_chapters/abstract}
+\cleardoublepage
+
+\input{thesis_other_chapters/preface}
+\cleardoublepage
+
+\input{thesis_other_chapters/acknowledgement}
+\cleardoublepage
+
+\input{thesis_other_chapters/glossary}
+\cleardoublepage
+
+\tableofcontents
+\cleardoublepage
+
+% ------------------------------------------------------
+% Begin actual content
+% ------------------------------------------------------
+\pagenumbering{arabic}
+
+\include{ch_1_introduction}
+
+\include{ch_2_topic_1}
+
+\include{ch_3_topic_2}
+
+\include{ch_4_topic_3}
+
+\include{ch_5_topic_4}
+
+\include{ch_6_summary_of_contributions}
+
+\printbibliography
+\cleardoublepage
+
+
+% ------------------------------------------------------
+%  The papers
+% ------------------------------------------------------
+\input{papers/paper_one}
+\input{papers/paper_two}
+
+
+\end{document}

@@ -1,0 +1,103 @@
+\chapter{Safety Critical Systems}
+Something about topic 1. \lipsum[1]
+
+
+\section{Safety}
+The ISO standards \cite{iso26262} define the Safety Inegrity Level (SIL) in failures/per hour, which I have converted to failures per second in Table~\ref{tab:rate}. If assume that \textit{accidental} adversarial errors are possible in real-world systems due to things like dust, lens flare, component failure, packet loss, \textit{etc.}, it naturally follows that the adversarial failure rate is an estimate of the models behaviour at the edge or in the `worst-case scenario'. That is, the \textit{adversarial failure rate} is an estimate of the upper bound of the real-world failure rate in adverse but otherwise mundane circumstances. However, due to the large number of samples required by regulatory standards  and the strenuous testing requirements of safety-critical software these evaluations become an infeasible way to verify that a model only fails once across the required number of samples (see Table~\ref{tab:rate}), especially if we would like to be highly confident of that estimation.
+
+\begin{table}[!ht]
+    \begin{center}
+        \caption{Acceptable Failure Rates for different SIL levels in which a single death is possible, measured in failures per second.}
+        \begin{tabular}{l c cc}
+            \toprule
+            SIL  && On-demand Operation   & Continuous Operation \\
+            \cmidrule{1-1} \cmidrule{3-4}
+            I     && $[10^{-6}, 10^{-5})$  & $[10^{-10}, 10^{-9})$ \\
+            II    && $[10^{-7}, 10^{-6})$  & $[10^{-11}, 10^{-10})$ \\
+            III   && $[10^{-8}, 10^{-7})$  & $[10^{-12}, 10^{-11})$ \\
+            IV    && $[10^{-9}, 10^{-8})$  & $[10^{-13}, 10^{-12})$ \\
+            \bottomrule
+        \end{tabular}
+        \label{tab:rate}
+    \end{center}
+\end{table} 
+
+
+\section{Security}
+TODO: Disucss cryptophic standards, broken-ness, and then hint at the inherenent privacy risks for any function that is not cryptographically secure. Discuss how models are generally invertible by design. Use this to plug paper 5 (GZIP KNN) in which this problem is sidestepped.
+\lipsum{1-3}
+
+
+
+\subsection{Privacy }
+\label{privacy}
+Even though our attack scenario only includes perfect knowledge, prior research~\cite{fredrikson2015model, biggio2013evasion, chakraborty2018adversarial, wang2019security, ateniese2015hacking} has shown that a surrogate model and data-set can be used to approximate $f(x)$ by $\hat{f}(x)$ and build a model using the class labels provided by the model at test-time. Tram\`er et al.~\cite{tramer2016stealing} examined popular machine learning as a service platforms that return confidence values as well as class labels, showing that an attacker can build a proxy model by querying $ p + 1$ random $p-$dimensional inputs for unknown $p+1$ parameters. Further research~\cite{fredrikson2015model} were able to reverse engineer the training data-set through black-box attacks against a model that returns confidence levels, with the caveat that the inferred data might be a meta-prototypical example that does not appear in the original data-set. Fortunately for our attacker, such examples are still useful for determining the underlying data distributions even if they manage to preserve some of the privacy of the original data-set. Shokri et al.~\cite{shokri2017membership} presented a membership inference attack that determines whether a given data point belongs to the same distribution as the original training data using a set of proxy models. There are myriad ways for an attacker to get access to otherwise private data using nothing but standard machine learning APIs. Attacks that only require access to these APIs are considered \textbf{white-box attacks}.
+
+
+
+
+\subsection{Reliability}
+\label{reliability}
+\textit{Robustness}, then, is a measure of how well a model resists these \textit{induced} failures. For example, we could see how different AI-pipelines influence the accuracy given model architecture and dataset using the \textit{Percent Change in Accuracy} ($\%\Delta ACC$):
+
+\begin{equation}
+    \label{eq:percent_change_acc}
+    \mathrm{\%\Delta ACC = 
+        \frac{Acc.-Control~Acc}{Control~Acc}} \cdot 100
+\end{equation}
+
+where $Acc$ refers to the \textit{accuracy} and $Control$ refers to the performance of the unchanged model on the benign dataset. This measures the marginal risk of failure for a particular model change (defense) in the adversarial case when compared to the benign case. One could extend this to any other success metric like loss, the number of queries it takes to steal a database entry, or the time it takes to steal a model (see: Section~\ref{privacy} for more examples), though our focus was on evasion attacks at run-time. In general \cite{meyers}, we can examine \textit{Relative Change in Failure Rate ($ \Delta \eta$):}
+
+\begin{equation}
+\label{eq:relative_change_failure_rate}
+\mathrm{\Delta \eta} = 
+    \frac{\mathrm{\eta_{control}-~\eta}}{\mathrm{\eta}}
+\end{equation}
+where $\eta$ refers to the failure rate and the subscript, $control$, refers to the unchanged model. Taken together, these two metrics allow us to measure the marginal risk of a given defense in both the benign and adversarial circumstances. In both cases, a positive number indicates an improvement in relative risk and a negative number indicates a worsening of relative risk, Eq.~\ref{eq:percent_change_acc} in the context of accuracy and Eq.~\ref{eq:relative_change_failure_rate} in the context of failure rate. However, these metrics only measure posterior metrics (things measured after the model has been trained), which have consistently been shown to be optimistic and unreliable at best~\cite{}. In Paper 1, we conducted a large survey of various model attack and defence techniques and showed that, while widely used as measure of robustness in the literature~\cite{}, that neither of these metrics were a reliable indicator of performance against a generalised adversary. In Paper 2, we looked at the effect of small hyper-parameter changes and additionally demonstrated that naively retraining the model against an attacker only weakens the performance in other scenarios while adding substantial (polynomial-time) costs. Modelling the and preventing failures and unforeseen edge cases in complicated electro-mechanical systems isn't new and, at a previous job, that department was called ``Verification and Validation''.  
+
+\subsection{Verification and Validation}
+Verification and validation is the general idea that the likelihood of failures can be modelled and that a component can be audited using these models to verify whether or not it is legally ``safe''. 
+These can broadly be classed into four categories. 
+The first of these is simulation techniques in which entire systems (e.g. spacecraft or nuclear reactors) are simulated digitally. 
+The second category is using formal verification methods, which rely on mathematical proofs to test the bounds of a piece of software or ML model. 
+Papers 1 and 2 can be thought of as building blocks towards these kinds of methods.
+The third category is non-parametric modelling that underlies much medical research and many actuarial tables.
+The final category is parametric modelling, which allows one to not only flexibly, reliably, and precisely characterise the complex nature of the real-world failure rate and model the affect of changes independently. 
+\paragraph{Simulation}
+Briefly outline methods. Use a well-cited example from aircraft (industrial control example), cars (crash test dummies are only tested on male bodies), and medical science (male body problem, p-value problem).
+\lipsum[1]
+\paragraph{Formal Verification}
+Highlight how ridiculously expensive this is and how, even if used during the final stages, would be inappropriate for training or hyper-parameter selection because it would be infeasible to run over 10k trials.
+\lipsum[1]
+\paragraph{Non-Parametric Modelling}
+Highlight how this is really useful for descriptive statistics, but not very useful for predictive statistics since models have interdependent coefficients
+\lipsum[1]
+\paragraph{Parametric Models}
+The exponential distribution is a popular way to introduce a discussion of failure rates (or unabalanced coin flips) in a introductory statistics textbook~\cite{}. 
+We begin our discussion here to give the non-technical read an introduction to the language and notation that follows. 
+Parametric models, (\textit{e.g.} the exponential distribution) are defined
+
+
+The exponential distribution is a probability distribution that models the time until an event occurs in a continuous-time setting when the probability of failure is known to be constant over time. 
+In the context of failure rate, the exponential distribution is often used to characterise the failure or survival time of a system or component. The probability distribution function is given by:
+\begin{align*}
+& f(x) = \eta e^{-\eta x}~\textrm{~when~}x\geq 0
+\end{align*}
+Please note the required assumption that the failure rate is invariant over time. In real-world, complex systems this is known not to be the case~\cite{} and other methods are used to estimate the real-world likelihood of failure. 
+\paragraph{AFTs}
+\lipsum[1]
+
+\subsection{Trust}
+Historically, marginal gains in model performance have relied on exponentially larger models to produce increasingly marginal gains~\cite{desislavov2021compute}.  These models rely on increasingly larger datasets~\cite{desislavov2021compute, vapnik1994measuring, blumer1989learnability}, which increasingly come from fewer sources~\cite{koch2021reduced}, leading to gender-biased models~\cite{lu2020gender}, racism~\cite{buolamwini2018gender}, and fatal design errors~\cite{banks2018driver} This is a trend that goes back decades~\cite{corsaro1982something, ramirez2000resource, buolamwini2018gender}, leading to, for example, significantly higher fatality in car accidents for female-bodied people~\cite{evans2001gender} or neural networks that unintentionally encode racial information from medical imaging data alone~\cite{gichoya2022ai}. Furthermore, data collection can be expensive~\cite{roh2019survey}, raises serious privacy concerns~\cite{bloom2017self}, increases time to market~\cite{lam2004new}, and impedes development speed~\cite{zirger1996effect}. Furthermore, research is focused on metrics that tend to be optimistic at best~\cite{madry2017towards}. As noted by many researchers \cite{madry2017towards, carlini_towards_2017, croce_reliable_2020, meyers}, test/train split optimisation can only find failures from `in-distribution` data. Instead, we need strong guarantees that our models will not fail subject to the aforementioned standards. It is also critical that these test run fast enough that they can be incorporated into the model-development feedback loop and keep, for example, untested AI software from needing an actual car to do verification test. Failure rate analysis has been widely explored in other fields \cite{aft_models}, but there's very little published research in the context of machine learning models.
+
+
+
+
+
+
+
+
+
+
+
+

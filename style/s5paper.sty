@@ -1,0 +1,67 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{style/s5paper}[2024/01/01 author: author]
+\RequirePackage{keyval}
+
+% Paper size
+\newdimen\extra@margin
+\extra@margin0pt
+\define@key{s5paper}{margin}{\setlength{\extra@margin}{#1}}
+
+\def\ProcessOptionsWithKV#1{%
+  \let\@tempc\relax
+  \let\@tempa\@empty
+  \@for\CurrentOption:=\@classoptionslist\do{%
+    \@ifundefined{KV@#1@\CurrentOption}%
+    {}%
+    {%
+      \edef\@tempa{\@tempa,\CurrentOption,}%
+      \@expandtwoargs\@removeelement\CurrentOption
+        \@unusedoptionlist\@unusedoptionlist
+    }%
+  }%
+  \edef\@tempa{%
+    \noexpand\setkeys{#1}{%
+      \@tempa\@ptionlist{\@currname.\@currext}%
+    }%
+  }%
+  \@tempa
+  \let\CurrentOption\@empty
+  \AtEndOfPackage{\let\@unprocessedoptions\relax}}
+\ProcessOptionsWithKV{s5paper}
+
+
+\paperheight 238mm%
+\paperwidth 165mm%
+\advance\paperheight2\extra@margin
+\advance\paperwidth2\extra@margin
+\hoffset 0in
+\voffset 0in
+\topmargin 8mm
+\advance\topmargin -1in
+\advance\topmargin\extra@margin
+\oddsidemargin 24mm
+\advance\oddsidemargin -1in
+\advance\oddsidemargin\extra@margin
+\evensidemargin 21mm
+\advance\evensidemargin-1in
+\advance\evensidemargin\extra@margin
+\headheight 10mm
+\headsep 8mm
+\footskip 9mm
+\marginparwidth 17mm
+\marginparsep 2mm
+\marginparpush 1em
+
+\textheight 190mm
+\textwidth \paperwidth
+\advance\textwidth-2in
+\advance\textwidth-\hoffset
+\advance\textwidth-\oddsidemargin
+\advance\textwidth-\evensidemargin
+
+\ifx\pdftexversion\undefined
+  \special{papersize=165mm,238mm}
+\else
+  \pdfpagewidth\paperwidth
+  \pdfpageheight\paperheight
+\fi

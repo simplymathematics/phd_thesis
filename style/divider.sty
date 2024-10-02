@@ -1,0 +1,100 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{style/divider}[2024/01/01 author: author]
+\RequirePackage{keyval}
+\RequirePackage{color}
+
+\newdimen\d@wd
+\newdimen\d@ht
+\newdimen\d@hoffset
+\newdimen\d@voffset
+\def\d@pt{42}
+
+\d@wd 37mm%
+\d@voffset 0mm%
+\d@hoffset 1mm%
+\d@ht 21.6mm%
+
+\define@key{divider}{margin}{\setlength{\d@voffset}{#1}%
+    \setlength{\d@hoffset}{#1}%
+    \advance\d@hoffset1mm}
+\define@key{divider}{width}{\setlength{\d@wd}{#1}}
+\define@key{divider}{height}{\setlength{\d@ht}{#1}}
+\define@key{divider}{fontsize}{\def\d@pt{#1}}
+
+\newcommand*\divider@setkeys[2]{%
+  \let\divider@KV@errx\KV@errx
+  \let\divider@KV@err\KV@err
+  \def\KV@errx##1{\PackageError{divider}{##1}\@ehc}%
+  \let\KV@err\KV@errx
+  \setkeys{#1}{#2}%
+  \let\KV@errx\divider@KV@errx
+  \let\KV@err\divider@KV@err}
+
+\def\ProcessOptionsWithKV#1{%
+  \let\@tempc\relax
+  \let\divider@tempa\@empty
+  \@for\CurrentOption:=\@classoptionslist\do{%
+    \@ifundefined{KV@#1@\CurrentOption}%
+    {}%
+    {%
+      \edef\divider@tempa{\divider@tempa,\CurrentOption,}%
+      \@expandtwoargs\@removeelement\CurrentOption
+        \@unusedoptionlist\@unusedoptionlist
+    }%
+  }%
+  \edef\divider@tempa{%
+    \noexpand\divider@setkeys{#1}{%
+      \divider@tempa\@ptionlist{\@currname.\@currext}%
+    }%
+  }%
+  \divider@tempa
+  \let\CurrentOption\@empty
+  \AtEndOfPackage{\let\@unprocessedoptions\relax}}
+\ProcessOptionsWithKV{divider}
+
+\advance\d@wd\d@hoffset
+
+\font\d@font cmr10 at \d@pt pt
+
+\newcount\c@dividerlevel
+\c@dividerlevel=1
+\newcount\c@paper
+\c@paper=0%
+
+\def\divider{
+    \@ifnextchar[{\@divider}{%
+    \global\advance\c@paper 1
+    \gdef\@tempa{\@Roman{\c@paper}}
+    \@ifundefined{c@mfpart}{}{
+        \if@mfmain\gdef\@tempa{\@Roman{\c@mfpart}}\fi}
+    \@divider[\@tempa]}}
+\def\@divider[#1]{\cleardoublepage\noindent\thispagestyle{empty}%
+    \setbox\@tempboxa\hbox{\bgroup\color{white}\d@font#1\egroup}%
+    \@tempdima \paperwidth
+    \advance\@tempdima-\hoffset
+    \advance\@tempdima-\oddsidemargin
+    \advance\@tempdima-1in
+    \@tempdimb 1in
+    \advance\@tempdimb\voffset
+    \advance\@tempdimb\topmargin
+    \advance\@tempdimb\headheight
+    \advance\@tempdimb\headsep
+    \advance\@tempdimb-\d@hoffset
+    \advance\@tempdima-\d@wd%
+    \advance\@tempdimb-\c@dividerlevel\d@ht%
+    \ifdim\@tempdimb<-\textheight%
+        \advance\@tempdimb\c@dividerlevel\d@ht%
+        \global\c@dividerlevel=1%
+        \advance\@tempdimb-\c@dividerlevel\d@ht\fi%
+    \@picht\d@ht%
+    \setbox\@picbox\hb@xt@\d@wd\bgroup%
+    \hskip\@tempdima\raise\@tempdimb%
+    \hbox\bgroup\ignorespaces\rule\d@wd\d@ht%
+    \@tempdima-.5\d@wd\advance\@tempdima-.5\d@hoffset\advance\@tempdima-.5\wd\@tempboxa%
+    \@tempdimb.5\d@ht\advance\@tempdimb-.5\ht\@tempboxa%
+    \raise\@tempdimb\hbox\bgroup\kern\@tempdima\box\@tempboxa\egroup%
+    \egroup\hss\egroup%
+    \ht\@picbox\@picht\dp\@picbox\z@%
+    \mbox{\box\@picbox}%
+    \global\advance\c@dividerlevel 1%
+    \newpage\thispagestyle{empty}\hbox{}\newpage}
