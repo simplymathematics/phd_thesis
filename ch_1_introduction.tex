@@ -1,84 +1,299 @@
 \chapter{Introduction}
-Something about the research. \lipsum[1]
+
+
+Despite widespread adoption~\cite{ai_automotive,ai_aviation,ai_luggage,ai_prison,ai_security} and investor exuberance~\cite{mou2019artificial} regarding \textit{artificial intelligence} (AI), there are myriad hurdles between the current state-of-the-art and systems that can be legally declared ``safe''. 
+AI in general is an ill-defined concept~\cite{phillips1999if}, in the words of the human-computer-action pioneer, Larry Tesler, ``Intelligence is whatever machines haven't done yet''~\cite{hofstadter1999godel}.
+Therefore, throughout the text, the term \textit{machine learning} (ML) will be used instead, which is a well defined statistical concept~\cite{shalev2014understanding}.
+While the terms are used rather interchangeably in the wider literature, even the most advanced large language models (LLMs) ``cannot perform genuine logical reasoning''~\cite{gsm-symbolic} and calling these models ``intelligent'' overstates their abilities enormously.
+% In addition, machine learning models often suffer from opacity to the researchers that deploy them. 
+% Sensitivity analysis, correlation plots, and low-dimensional graphs help highlight cross-sections of a model's inner-workings but fail to build systems that are robust to attack, free from bias, or explainable in plain language. 
+While machine learning models hold immense promise—such as lowering healthcare costs~\cite{ai_medical_imaging}, improving translation across languages~\cite{ai_translation}, and reducing car-related fatalities~\cite{ai_automotive_safety}—their widespread deployment also raises serious concerns. These include unintentional bias~\cite{buolamwini2018gender}, misuse for mass surveillance~\cite{abelson2021bugs}, high energy consumption~\cite{ai_power}, and the potential to exacerbate global inequality~\cite{ai_inequity}.
+Therefore, a systematic analysis of the ``trustworthiness'' of these ML systems is required.
+This project is a systematic approach to measuring the trustworthiness of these systems.
+
+In particular, the following work seeks to categorise and quantify the effect of inputs that causes errors at run-time (attacks) and methods designed to mitigate their effect (defences), primarily in Paper I and Paper III.
+In addition, methods for measuring and predicting the cost-efficacy of these attacks and defences are also examined in Papers II, III, \& IV.
+A simple and efficient method for minimising the attack surface of a classification model is presented in Paper V.
+Finally, a framework and software tooling for safety-critical ML verification and validation is outlined in Paper VI.
+
 \section{Motivations}
+\label{sec:motivations}
+
+The primary motivation for this work is the ``social nature of software''~\cite{social_code} and a desire to ensure that deployed models are inherently safe not only for their benefactors, but for the wider public. 
+Given the environmental costs associated with modern machine learning models~\cite{ai_power}, their known tendency to systematise human bias, and the proposed safety-critical applications like medical imaging, industrial control, and driving, it is critical that these models respect the same laws that govern all other electro-mechanical systems. 
+That is to say---ML models should be as safe as one's toaster, car braking system, or aircraft guidance system and should be around safety~\cite{iso26262}, quality assurance~\cite{IEC62034}, bias~\cite{ai_eu_act}, security~\cite{iso2700,nist_antivirus}, and the ability to be explained, audited, and reproduced~\cite{IEC62034,IEC61508,iso26262,hipaa,coppa}. 
+This works first quantifies the risk associated with trusting these systems, formalises the cost benefit relationship between a given attack and defence, presents a model that categorically avoids many of these risks, and provides a safety-critical framework for not only reproducing the experiments in this text, but for any model built using any number of popular frameworks. 
+The goal, then, is to not only demonstrate why this safety-critical mindset is necessary, but to also provide methods and tooling that allow anyone to replicate the process across any domain to ensure that preventable failures are caught before a model is deployed in the real world. 
+
+
 \subsection{The Trolley Problem}
-I've always thought the trolley problem was a false question. The real answer is that the trolley is going to fast for the conditions. The goal of the engineer is to find the conditions for which that won't happen.
-\lipsum[1-3]
-\subsection{System Failure}
-Here I will discuss some anecdotes from my prior lives about preventable failures and how they could have been overcome by safety critical design.
-\lipsum[1-3]
 
-\section{The Ethics of Big Data}
-\label{sec:ethics}
-The problems with the big data approach to machine learning are numerous. 
-Recently, marginal gains in accuracy have relied on increasingly larger models to produce marginal gains~\cite{desislavov2021compute}. 
-These models rely on massive datasets~\cite{desislavov2021compute,vapnik1994measuring,blumer1989learnability}, from an ever-shrinking number of sources~\cite{koch2021reduced}, leading to gender-biased models~\cite{lu2020gender}, race-biased models~\cite{buolamwini2018gender}, and critical design errors~\cite{banks2018driver}. 
-This trend isn't new and goes back decades~\cite{corsaro1982something,ramirez2000resource,buolamwini2018gender}. 
-Despite this, it has been suggested that neural networks be used to detect (\textit{potentially}) illegal material \cite{abelson2021bugs}. Since client-side monitoring with neural networks was recently the subject of a proposal by the EU parliament to stop the spread of offensive and harmful online contact, it can be used as a simple case study in how \textit{obviously good} models have inherent risks.
-One, these models are nearly reliable enough to be deployed in situations that can negatively effect a human, which is a strict legal requirement \cite{iso26262}. 
-Second, these models can reveal the private data used to train the model \cite{chakraborty_adversarial_2018} or used to generate new types of objectionable content.
-Third, these models are inherently biased--- relying on statistical assumptions that harm already marginalised groups \cite{buolamwini2018gender}. 
-Fourth, the existence of the model comes with unforeseen environmental and societal costs-- potentially chilling dissent or speech~\cite{}, using immense computational resources~\cite{}, outsourcing of the data labelling and pipeline monitoring to low wage workers who have to view the offensive content for low wages~\cite{}, and is unlikely to deter criminals who are familiar with tools like encryption, anonymized routing, or obfuscation~\cite{}.
+The \textit{trolley problem} is a classic ethical thought experiment intended to raise questions about decision making and morality. 
+The problems describes a trolley that is heading towards a group of five people who are tied to the tracks. 
+However, the problem presents a hypothetical conductor with a choice to divert the train to another track in which only one person is doomed. 
+While this question is clearly designed to be abhorrent, the conductor, in reality, is not hypothetical. 
+The conductor is already-existing software~\cite{teslasleep1,teslasleep2,teslasleep3} that is designed to drive autonomous personal vehicles~\cite{ai_automotive}, long-distance freight trucks~\cite{ai_trucking}, or autonomous drones~\cite{ai_drones}. 
+If we abstract the problem a bit, then the applications of ML to medical imaging~\cite{ai_medical_imaging}, industrial control~\cite{ai_industry}, bureaucratic decision-making systems~\cite{ai_prison}, and law enforcement~\cite{ai_security} raise similar questions. 
+Furthermore, it has been shown that there's an inherent tension between the model that performs best \textit{on average} and the one that is most accurate for a given (marginalised) subset of the population.
+ML Models will, at best, obscure biased data behind opaque or hard-to-interpret decisions~\cite{buolamwini2018gender}.
 
-\subsection{Big Data and Efficacy}
-\lipsum[1]
-\subsection{Big Data and Privacy}
-\label{subsec:privacy}
-\lipsum[1]
-\subsection{Bias}
-ML systems are subject to the same biases as their human creators and their datasets. 
-For example, gender-biased modelling leads to significantly higher fatality in car accidents for female-bodied people~\cite{evans2001gender}. 
-In another instance, researchers found neural networks that unintentionally encode racial information from medical imaging data that should not encode such information~\cite{gichoya2022ai}. 
-Nevertheless, the problems are not intractable. Since these models mathematically agnostic, the problems and solutions are strictly human. 
-After raising awareness about the racial- and gender discrepancies in facial recognition systems \cite{buolamwini2018gender}, subsequent research found that the problem was substantially reduced \cite{raji2019actionable}, perhaps with nothing more than changing the sampling method. However, computer science as a whole has struggled with racial and gender biases during hiring process already exist \cite{rattan2019identical,yarger2020algorithmic} and other research examines how this permeates across the field of machine learning \cite{birhane2021algorithmic}. Some authors \cite{birhane2021algorithmic} recommend a set of ethics that centres machine learning research on groups mostly likely to be adversely effected. However, since these groups tend to be marginalised or statistical outliers compared to dominant groups, there's an inherent tension within this recommendation. Let's take the case of the autonomous (self-driving) car. On one hand, we would like our car to not mistake women, minority groups, or gender non-conforming people for inanimate objects. On the other hand, the statistical variance introduced by these statistically less "normal" subsets of people will cause a degradation of performance for the "average" user. Is it more fair to reduce the accuracy overall for the sake of statistically "abnormal" groups rather than maximise the performance on the statistically average person? This tension was proven to be inherent to the statistical methods underlying machine learning systems \cite{carlini_towards_2017}. This tension is widely discussed in the literature on fairness for machine learning as well \cite{feuerriegel2020fair,van2021fairness,corbett2018measure}.
-\subsection{Environmental Costs}
-\label{subsec:environment}
+The inherent risks to user privacy~\cite{abelson2021bugs} and questionable ability of ML models to be safely deployed in the real-world~\cite{meyers,croce_reliable_2020,dohmatob_generalized_2019,meyers_aft,meyers} pose ongoing problems that have yet to be solved.
+In 1966, the ``Summer Vision Project" was designed to solve the problem of computer image-based classification at the Massachusetts Institute of Technology~\cite{summervision}; however, as recently as 2023, it was clear that ML systems ``consistently fail to meet established safety-critical standards by a wide margin''~\cite{meyers}.
+However, the intent of this text is not to be overly pessimistic. 
+Automated systems capable of learning have tremendous positive potential as well---from real-time translation and office-task automation to data-driven agriculture and reduced healthcare costs. 
+To put it simply, models deployed safely have the potential to improve or save human lives. 
+The trolley problem then becomes a useful analogy for discussing the trade-offs between performance, risk, and cost of ML systems and will frame the rest of the text.
 
-Furthermore, data collection can be very costly~\cite{roh2019survey}, raise numerous privacy concerns~\cite{bloom2017self}, increases development time~\cite{lam2004new}, and makes it harder to verify a product~\cite{zirger1996effect}. Furthermore, machine learning research as a whole is focused on metrics that tend to be optimistic at best~\cite{madry2017towards}. TODO:
+
+\subsection{Turing Test}
+
+Like the trolley problem, the Turing test is a classic thought experiment that is fundamental to the question of machine trust. 
+Devised by famed computer scientist, Alan Turing, in his 1950 text, ``Computing Machinery and Intelligence''~\cite{turing}, in which he describes a simple game involving three people, here referred to as Alice, Bob, and Corey (player A, B, C, respectively). 
+Turing imagined Player A to be a woman and Player B to be a man while Player C is tasked with deducing the gender of the other players using only a series of written questions and answers.
+Turing then poses the question:
+\begin{displayquote}
+    ``What will happen when a machine takes the part of A in this game? Will the interrogator decide wrongly as often when the game is played like this as he does when the game is played between a man and a woman?'' These questions replace our original, ``Can machines think?''
+\end{displayquote}
+He goes on to refine this question in the same paper, imagining that in addition to player A, player C is also replaced with a computer program:
+\begin{displayquote}
+    Let us fix our attention on one particular digital computer C. ``Is it true that by modifying this computer to have an adequate storage, suitably increasing its speed of action, and providing it with an appropriate programme, C can be made to play satisfactorily the part of A in the imitation game, the part of B being taken by a man?''
+\end{displayquote}
+While this standard has been of little interest to AI researchers in practice~\cite{turingtestcritique2} and has many theoretical detractors~\cite{turingtestcritique1,turingtestcritique2,turingtestcritique3}, it functions as philosophical concept more than a qualitative metric~\cite{turingtest_not_metric}.
+Nevertheless, researchers have noted the market- and research-based incentives to \textit{imitate} humans rather than augment their existing abilities, calling this false goal of imitation a ``Turing Trap''~\cite{turingtrap}.
+Modern models can often outperform humans on specific tasks in which large amounts of data is available and annotated, but as this thesis demonstrates, this is merely statistical imitation that often fails. 
+
+
+\subsection{Data Feminism}
+
+\textit{Feminism} in the words of famous scholar and feminist, Bell Hooks, is ``for all people, female and male, liberation from sexist role patterns, domination, and oppression''~\cite{hooks} and other authors highlight the need to focus on the intersection of categories like gender, class, sex, and race. 
+\textit{Intersectionality} is ``the means for dealing with other marginalizations as well.''~\cite{crenshaw}. 
+``Data feminism", is a book by Catherine D'Ignazio and Lauren F. Klein~\cite{data_feminism}, but the framework it provides for thinking about the power relationships with data in the modern world can also be called \textit{data feminism}. 
+The central conceit of the book is something that is widely forgotten in the world of data science---that power and data are distributed unequally. 
+This is highlighted famously in a pair of studies by Joy Buolamwini (and others)~\cite{buolamwini2018gender,raji2019actionable}.
+
+Buolamwini's first study (2018)~\cite{buolamwini2018gender} highlighted the fact that commercially available facial detection products had discrepancies in performance across race and gender dynamics with models performing best on white men and worst on women of colour. 
+This study was so impactful that by 2019, these discrepancies had largely been solved, but not erased entirely~\cite{raji2019actionable}. 
+However, even in 2023, neither Google's nor Apple's photo app would even attempt to identify gorillas using their respective object detection methods due to a 2015 incident that confused black humans for gorillas, perpetuating a racist stereotype~\cite{gorillas}. 
+The power dynamics inherent to modern ML techniques not only have the potential to perpetuate racist and sexist biases, but also rely on extracting data from users often using dubious amounts of consent~\cite{abelson2021bugs}, process it using low-wage workers~\cite{ai_inclusion}, and consume massive amounts of power~\cite{ai_power} to the exclusive benefit of people in the developed world~\cite{ai_inequity}.
+
+While this thesis does not focus the disparities in performance between demographic groups, it does examine the effect of changing a sample by a small amount. 
+While many of the techniques and metrics discussed throughout the thesis can be applied to examine the effect of gender or race on model performance, the describes methods can be used in any domain that seeks to verify the performance of a model. 
+As is demonstrated throughout this text, modern ML models fail to meet any legal requirements for safety, regardless of demographic. 
+Therefore, a framework for critically evaluating any ML pipeline through the lens of machine trustworthiness is necessary. 
+This thesis first attempts to quantify the problem before using the measured data to suggest some fundamental solutions. 
+
 
 \section{Research questions and problem}
 \label{sec:research-questions-and-problems}
 In this thesis, we attempt to address the following research questions, each of which has a corresponding paper, listed in order.
 \begin{description}
-    \item[R1] To what degree can we trust Neural Networks?
-    \item[R2] Can we overcome that limitation by generating or using more data?
-    \item[R3] How can we quantify the cost benefit relationship between robustness and particular choice in model?
-    \item[R4] How can we automate this selection process while keeping cost in mind?
-    \item[R5] How can we build audit-able and reproducible tests to meet regulatory standards for safety critical systems?
-    \item[R6] Is it possible to build a classifier that circumvents the inherent weaknesses of neural networks?
+    %  Survey Paper
+    \item[R1] To what degree can we trust modern ML models? 
+    %  Massively Parllel
+    \item[R2] Can we overcome an adversary by generating or using more data?
+    %  Trashfire
+    \item[R3] How can we formalise the cost benefit relationship between robustness and particular choice of model?
+    % A Cost-Aware approach (Cloud paper)
+    \item[R4] Can we extend the analysis in R3 to examine the relationship between power and robustness?
+    %  NCD Paper
+    \item[R5] Is it possible to build a classifier that circumvents the inherent weaknesses of centralised training paradigms?
+    %  Deckard Paper
+    \item[R6] How can we build auditable and reproducible tests to meet regulatory standards for safety critical systems?
+    
 \end{description}
 
 \section{Methodology}
 \label{sec:methods}
-The methodology used ...
+
+The generic template for a machine learning project is quite routine. 
+After the data has been collected and labelled, it is often split into ``training'' and ``testing'' sets. 
+The training set is used to learn characteristics of the data that can be used to make a decision on unseen (or testing) data using some (simplified) mathematical approximation of the real world (called a \textit{model}). 
+The central assumption is that performance on this test data will generalize to all unseen data. 
+As such, test set accuracy is often used as a way to compare and benchmark models~\cite{croce2020robustbench,wang2019benchmarking}. 
+However, it has been shown many times that small changes in model input can result in drastic changes to the model output~\cite{hopskipjump,fgm,biggio_evasion_2013,carlini_towards_2017,deepfool,hopskipjump}. 
+If these perturbations are added intentionally, they are referred to as \textit{attacks}.  
+Techniques to mitigate the effect of these perturbations are called \textit{defences}~\cite{feature_squeezing,fgm,gauss_aug,gauss_out}. 
+By using attacks as a way to simulate worst-case scenarios, a model's \textit{robustness} to these attacks can be measured. 
+By comparing the relative success rate of an attack in response to various model defences, we can determine the relative efficacy of a defence or attack. 
+To evaluate these attacks and defences in practice, a variety of benchmark datasets were employed throughout this work in this thesis, each chosen to highlight specific challenges or characteristics relevant to adversarial robustness.
+
+
 \subsection{Data}
 \label{subsec:methods-data}
-\lipsum[1-3]
+In this thesis, two types of datasets were examined---broadly classed into images and tabular data. 
+The image datasets include Modified National Institute of Standards and Technology (MNIST) database~\cite{mnist} that includes 60 thousand images of low-resolution, hand-written digits as well as the Canadian Institute for Advanced Research 10  category and 100 category databases~\cite{cifar} (CIFAR10 and CIFAR100 respectively) that contain tens of thousands of higher resolution colour images that depict objects like airplanes and cats. 
+These image databases have become a de-facto standard for measuring model performance and they have existed for decades~\cite{mnist,cifar}. 
+MNIST in particular is considered relatively easy because it uses low-resolution black and white images and only a small number of distinct classes (one for each digit). 
+In addition, CIFAR10 is known to be easier than CIFAR100~\cite{shalev2014understanding,dohmatob_generalized_2019} despite the two databases having images of the same resolution and colour depth as the difficulty of a classification increases with the number of distinct categories. 
+Several standard anomaly detection datasets were also evaluated. 
+The oldest such dataset is Knowledge Discovery and Data-mining (KDD) database that was cleaned and dubbed the network security laboratory (thus KDD-NSL)~\cite{kdd-nsl}. 
+It captures system-level data that tries to capture the behaviour of both normal (benign) users and malicious software (viruses, malware, etc.). Similarly, the distributed denial of service dataset (DDoS) provided by the University of Toronto was also of interest~\cite{ddos} as it captured network-level data that tries to capture the behaviour of both normal users and a variety of attack types. 
+Both of these datasets distribute the data with several class labels to distinguish between different types of attacks; however, for the purposes of this thesis all attacks were collapsed into a single \textit{adversarial} category. 
+However, KDD-NSL has a only a few thousand examples and DDoS has 10s of thousands as the origins of these datasets are separated by decades. 
+This is the natural division of the next two datasets---the short message system spam (SMS spam) database~\cite{sms_spam} and a database of tweets, metadata, and ``bot-scores'' collected from the platform formally known as Twitter~\cite{truthseeker} (dubbed Truthseeker). 
+These two datasets both contain benign and adversarial user data and are widely used for the problem of \textit{anomaly detection} that attempts to broadly classify data into ``normal'' and ``abnormal'' categories. 
+In Paper II, in an effort to use the best-case dataset, myriad datasets were generated using normally distributed, arbitrary data and the exact details are described in that paper.
+
 \subsection{Model}
 \label{subsec:methods-model}
-Artificial Intelligence (AI) pipelines are often long-running and complex software tool-chains with many tunable hyperparameters. Managing, tracking, and controlling for various parameters is non trivial, but many management tools are available~\cite{dvc, hydra, k8s}. In general, a dataset is split into \textbf{training} and \textbf{test} sets. The training set is then used to determine the best configuration of a given model architecture on a given hardware architecture with the expectation that it will generalize both on the withheld test set and on new data generated by users via application programming interface (API) calls. To verify the training process, the test set validated against the \textit{inference} configuration of a model which may run on different hardware than the \textbf{training} configuration to reduce cost, latency, or power consumption.
-\lipsum[1-3]
+
+\begin{figure}
+    \centering
+    \centering
+    \includegraphics[width=.6\textwidth]{images/model_diagram.png}
+    \caption{
+    A typical machine learning model pipeline consists of an initial parameter selection stage, before the data is split into ``train''  and ``test'' sets that are used to train and score a model respectively. 
+    Modern models typically have many configurable parameters and are repeatedly scored according to some criterion, with the goal of finding the best model for a particular dataset. 
+    }
+    \label{fig:model_pipeline}
+\end{figure}
+ML pipelines are often long-running and complex software tool-chains, often with many parameters that must be adjusted according to the dataset and model type. 
+The set of all knobs, levers, and dials that a model-builder can tweak is said to be the model \textit{hyper-parameters}, where the hyper- prefix is used to distinguish these \textit{tuned} values from values that are \textit{learned}---often called model \textit{parameters} or \textit{weights}. 
+In general, a dataset is split into \textit{training} and \textit{test} sets. 
+The training set is used to teach the model patterns in the data, which involves finding optimal values for these parameters given a specified set of model hyper-parameters.
+This score is always calculated using the test set that was withheld during model training in order to test the ability of a model to generalise to unseen data. 
+If a model performs much better on the training data than the test data, it is said to be \textit{over-fit} and \textit{under-fit} if the opposite is true. 
+While this modelling process aims to optimise performance on unseen data, it typically assumes that inputs are crafted by users without malice---in practice, however, these models are vulnerable to targeted manipulations known as adversarial attacks.
+
 \subsection{Attacks}
 \label{subsec:methods-attacks}
-In the context of machine learning, an adversarial attack refers to deliberate and malicious attempts to manipulate or exploit machine learning models. Adversarial attacks are designed to deceive or mislead the model's behavior by introducing carefully crafted input data that can cause the model to make incorrect predictions or produce undesired outputs.The goal of an adversarial attack is often to exploit vulnerabilities in the model's decision-making process or to probe its weaknesses. 
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{images/attack_diagram.png}
+    \caption{A typical machine learning threat model can be attacked in many ways.
+    An attacker might use an inference attack to discover the training data or properties of it. 
+    An attacker can use an extraction attack to reverse engineer model parameters and use an inversion attack to reverse engineer the decision boundary with an entirely different model. 
+    Any of these attacks can then be used to generate malicious samples that target the model training process (poisoned) or malicious samples that attempt to fool the model during the inference stage (evasion samples), though techniques exist that can exploit particular model APIs (white-box attacks) or only the model output (black-box attacks).
+    The dotted line holds no special meaning and is merely intended to distinguish the arrows that overlap. 
+    }
+    \label{fig:attack_pipeline}
+\end{figure}
+In the context of machine learning, an \textit{adversarial attack} refers to deliberate and malicious attempts to manipulate or exploit machine learning models. 
+Adversarial attacks are designed to deceive or mislead the model's behaviour by introducing carefully crafted input data that can cause the model to make incorrect predictions or produce undesired outputs. 
+The goal of an adversarial attack is often to exploit vulnerabilities in the model's decision-making process or to probe its weaknesses. 
 These attacks can occur during various stages of the machine learning pipeline, including during training, inference, or deployment. 
+Figure~\ref{fig:attack_pipeline} show how each class of attacks targets a different stage of the pipeline depicted in Figure~\ref{fig:model_pipeline}.
 Evasion attacks aim to manipulate input data during the inference phase to deceive the model into misclassifying or ignoring certain inputs. 
 Attackers carefully craft perturbations or modify the input features to mislead the model while still appearing similar to the original input \cite{biggio_evasion_2013,carlini_towards_2017,adversarialpatch,pixelattack,hopskipjump}. 
 In poisoning attacks, the attacker intentionally injects malicious or manipulated training samples into the training dataset where the goal is to influence the model's behaviour during training so that it learns to make incorrect predictions or exhibit unwanted behaviours when presented with specific inputs \cite{biggio_poisoning_2013, saha2020hidden}. 
-Inference attacks exploit the model's output or responses to obtain sensitive information about the training data or other confidential details. By observing the model's predictions or confidence scores for carefully crafted inputs, attackers can extract information that should ideally be kept private \cite{chakraborty_adversarial_2018, orekondy2019knockoff}.
-Model inversion attacks (also called extraction attacks) aim to infer sensitive information about the training data or proprietary model by exploiting the model's outputs. Attackers utilise the model's responses to iteratively reconstruct or approximate training examples that are similar to the ones used during training \cite{chakraborty_adversarial_2018, choquette2021label, li2021membership}.
+Inference attacks exploit the model's output or responses to obtain sensitive information about the training data or other confidential details. By observing the model's predictions or confidence scores for carefully crafted inputs, attackers can extract information that was meant to be kept private \cite{chakraborty_adversarial_2018,orekondy2019knockoff}.
+Model inversion attacks (also called extraction attacks) aim to infer sensitive information about the training data or proprietary model by exploiting the model's outputs. Attackers utilise the model's responses to iteratively reconstruct or approximate training examples that are similar to the ones used during training \cite{chakraborty_adversarial_2018,choquette2021label,li2021membership}.
 
-\subsubsection{Attacks as Worst Case Simulations}
-\lipsum[1]
+\subsection{Defences}
+Defences are techniques that are applied to models to mitigate the effects of attacks. 
+They come in several varieties, classed according to the model pipeline stage the effect. 
+Figure~\ref{fig:defence_pipeline} depicts how each stage interacts with the typical machine learning pipeline, described in Figure~\ref{fig:model_pipeline}.
+This might include adding some Gaussian noise to the data (\textit{pre-processing}) or model output (\textit{post-processing}) with the expectation that the model will be less sensitive to adversaries. 
+Alternatively, known adversarial examples can simply be labelled appropriately and incorporated into a new generation of training data.
+Another technique, primarily discussed in the context of large-scale machine learning methods is model transformation defences that seek to reduce model's sensitivity to input noise~\cite{papernot_distillation_2016,gao2017deepcloak,wang2018defensive}. 
+The primary downside of these transformation defences is cost as it scales with both the size of the model and the number of training samples. 
+Other techniques try to detect malicious samples at run-time by examining the inner-workings of the model~\cite{chen2018detecting} or by rejecting samples by examining subsets of the training data~\cite{mcfowland2013fast,nelson2009misleading}. 
+The final category is adversarial retraining which uses attacks to create synthetic data before retraining the model on a dataset that includes the generated attacks.
+Paper II is focused on this technique and explains why it is not a feasible solution for models that are themselves expensive to train. 
+Several of these statistical defences are explored in Papers I-IV, while Paper V discusses a categorically different approach to reducing adversarial risk.
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{images/defence_diagram.png}
+    \caption{
+    A typical machine learning model can be defended against an attacker in several ways. 
+    If the model-builder changes the input data (e.g. by adding or removing noise), then this is called a preprocessing defence. 
+    If the modeller changes a trained model with the expectation of more robust inference, then that is called a transformation defence. 
+    A post-processing defence is when raw output of model inference is changed before being presented to a user. 
+    While these techniques are not always applied during the hyper-parameter tuning stage, their effect on the end user must nonetheless be considered. 
+    A retraining defence might include any of these strategies in addition to using attacks to generate samples. 
+    One can thing of Figure~\ref{fig:attack_pipeline} as the pipeline needed to conduct a retraining defence, assuming one labels and scores the attacked samples appropriately.
+    }
+    \label{fig:defence_pipeline}
+\end{figure}
+
+
+
+
+
 \subsection{Metrics}
 \label{subsec:methods-metrics}
-\lipsum[1-3]
-\section{On the use Adversarial Attacks for AI Pipeline Verification }
 
+\subsubsection{Adversarial vs. Benign Performance}
+Models are often evaluated under both benign and adversarial scenarios. 
+The \textit{benign} scenario is the typical ML process wherein test set accuracy is intended to reflect the probability of real-world success. 
+The \textit{adversarial} scenario occurs when an attacker changes the test or train samples to influence the performance of a model. 
+A model is said to be \textit{robust} if the gap between the adversarial accuracy and the benign accuracy is small~\cite{carlini2019evaluating}.
+The focus in this work was evasion attacks as they simulate what happens when noise is added to a sample. 
+This noise is intentionally designed to reduce the accuracy of a model by crafting small changes in the model input (generally assumed to be imperceptible to humans) that nevertheless induce large changes in the model output. 
+That is, the benign and adversarial scenarios define the best- and worst-case scenarios for real-world usage. 
+In addition to the benign and adversarial accuracy discussed here, several other metrics were also collected.
 
+\subsubsection{Measures of Success and Failure}
+The primary metric of concern throughout this thesis is the probability that a model correctly predicts an output. 
+In the case of classification systems, the standard metric is accuracy. 
+It is defined as ratio of correct predictions to the total number of predictions, such that
+$$
+\text{Accuracy} =  \frac{\text{Correct~Predictions}}{\text{Total~Predictions}} = 1 - \frac{\text{Incorrect~Predictions}}{\text{Total~Predictions}}.
+$$
+While this metric does not distinguish between the effect of false positives and false negatives, existing regulations~\cite{iso26262,IEC61508} generally dictate safety critical standards that are far stronger than the performance of even state-of-the-art models~\cite{meyers}. 
+That is, the distinction between running into a tree that wasn't identified and running into a tree because a pedestrian was hallucinated is hardly one that matters to the passengers of the vehicle. 
+This same analogy extends to medical imaging wherein an ML system might induce an unnecessary surgery or miss an obvious cancer. 
 
+Accuracy is used throughout the text as a measure of reliability as it a standard used in the literature to compare the efficacy of published models on benchmark datasets~\cite{croce_reliable_2020}. 
+However, even the weakest of safety-critical regulations~\cite{IEC61508} would require millions of samples to verify a model using accuracy as a measure of failure probability. 
+For life-and-death applications like medical imaging and self-driving cars, these verification procedures would require many many billions of samples~\cite{IEC61508}. 
+It is simply infeasible to use such large datasets to verify every software change in complex ML pipelines, as required by regulatory risk management standards~\cite{IEC61508}. 
+Instead of calculating the probability of an incorrect prediction using an absurd number of samples, Paper III formalises the relationship between the probability of failure and time--referred to throughout the text as \textit{failure rate}:
+$$
+\text{Failure~Rate} = \frac{\text{Incorrect~Predictions}}{\text{Time~Interval}} = 1 - \frac{\text{Correct~Predictions}}{\text{Time~Interval}}.
+$$
+Like accuracy, this can be thought of in both the adversarial and benign circumstances, but first some time intervals must be defined. 
+The \textit{training time} is the time it takes to fit a model with a given set of parameters to a particular dataset and is calculated using the training set. 
+The \textit{prediction time} is the time it takes to receive output from a model given a set of samples and is calculated using the test set. 
+The \textit{attack time} is the time is takes to generate adversarial examples and is calculated using the test set through this text.
+The benign failure rate can be thought of as:
+$$
+\text{Benign~Failure~Rate} = \frac{\text{Incorrect~Predictions~on~Benign~Data}}{\text{Prediction~Time}} 
+$$
+and the adversarial failure rate can be expressed as:
+$$
+\text{Adversarial~Failure~Rate} = \frac{\text{Incorrect~Predictions~on~Adversarial~Data}}{\text{Attack~Time}}.
+$$
+The specific notation used for this concept varies throughout the thesis, but the concept is the same---the benign and adversarial failure rates are used to define an upper and lower bound of model performance that considers both accuracy and time. 
+The point of collecting these time-based metrics is to consider the cost for both the model-builder and the 
+attacker. 
+In Papers~III~\&~IV, an additional metric is considered, called time to failure.
+It can be defined as:
+$$
+\text{Time-to-Failure} = \frac{\text{Total~Time}}{\text{Number of Failures}}.
+$$
+We can also discuss this under specifically adversarial constraints, where
+$$
+\text{Time-to-Failure} = \frac{\text{Total~Attack~Time}}{\text{Number of Failures}}
+$$
+quantifies both the number of failures and the time required of an attacker.
+While these metrics provide a practical lens on model performance under real-world constraints, they do not account for the underlying computational complexity that governs how these systems work in real-world deployments. 
+To understand the feasibility of training, attacking, or defending machine learning models at scale, it is necessary to introduce a formal framework for measuring computational cost.
 
+\subsubsection{Cost}
+When computer scientists discuss the notion of cost, it is common to use ``big-O'' notation where, for two functions $f(x)$ and $g(x)$:
+$$
+f(x) = \mathcal{O}(g(x))~\text{as}~x \rightarrow \infty
+$$
+if for some positive constant multiple $M$ and a real number $x_0$
+$$
+|f(x)| \leq M |g(x)|)~\text{for~all}~x\geq x_0.
+$$
+The notation says that the functions $f(x)$ and $g(x)$ behave roughly the same as the value of $x$ gets very large.
+Iterating over a single list of length $n$ is said to have a complexity of $\mathcal{O}(n)$ since the cost of that process will scale with the number of entries in the list. 
+Likewise, if one must iterate through two lists of length $m,n$ to do a pairwise calculation across all entries of both lists, then the complexity is said to be $\mathcal{O}(mn)$. 
+This is often considered separately for both computational time and hardware requirements and algorithm choice may vary when one or the other is constrained. 
+In real-world, modern cloud deployments computational time is billed according to the usage time and faster or better hardware is generally more expensive per unit time, so this kind of cost analysis is critical to discussing the feasibility of a particular method. 
 
+Cost is an essential consideration of this thesis.
+Paper I examines the efficacy of various model defences in relation to their cost by quantifying the benign and adversarial failure rate of many attacks and defences.
+Paper II illustrates an attacker's time-cost advantage under certain constraints by comparing the benign and adversarial failure rate when adversarial retraining is employed as a defence. 
+Paper III demonstrates the triviality of attacking a particular and popular ML model by introducing a novel metric that quantifies the relative cost of model-building compared to the cost of a successful attack.
+Paper IV demonstrates efficacy of using certain low-cost hardware to not only reduce the computational footprint, but to also induce more robust models.
+Paper V introduces a distance measure that is motivated by the need to develop client-side models that do not rely on widespread data surveillance.
 
-
-
+While cost considerations determine the practicality of deploying and maintaining machine learning systems, legal and regulatory requirements must also be considered---especially against the backdrop of adversarial attacks.
+The next chapter addresses the regulatory standards that govern safety, privacy, and security, outlining the constraints under which trustworthy and responsible AI \textit{must} operate.

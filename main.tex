@@ -6,21 +6,26 @@
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
 \usepackage{lipsum} % For lipsum
-\usepackage[dvipsnames]{xcolor} % Custom Colors
-\definecolor{mygray}{gray}{0.6} % Definining a .6 transparency gray called mygray
-\setlipsum{% Making the lipsum text mygray
-  par-before = \begingroup\color{mygray},
+\usepackage[final]{pdfpages}
+\usepackage{hyperref}
+\usepackage{subcaption}
+% \usepackage{subfigure}
+
+% Packages imported by you
+\usepackage{booktabs}
+\usepackage{csquotes}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{lipsum}
+\setlipsum{%
+  par-before = \begingroup\color{gray},
   par-after = \endgroup
 }
-\usepackage[final]{pdfpages}
-\usepackage{booktabs}
-\usepackage{amsmath}
-\usepackage{hyperref}
-% Packages imported by you
-
-
 % Library
 \usepackage[backend=biber]{biblatex}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usetikzlibrary{positioning}
 \addbibresource{library_sample.bib}
 
 \graphicspath{{images/}}
@@ -58,13 +63,13 @@
 
 \include{ch_1_introduction}
 
-\include{ch_2_topic_1}
+\include{ch_2_safety}
 
-\include{ch_3_topic_2}
+\include{ch_3_machine_learning}
 
-\include{ch_4_topic_3}
+\include{ch_4_adversaries}
 
-\include{ch_5_topic_4}
+\include{ch_5_verification_and_validation}
 
 \include{ch_6_summary_of_contributions}
 
@@ -75,8 +80,13 @@
 % ------------------------------------------------------
 %  The papers
 % ------------------------------------------------------
+% Commented these out to reduce render time
 \input{papers/paper_one}
 \input{papers/paper_two}
+\input{papers/paper_three}
+\input{papers/paper_four}
+\input{papers/paper_five}
+\input{papers/paper_six}
 
 
 \end{document}

@@ -1,19 +1,57 @@
 \chapter*{Glossary}
-To define:
 
-\begin{itemize}
-    \item Training set
-    \item Testing Set
-    \item Hyper-parameter
-    \item Distance
-    \item Metric Space
-    \item Robustness
-    \item Accuracy
-    \item Failure Rate
-    \item Model
-    \item Attack
-    \item Classifier
-    \item Safety Critical
-    \item Reliability
-    \item Security
-\end{itemize}
+\begin{description}
+    % --- Data Concepts ---
+    \item[Sample] A single data point or observation, typically consisting of one or more features and, in supervised learning, a label (think: rows in a spreadsheet).
+    \item[Feature] An individual measurable property or characteristic of the data used by a model to make predictions (think: columns in a spreadsheet).
+    \item[Training set] A collection of labelled data used to teach a machine learning model how to make predictions.
+    \item[Testing set] A separate set of labelled data used to evaluate how well the model performs on new, unseen inputs.
+    \item[Validation set] A subset of the data used to tune hyper-parameters and monitor the model's performance during training without affecting the final evaluation.
+    \item[Label] Either the predicted or ground truth for a given sample. 
+    For classification problems, this is a category like `cat'' or dog'', often represented as a binary list with each class having one entry in said list. 
+    For regression problems, this is one or more numerical values.
+
+    % --- Models and Model Types ---
+    \item[Model] A mathematical system or function designed to make predictions or decisions based on input data.
+    \item[Classifier] A type of model that assigns input data to one of several predefined categories or classes.
+    \item[Regressor] A type of model that assigns one or more numeric output values to a set of input data.
+
+    % --- Parameters and Training Process ---
+    \item[Model Parameter] An internal value adjusted during training that helps the model improve its predictions.
+    \item[Hyper-parameter] A predefined setting that controls how the model is trained, such as the learning rate or the number of layers.
+    \item[Optimisation] The process of adjusting the model’s parameters in order to minimize error and improve performance based on a chosen loss function.
+    \item[Training] The process of teaching a machine learning model by providing it with data (a training set) and adjusting its parameters through optimization to minimize errors in predictions.
+
+    % --- Evaluation and Validation ---
+    \item[Accuracy] The proportion of correct predictions made by the model out of all predictions.
+    \item[Failure Rate (probability)] The proportion of incorrect predictions made by the model out of all predictions.
+    \item[Failure Rate (function of time)] The number of expected failures within a given time interval.
+    \item[Time to Failure] The duration a system operates before it makes a critical error.
+    \item[Survival time] The length of time a system continues to function correctly before experiencing failure.
+    \item[Cross-Validation] A method for evaluating model performance by repeatedly dividing the dataset into parts, training the model on some parts and testing it on the remaining parts to ensure generalisation.
+    
+
+    % --- Mathematical Foundations ---
+    \item[Distance] A numerical measure of how different or similar two pieces of data are from each other.
+    \item[Metric Space] A structured space in which distances between any two points can be consistently measured.
+    \item[Linear] A relationship between variables that can be described using a straight line or an equation without multiplication of variables.
+    \item[Linearly Separable] A condition where a straight line (or hyperplane in higher dimensions) can completely separate data points of different classes.
+    \item[Kernel] A mathematical function that allows a model to operate in a higher-dimensional space without explicitly computing the coordinates in that space, often used in support vector machines.
+    \item[Gradient] A vector that points in the direction of the steepest increase of a function and is used to guide model parameter updates during training.
+
+    % --- Reliability and Risk ---
+    \item[Robustness] The ability of a model to maintain performance when facing unusual, noisy, or slightly changed inputs.
+    \item[Reliability] The consistency with which a model or system performs its intended function correctly.
+    \item[Safety Critical] Refers to applications where incorrect model behaviour could lead to harm or serious consequences.
+    \item[Security] The protection of a model or system from unauthorized access, manipulation, or attacks.
+    \item\item[Privacy] The principle that individuals’ personal information—-such as their identity, behaviour, or sensitive attributes—-should be protected and not revealed by the model, either directly or indirectly, through its predictions or outputs.
+    \item[Generalisation Gap] The difference in performance between the training data and new, unseen data, which indicates how well the model can generalise.
+    \item[Fairness] The degree to which a model’s decisions are free from bias or discrimination across different groups or individuals.
+
+    % --- Adversarial Context ---
+    \item[Attack] A deliberate strategy used to induce undesired behaviour in a piece of software (e.g., a machine learning model).
+    \item[Defence] A method or mechanism designed to protect a model from attacks or to reduce the harm caused by such attacks.
+    \item[Adversarial] Describes inputs specifically designed to deceive or confuse a machine learning model.
+    \item[Benign] Describes inputs that are natural, expected, and not intended to deceive the model.
+\end{description}
+

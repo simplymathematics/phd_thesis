@@ -1,2 +1,18 @@
 \chapter*{Abstract}
-Explain what the thesis is about (could be one page).
+This thesis investigates adversarial robustness, privacy, and reproducibility in safety-critical machine learning systems, with a particular focus on computer vision, anomaly detection, and evasion attacks. 
+It is comprised of six papers that  collectively advance the theoretical and empirical understanding of model vulnerability and practical defence strategies as well as the software tooling to reproduce the experiments included within.
+
+Paper I surveys five years of adversarial evasion attacks and defences in computer vision, introducing a comparative runtime analysis that contextualizes the cost-benefit trade-offs of common defences. 
+
+Paper II builds on this foundation by exploring the feasibility of massively parallel adversarial attacks, showing that attackers can often operate in linear time, granting a computational advantage over traditional model training methods that routinely take much longer. 
+Paper III introduces a novel metric, the training rate and survival heuristic (TRASH score), to quantify model robustness in terms of survival time under attack, enabling rapid rejection of insecure model configurations.
+
+Paper IV expands the TRASH heuristic to include cost-awareness, demonstrating that adversarial robustness can be improved with low-cost, low-precision hardware, and that models trained for dollars can often be compromised for pennies. 
+
+Paper V addresses privacy concerns by presenting a privacy-preserving distance metric that avoids server-side processing and leverages client-only data. 
+This model design is intentionally robust to several classes of attacks against ML models, offering a lightweight and secure alternative to traditional spam detection systems.
+
+Finally, Paper VI introduces deckard, a declarative pipeline framework for safety-critical machine learning. 
+This tool enables reproducible, distributed experimentation with arbitrary software and hardware configurations and supports robustness evaluation natively---bridging the gap between theory, experimentation, and compliance with emerging regulatory standards.
+
+Together, these papers provide a coherent body of work that addresses not only how and why machine learning systems fail under adversarial conditions, but also how to design, test, and deploy systems that are resilient, privacy-preserving, and robust.
