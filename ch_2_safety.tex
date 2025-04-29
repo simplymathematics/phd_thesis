@@ -16,15 +16,17 @@ That is to say, the standards that govern the engineers behind car braking syste
 In the United States, many of these standards are defined by the National Institute of Standards and Technology (NIST), which is a US federal government agency~\cite{nist_summary}.
 The International Standards Organization (ISO) and the International Electrotechnical Commission (IEC) are non-governmental organizations, headquarted in Switzerland, that develops standards globally with the latter obviously focused on electronics and software. 
 These three organizations govern safety-critical products across many domains--- medical devices, industrial equipment, and consumer products designed for all manner of tasks. 
-These regulations are discussed in the context of safety, security, privacy, and reliability before examining the requirements to verify and validate these properties.
-As this chapter will show, ML models must be held to \textit{at least} the same levels of safety that we require of kitchen appliances, cell phones, and auto-mobile braking systems.
+
+These regulations are discussed in the context of safety, security, privacy, and reliability before examining the specific requirements to verify and validate these properties. 
+In the broader context of this thesis, which aims to advance the trustworthiness of machine learning systems, it is essential to recognise that ML models—particularly those deployed in safety-critical domains—must be held to \textit{at least} the same rigorous standards that govern traditional technologies such as kitchen appliances, mobile phones, and auto-mobiles. 
+Without such standards, the deployment of ML systems in safety-critical areas will cause catastrophes.
 Below, the already-existing regulations around safety, security, privacy, and reliability are the discussed in the context of trustworthy machine learning.
 
 
 \section{Safety}
 \label{safety}
 Safety is a well-defined regulatory concept, particularly for electronic hardware and software, where it is governed by the IEC 61508 standard~\cite{IEC61508}. 
-It is the de facto global framework for safety-critical design of electromechanical systems~\cite{todo}, though domain-specific equivalents (e.g. healthcare~\cite{hipaa} or anti-virus software~\cite{nist_antivirus}) exist as well.
+It is the de facto global framework for safety-critical design of electromechanical systems~\cite{todo}, though domain-specific equivalents (\textit{e.g.}, healthcare~\cite{hipaa} or anti-virus software~\cite{nist_antivirus}) exist as well.
 
 To understand how regulatory limits are set, IEC 61508 first defines failure rate categories (Table~\ref{tab:failure_categories}). 
 These numbers may appear extreme, but they are appropriate when designing products with millions or billions of users. 
@@ -109,7 +111,7 @@ Together, they establish a risk matrix that balances the likelihood of a failure
 The IEC standards \cite{IEC61508} define the Safety Inegrity Level (SIL) in failures per year, which is reproduced here in Table~\ref{tab:risk_classes}. 
 Since safety-critical systems (e.g., autonomous vehicles, medical imaging software, malware detection systems, etc.)~have the potential to cause major injuries (or worse), validating the failure rate using a test set would require at least 10s of thousands of samples and highly confident measures would require substantially more. 
 Furthermore, if we assume that \textit{accidental} errors are possible in real-world systems due to things like dust, lens flare, component failure, packet loss, \textit{etc.}, it naturally follows that the failure rate is an over-estimate of the model's performance at the edge or other ``worst-case scenarios''. 
-That is, the test-case failure rate is an upper bound of the real-world failure rate under the simple assumption that the real-world is noisier or more nuanced than the test set. 
+That is, the test-case failure rate is an optimistic overestimate of the real-world failure rate~\cite{azarpromise}. 
 
 
 \section{Security}
@@ -161,10 +163,15 @@ Since the number of possible failure cases is often innumerable, it is essential
 In the literature, these failure conditions are often considered under various worst-case scenarios that are designed to be adversarial. 
 A model is said to be \textit{robust} if it resists these adversarial failures. 
 
-For example, we could see how different AI-pipelines influence the accuracy of a given model architecture and dataset against various adversarial conditions or train a model to optimise for loss in the presence of adversaries~\cite{croce_reliable_2020}. 
-However, these metrics only measure posterior metrics (things measured after the model has been trained), which have consistently been shown to be optimistic and unreliable at best~\cite{carlini_towards_2017,croce_reliable_2020,meyers}. 
+For example, we could see how different AI-pipelines influence the accuracy of a given model architecture and dataset against various adversarial conditions or train a model to optimise for loss in the presence of adversaries~\cite{croce_reliable_2020,li2016general}. 
+Even within adversarial machien learning publications, research has consistently been shown to be optimistic and unreliable at best~\cite{croce2020robustbench}. 
 
-In Paper I, we conducted a large survey of various model attack and defence techniques and showed that, while widely used as measure of robustness in the literature~\cite{meyers}, that neither of these metrics were a reliable indicator of performance against a generalised adversary. In Paper II, we looked at the effect of small hyper-parameter changes and additionally demonstrated that naively retraining the model against an attacker only weakens the performance in other scenarios while adding substantial (polynomial-time) costs. Modelling the and preventing failures and unforeseen edge cases in complicated electro-mechanical systems happens through a process of verification and validation~\cite{iso26262}.
+Paper~I presents a comprehensive survey of various model attack and defence techniques, demonstrating that, despite their widespread use in the literature~\cite{meyers}, commonly reported robustness metrics do not reliably predict performance against a generalised adversary. 
+Paper~II investigates the impact of minor hyper-parameter variations and shows that naive adversarial retraining tends to degrade model performance under different attack scenarios, while also introducing significant (polynomial-time) computational overhead. 
+In the broader context of complex electro-mechanical systems, modelling and mitigating failures or unforeseen edge cases is typically addressed through systematic verification and validation processes~\cite{iso26262}.
+Then the cost-robustness trade-offs are examined in the context model complexity (Paper~III) and hardware choice (Paper~IV), before attempting to design a model that is safer-by-design (Paper~V).
+Finally, a safety-critical framework for ML verification and validation is presented in Paper~VI.
+
 
 
 

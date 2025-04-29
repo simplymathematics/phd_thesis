@@ -1,51 +1,86 @@
 \chapter{Summary of Contributions and Future Work}
 \label{ch:summary}
-The papers in this are structured in chronological order or something.
+The papers below first quantify the problem of adversarial attacks, explore the efficacy and cost of different defences, 
 % Stolen from "Charlie's Paper List", unedited for now
 \section{Paper I}
-Meyers, Charles, Tommy L\"{o}fstedt, and Erik Elmroth. "Safety-critical computer vision: an empirical survey of adversarial evasion attacks and defenses on computer vision systems." {\em Artificial Intelligence Review}, Vol. 53, pp. 217--251, Springer, (2023). [Impact Factor 10.7.]
+Meyers, Charles, Tommy L\"{o}fstedt, and Erik Elmroth. "Safety-critical computer vision: an empirical survey of adversarial evasion attacks and defenses on computer vision systems." {\em Artificial Intelligence Review}, Vol. 53, pp. 217--251, Springer, (2023). 
 
-In this paper, we surveyed five years of attacks and defences against each other and included a run-time analysis that was missing from the original sources. In this way, we quantified the marginal cost and benefit for a given defence with respect to the performance on perturbed (adversarial) and unperturbed data.We examined the effect of training epochs and model depth on the ResNet model across a number of benchmark image datasets. It is open access and a link is available  \href{https://link.springer.com/article/10.1007/s10462-023-10521-4}{here.} 
+In this paper, we surveyed five years of attacks and defences against each other and included a run-time analysis that was missing from the original sources. In this way, we quantified the marginal cost and benefit for a given defence with respect to the performance on perturbed (adversarial) and unperturbed data.We examined the effect of training epochs and model depth on the ResNet model across a number of benchmark image datasets. It is open access and is available at \href{https://link.springer.com/article/10.1007/s10462-023-10521-4}{https://link.springer.com/article/10.1007/s10462-023-10521-4}.
+
 \section{Paper II}
 Meyers, Charles, Tommy L\"{o}fstedt, and Erik Elmroth. “Massively Parallel Evasion Attacks and the Pitfalls of Adversarial Retraining.” {\em EAI Endorsed Transactions of Internet of Things}, vol. 10, pp. 1-16,  2024.
-Presented at {\em EAI Artificial Intelligence for Cybersecurity Conference}. Bratislava, Slovakia, 2023. [Received a Best Paper Award]
+Presented at {\em EAI Artificial Intelligence for Cybersecurity Conference}. Bratislava, Slovakia, 2023. 
+It is open access and is available at \href{https://publications.eai.eu/index.php/IoT/article/view/6652}{https://publications.eai.eu/index.php/IoT/article/view/6652}.
 
-This paper focuses on the support vector classifier, since it has considerably lower run-time requirements than modern neural networks and allowed us to generate a large amount of data and examine a large number of attack parameters. In this paper we show that, in practice, an attacker can find adversarial examples in linear time, which puts them at a distinct advantage compared to polynomial-time model builders. We examined the effect of noise distance, model run-time, and model hyperspace geometry on adversarial robustness across several anomaly detection benchmark datasets. It is open access and a link is available \href{https://publications.eai.eu/index.php/IoT/article/view/6652}{here.}
+This paper focuses on the support vector classifier, since it has considerably lower run-time requirements than modern neural networks and allowed us to generate a large amount of data and examine a large number of attack parameters. 
+In this paper we show that, in practice, an attacker can find adversarial examples in linear time, which puts them at a distinct advantage compared to polynomial-time model builders. 
+We examined the effect of noise distance, model run-time, and model hyperspace geometry on adversarial robustness across several anomaly detection benchmark datasets. 
+
 
 
 \section{Paper III}
-In this paper, we formalized a survival analysis method for machine learning applications that allows us to quantify the robustness of a model in terms of survival time. By comparing this robustness measure (survival time) to the training time, we presented a metric to quickly reject model architectures in which the attacker has the advantage. We examined the effect of training epochs and model depth on the ResNet model across a number of benchmark image datasets. Meyers, Charles, Mohammed Saleh Saledghpour Reza, Tommy L\"{o}fstedt, and Erik Elmroth. "A Training Rate and Survival Heuristic for Inference and Robustness Evaluation." {\em International Conference on Machine Learning and Cybernetics. Miyazaki, Japan} (2024): 1-12. This paper, nicknamed TRASHFIRE, has been accepted, but not yet published.
+Meyers, Charles, Mohammed Saleh Saledghpour Reza, Tommy L\"{o}fstedt, and Erik Elmroth.
+"A Training Rate and Survival Heuristic for Inference and Robustness Evaluation." {\em International Conference on Machine Learning and Cybernetics. Miyazaki, Japan} (2024): 1-12. 
+While the published version (available at \href{https://ieeexplore.ieee.org/document/10935101}{https://ieeexplore.ieee.org/document/10935101}) is not open-access, the preprint version is (available at \href{https://arxiv.org/abs/2401.13751}{https://arxiv.org/abs/2401.13751})
 
+In this paper, we formalized a survival analysis method for machine learning applications that allows us to quantify the robustness of a model in terms of survival time. By comparing this robustness measure (survival time) to the training time, we presented a metric to quickly reject model architectures in which the attacker has the advantage. We examined the effect of training epochs and model depth on the ResNet model across a number of benchmark image datasets. 
 
 \section{Paper IV}
-This paper has been submitted to the \textit{Journal of Cloud Computing} on 7 September.
 Charles Meyers, Mohammad Reza, Tommy L\"{o}fstedt, and Erik Elmroth. “A Cost-Aware Approach to Adversarial Robustness in Neural Networks.”
-Using all the tooling built previously, we applied the training rate and survival heuristic from the paper above to neural networks to model the robustness as a function of various model parameters. Instead of examining the effect of model depth and epochs as in the paper above (TRASHFIRE), we investigated the effect of learning rate optimization and hardware architecture on model robustness using the AFT models and parallel experimentation software developed previously. In this work, we not only verified a cost-aware approach for hardware-agnostic model tuning, and showed that models that cost dollars to train can be broken for pennies, we showed that low-cost, 8-bit GPUs are superior not only in cost-efficacy, but also in terms of adversarial robustness. We also verified the technique developed in TRASHFIRE by evaluating the same model in a new context.
+This paper was submitted to the \textit{Journal of Cloud Computing} on 7 September 2024.
+
+Using all the tooling built previously, we applied the training rate and survival heuristic from the paper above to neural networks to model the robustness as a function of various model parameters. 
+Instead of examining the effect of model depth and epochs as in the paper above (TRASHFIRE), we investigated the effect of learning rate optimisation and hardware architecture on model robustness using the AFT models and parallel experimentation software developed previously. 
+In this work, we not only verified a cost-aware approach for hardware-agnostic model tuning, and showed that models that cost dollars to train can be broken for pennies, we showed that low-cost, 8-bit GPUs are superior to data-center models not only in cost-efficiency, but also in terms of adversarial robustness. 
+We also verified the technique developed in TRASHFIRE by evaluating the same model in a new context.
 
 \section{Paper V}
-Meyers, Charles,  Aaron MacSween Tommy L\"{o}fstedt, and Erik Elmroth. “Privacy-preserving anomaly detection." This will be submitted to ... in October.
-Privacy-preserving spam detection: All prior research has led to the conclusion that more accurate models tend to be less robust, that subverting an arbitrary model architecture is trivial, and that models are, at best, a compressed version of the data you would like to keep private. Therefore, we have developed a spam-detection model that works only on client-side data, incorporates design decisions designed to subvert a potential attacker, and only exposes the private data of an individual user. The code is a rough JavaScript implementation (for use in a browser), but a Python version would be needed to compare against other models (e.g. outlier detection or neural networks).
+Meyers, Charles,  Aaron MacSween Tommy L\"{o}fstedt, and Erik Elmroth. “A tiny, client-side classifier" Provided as a manuscript.
+
+All prior research has led to the conclusion that more accurate models tend to be less robust, that subverting an arbitrary model architecture is trivial, and that models are, at best, a compressed version of the data you would like to keep private. 
+Therefore, we have developed a spam-detection model that works only on client-side data, incorporates design decisions designed to subvert a potential attacker, and only exposes the private data of an individual user. 
+In addition, we extend a notion of compression distance to kernel methods and offer improvements in both run-time and accuracy compared to the state-of-the-art.
 
 \section{Paper VI}
-Meyers, Charles, Tommy L\"{o}fstedt, and Erik Elmroth. “Deckard. Declarative Pipelines for Safety Critical Machine Learning."
+Meyers, Charles, Tommy L\"{o}fstedt, and Erik Elmroth. “Deckard: Declarative Pipelines for Safety Critical Machine Learning."
+To be submitted to the \textit{Journal of Open Source Software} shortly after thesis submission.
+
+
 To meet the legal requirements mentioned throughout the other works, it is necessary to build reproducible, audit-able, and explainable software. 
 Due to the large number of hyper-parameters, specialised hardware requirements, huge amounts of data, and long run-times associated with modern ML models (\textit{i.e.} neural networks), managing and tracking a large number of experiments can be a headache. 
-Furthermore, robustness is discussed, it must always be framed in the context of a particular attack (or a set of attacks) since the dataset, model, and attack surface will vary in practice. 
-While there are software solutions around optimising a model within a certain framework, they don't natively support evaluating model robustness. Instead of committing one's self to a particular framework (\textit{e.g.} Keras, Pytorch, Tensorflow) and implementing new attacks from scratch in the chosen framework, one can use our flexible framework for expressing entire ML pipelines as declarative and human-readable files. 
+Furthermore, as robustness is discussed, it must always be framed in the context of a particular attack (or a set of attacks) since the dataset, model, and attack surface will vary in practice. 
+While there are software solutions around optimising a model within a certain framework, they don't natively support evaluating model robustness. 
+Instead of committing one's self to a particular framework (\textit{e.g.} Keras, Pytorch, Tensorflow) and implementing new attacks from scratch in the chosen framework, one can use our flexible framework for expressing entire ML pipelines as declarative and human-readable files. 
 Additionally, this software allows one to run experiments across heterogeneous and distributed hardware and allows the experimenter to divide the pipeline arbitrarily across the available resources.
-By building a way to reliably reproduce ML experiments on arbitrary hardware platforms with arbitrary entry-points, using arbitrary software functions, rather than building around a particular framework, the software remains flexible and useful for a wide variety of existing tool-chains.
-Finally, to account for traditional metrics and various robustness criteria, the software can be used with a variety of multi-objective optimisation algorithms
-The package is named \texttt{deckard} after the detective that hunts rogue AIs in the film, \textit{Blade Runner}, as a nod towards its ability to police the safety, privacy, and security of an AI pipeline. 
+By building a way to reliably reproduce ML experiments on arbitrary hardware platforms with arbitrary entry-points, using arbitrary software functions, rather than building around a particular ML framework, the software remains flexible and useful for a wide variety of existing tool-chains.
+Finally, to account for traditional metrics and various robustness criteria, the software can be used with a variety of multi-objective optimisation algorithms, attack classes, and scoring functions.
 In this paper, the software is outlined to show how the developed package meets the safety critical standards dictated by international governing bodies and is a step towards explainable and robust AI.
-To be submitted to the \textit{Journal of Open Source Software} in October.
 
 
 \section{Future Work}
 
-This thesis contributes to the nascent field of trustworthy machine learning by introducing empirical techniques for quantifying model robustness, proposes a privacy-preserving classification model, and provides a platform for reproducible experimentation. 
+This thesis contributes to the nascent field of trustworthy machine learning by introducing empirical techniques for quantifying model robustness, proposing a privacy-preserving classification model, and providing a platform for reproducible experimentation. 
 Building on this foundation of safety and privacy, fairness and equity remain obvious next steps.
 One promising (but otherwise unexplored) direction is the detection and mitigation of demographic bias in both training and inference stages of ML systems.
-Time-to-failure (as outlined in Papers~III~\&~IV) can be used to find marginalised subsets of a test set and poisoning attacks could be used to generate synthetic data and mitigate the effects of this under-representation.
-By shifting from training-time interventions like poisoning attacks to run-time interventions like evasion, extraction, or inference attacks, this approach could potentially detect and mitigate sampling noise, sensor failure, or any other scenario that can be simulated at run-time. 
-Ultimately, by formalising these techniques, the hope is to derive guarantees for adversarial robustness that provide a useful estimate of the real-world failure rate while considering fairness, equity, and environmental impact. 
-While this thesis falls short of a solving the problem of adversaries in ML systems, it is a step towards the deployment of ML systems that are not just accurate, but also responsible, private, reliable, secure, safe, and, above all, trustworthy.
+Time-to-failure (as outlined in Papers~III~\&~IV) can be used to find marginalised subsets of a test set, and poisoning attacks could be used to generate synthetic data and mitigate the effects of this under-representation.
+By shifting from training-time interventions like poisoning attacks to run-time interventions like evasion, extraction, or inference attacks, this approach could potentially detect and mitigate sampling bias, sensor failure, or any other scenario that can be simulated at run-time.
+
+A second important direction is the development of certified robustness bounds that are grounded not only in adversarial threat models but also in fairness, privacy, and environmental metrics. 
+Current robustness certification schemes often assume perfect knowledge of the model, its training procedure, and its deployment context—assumptions that are rarely met in practice.
+Future research could investigate more relaxed certification frameworks that are probabilistic, scenario-dependent, or dynamically updated as systems interact with real-world environments and Papers~III~and~IV provide examples of this data-driven approach to model certification.
+
+
+Third, the work begun in \texttt{deckard} could be extended into a compliance layer for ML systems, where model deployments are automatically benchmarked against international standards for safety-critical software.
+Embedding adversarial robustness, fairness diagnostics, and energy efficiency directly into the ML development pipeline could help bridge the gap between academic research and industrial and regulatory needs.
+
+Additionally, environmental sustainability must move from a passive reporting practice to an active optimisation target.
+This thesis outlined preliminary considerations for model cost-awareness, but future systems should incorporate carbon footprint, hardware lifespan, and resource consumption as first-class optimization objectives alongside traditional metrics like accuracy and throughput.
+Techniques like carbon-aware scheduling, model quantization, and lifetime-aware hardware selection present ripe opportunities for empirical study and real-world deployment.
+
+Finally, a broader philosophical shift is required.
+While this thesis falls short of solving the problem of adversaries in ML systems, it is a step toward the deployment of ML systems that are not just accurate, but also responsible, private, reliable, secure, safe, and, above all, trustworthy.
+Future work must explicitly reject the culture of chasing benchmark accuracy scores without regard for ethical, societal, and ecological impact.
+To put it bluntly, at the time of publication, no truly trustworthy ML systems exist and it is therefore incumbent on this author, and the community at large, to make that widely known and to continue on the path to making such systems a reality.
+
+Ultimately, trustworthiness must become a measurable, actionable, and legally enforceable property of machine learning systems, rather than a vague aspiration or footnote in a publication next to the funding statement. 
+This thesis has laid part of the groundwork for that future, but much remains to be built.

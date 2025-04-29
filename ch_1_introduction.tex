@@ -82,7 +82,7 @@ As is demonstrated throughout this text, modern ML models fail to meet any legal
 Therefore, a framework for critically evaluating any ML pipeline through the lens of machine trustworthiness is necessary. 
 This thesis first attempts to quantify the problem before using the measured data to suggest some fundamental solutions. 
 
-
+\newpage
 \section{Research questions and problem}
 \label{sec:research-questions-and-problems}
 In this thesis, we attempt to address the following research questions, each of which has a corresponding paper, listed in order.
@@ -233,22 +233,19 @@ It is defined as ratio of correct predictions to the total number of predictions
 $$
 \text{Accuracy} =  \frac{\text{Correct~Predictions}}{\text{Total~Predictions}} = 1 - \frac{\text{Incorrect~Predictions}}{\text{Total~Predictions}}.
 $$
-While this metric does not distinguish between the effect of false positives and false negatives, existing regulations~\cite{iso26262,IEC61508} generally dictate safety critical standards that are far stronger than the performance of even state-of-the-art models~\cite{meyers}. 
-That is, the distinction between running into a tree that wasn't identified and running into a tree because a pedestrian was hallucinated is hardly one that matters to the passengers of the vehicle. 
-This same analogy extends to medical imaging wherein an ML system might induce an unnecessary surgery or miss an obvious cancer. 
 
 Accuracy is used throughout the text as a measure of reliability as it a standard used in the literature to compare the efficacy of published models on benchmark datasets~\cite{croce_reliable_2020}. 
 However, even the weakest of safety-critical regulations~\cite{IEC61508} would require millions of samples to verify a model using accuracy as a measure of failure probability. 
 For life-and-death applications like medical imaging and self-driving cars, these verification procedures would require many many billions of samples~\cite{IEC61508}. 
 It is simply infeasible to use such large datasets to verify every software change in complex ML pipelines, as required by regulatory risk management standards~\cite{IEC61508}. 
-Instead of calculating the probability of an incorrect prediction using an absurd number of samples, Paper III formalises the relationship between the probability of failure and time--referred to throughout the text as \textit{failure rate}:
+Instead, Paper III formalises the relationship between the probability of failure and time--referred to throughout the text as \textit{failure rate}:
 $$
 \text{Failure~Rate} = \frac{\text{Incorrect~Predictions}}{\text{Time~Interval}} = 1 - \frac{\text{Correct~Predictions}}{\text{Time~Interval}}.
 $$
 Like accuracy, this can be thought of in both the adversarial and benign circumstances, but first some time intervals must be defined. 
 The \textit{training time} is the time it takes to fit a model with a given set of parameters to a particular dataset and is calculated using the training set. 
 The \textit{prediction time} is the time it takes to receive output from a model given a set of samples and is calculated using the test set. 
-The \textit{attack time} is the time is takes to generate adversarial examples and is calculated using the test set through this text.
+The \textit{attack time} is the time is takes to generate adversarial examples and is calculated using the test set throughout this text.
 The benign failure rate can be thought of as:
 $$
 \text{Benign~Failure~Rate} = \frac{\text{Incorrect~Predictions~on~Benign~Data}}{\text{Prediction~Time}} 
@@ -257,7 +254,7 @@ and the adversarial failure rate can be expressed as:
 $$
 \text{Adversarial~Failure~Rate} = \frac{\text{Incorrect~Predictions~on~Adversarial~Data}}{\text{Attack~Time}}.
 $$
-The specific notation used for this concept varies throughout the thesis, but the concept is the same---the benign and adversarial failure rates are used to define an upper and lower bound of model performance that considers both accuracy and time. 
+The specific notation used for this concept varies throughout the thesis, but the concept is the same---the benign and adversarial failure rates are used to define an upper and lower bound of model performance that considers both efficacy and cost. 
 The point of collecting these time-based metrics is to consider the cost for both the model-builder and the 
 attacker. 
 In Papers~III~\&~IV, an additional metric is considered, called time to failure.
@@ -273,20 +270,18 @@ quantifies both the number of failures and the time required of an attacker.
 While these metrics provide a practical lens on model performance under real-world constraints, they do not account for the underlying computational complexity that governs how these systems work in real-world deployments. 
 To understand the feasibility of training, attacking, or defending machine learning models at scale, it is necessary to introduce a formal framework for measuring computational cost.
 
-\subsubsection{Cost}
 When computer scientists discuss the notion of cost, it is common to use ``big-O'' notation where, for two functions $f(x)$ and $g(x)$:
 $$
 f(x) = \mathcal{O}(g(x))~\text{as}~x \rightarrow \infty
 $$
 if for some positive constant multiple $M$ and a real number $x_0$
 $$
-|f(x)| \leq M |g(x)|)~\text{for~all}~x\geq x_0.
+|f(x)| \leq M |g(x)|~\text{for~all}~x\geq x_0.
 $$
-The notation says that the functions $f(x)$ and $g(x)$ behave roughly the same as the value of $x$ gets very large.
-Iterating over a single list of length $n$ is said to have a complexity of $\mathcal{O}(n)$ since the cost of that process will scale with the number of entries in the list. 
-Likewise, if one must iterate through two lists of length $m,n$ to do a pairwise calculation across all entries of both lists, then the complexity is said to be $\mathcal{O}(mn)$. 
-This is often considered separately for both computational time and hardware requirements and algorithm choice may vary when one or the other is constrained. 
-In real-world, modern cloud deployments computational time is billed according to the usage time and faster or better hardware is generally more expensive per unit time, so this kind of cost analysis is critical to discussing the feasibility of a particular method. 
+The notation describes how $f(x)$ and $g(x)$ behave similarly as $x$ grows large.
+Iterating over a list of length $n$ is said to have complexity $\mathcal{O}(n)$. 
+Likewise, pairwise operations over two lists of lengths $m,n$ yield complexity $\mathcal{O}(mn)$. 
+In modern cloud deployments, computational time is billed by usage and better hardware costs more per unit time, making cost analysis critical to feasibility.
 
 Cost is an essential consideration of this thesis.
 Paper I examines the efficacy of various model defences in relation to their cost by quantifying the benign and adversarial failure rate of many attacks and defences.

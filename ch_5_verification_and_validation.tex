@@ -1,79 +1,90 @@
 \chapter{Verification and Validation}
 \label{ch:vnv}
-Verification and validation is the general idea that the likelihood of failures can be modelled and that a component can be audited using these models to verify whether or not it is legally ``safe''. 
-These can broadly be classed into four categories. 
-The first of these is simulation techniques in which entire systems (e.g. spacecraft or nuclear reactors) are simulated digitally. 
-The second category is using formal verification methods, which rely on mathematical proofs to test the bounds of a piece of software or ML model. 
-Papers 1 and 2 can be thought of as building blocks towards these kinds of methods.
-The third category is non-parametric modelling that underlies much medical research and many actuarial tables.
-The final category is parametric modelling, which allows one to not only flexibly, reliably, and precisely characterise the complex nature of the real-world failure rate and model the affect of changes independently. 
-
-\section{Simulation}
-Simulation is a powerful verification technique in which complex systems are modeled and tested under a variety of conditions before real-world deployment. These techniques are especially prominent in high-stakes domains such as aerospace, automotive safety, and medical science, where real-world testing is expensive, dangerous, or ethically challenging.
-
-In the aerospace industry, simulation is integral to the development and certification of aircraft. One well-known example is the Boeing 777, which was the first commercial aircraft to be entirely designed using computer-aided design (CAD) and simulation tools, minimizing the need for physical prototypes \cite{boeing777}.
-It is also famous for being the first ``fly-by-wire'' system where manual pilot input was replaced with electrical signals and onboard computers which forced the industry to simulate physical interactions in software to ensure safety.
-
-In automotive engineering, crash simulations are widely used to complement physical crash testing. However, these simulations often rely on models based on the 50th percentile male body, leading to safety designs that disproportionately protect average-sized men. Research has shown that women are significantly more likely to suffer injury in car crashes due to this bias in crash test dummies and the resulting simulations \cite{crashgenderbias}.
-
-Similarly, in medical science, simulations of drug interactions or disease progression are often built from datasets that over-represent male physiology. This has led to a ``male body problem'' in medical research, where treatments may be less effective or riskier for women. Additionally, statistical simulations in clinical trials often rely heavily on p-values, which can misrepresent the reliability of results when not properly contextualized—known as the p-value problem \cite{goodman1993p}.
-
-Together, these examples highlight the strength of simulation as a verification tool, but also the risks involved when the underlying models are biased or incomplete. Proper simulation requires not only technical fidelity but also representational fairness across the populations affected.
+The previous chapters introduced the ML pipeline, outlined the regulations that govern safety and privacy, examined some particular ML models, and outlined a very real threat model against them in the form of attacks. 
+In contrast, this chapter
+Verification and validation is the general idea that the likelihood of failures can be modelled and that a component can be audited using these models to verify whether or not it is legally ``safe.'' 
+These can broadly be classed into several categories: formal verification, simulation, empirical modelling, and static or dynamic analysis.
+Fields like aviation, automotive, and medicine deploy some combination of these to mitigate and control risk on a daily basis.
 
 
 \section{Formal Verification}
-Formal verification is a method of mathematically proving the correctness of a system with respect to a formal specification. Unlike simulation, which tests a system under selected scenarios, formal verification attempts to exhaustively prove that certain properties (e.g., safety, liveness, or correctness) always hold, regardless of the input or system state. This makes it especially attractive in systems where failure is catastrophic and exhaustive testing is infeasible.
+Formal verification is a method of mathematically proving the correctness of a system with respect to a formal specification. 
+Unlike simulation, which tests a system under selected scenarios, formal verification attempts to exhaustively prove that certain properties (\textit{e.g.}, safety, robustness, or correctness) always hold, regardless of the input or system state. 
+This makes it especially attractive in systems where failure is catastrophic and exhaustive testing is infeasible.
 
-The strength of formal verification lies in its guarantees: if a property is proven, it holds for all cases within the bounds of the model. However, this rigour comes with significant cost and complexity. Creating formal specifications requires a precise and often abstract understanding of the system, and the proofs themselves can be highly non-trivial, requiring expert knowledge and substantial computational resources.
+The strength of formal verification lies in its guarantees: if a property is proven, it holds for all cases within the bounds of the model. 
+However, this rigour comes with significant cost and complexity. 
+Creating formal specifications requires a precise and often abstract understanding of the system, and the proofs themselves can be highly non-trivial, requiring expert knowledge and substantial computational resources~\cite{formal_adversarial,vehicle_formal}.
 
-One landmark example of formal verification is the CompCert C compiler, which has been formally verified to produce assembly code that is functionally equivalent to its source code \cite{leroy2009formally}. 
+One landmark example of formal verification is the CompCert C compiler, which has been formally verified to produce assembly code that is functionally equivalent to its source code~\cite{leroy2009formally}. 
 In contrast to conventional compilers, which may contain bugs in optimization or code generation, CompCert offers mathematical guarantees of correctness, making it appealing for critical systems like avionics and medical devices.
 In medical devices, formal verification has been applied to implantable cardiac pacemakers, which must maintain life-critical timing constraints to not accidentally kill the person they are meant to help.
-Research efforts, such as those by Jiang et al. \cite{jiang2012modeling}, have demonstrated how formal models of pacemaker logic can be verified to ensure the device will never enter dangerous states, even under extreme timing conditions or unexpected cardiac rhythms.
+Research efforts, such as those by Jiang et al.~\cite{jiang2012modeling}, have demonstrated how formal models of pacemaker logic can be verified to ensure the device will never enter dangerous states, even under extreme timing conditions or unexpected cardiac rhythms.
 
-While formal verification guarantees the correctness of a system through mathematical proofs, non-parametric models offer a different approach by focusing on data-driven techniques. These models are particularly useful in situations where the complexity or uncertainty of the system makes formal proofs infeasible.
+In the domain of machine learning, formal verification is becoming increasingly relevant as ML models are being deployed in safety-critical applications such as autonomous vehicles, medical diagnostics, and security systems. 
+Verifying the correctness of ML models with respect to a formal specification presents unique challenges compared to traditional software systems. U
+Unlike conventional software, ML models are typically data-driven and may exhibit unpredictable behaviour due to the complex nature of their learned representations. 
+Despite these challenges, researchers have developed techniques for formal verification of certain aspects of ML models, such as ensuring robustness to adversarial attacks or proving the correctness of a model’s decision-making process in specific environments. 
+While the field is still in its infancy, work has been done in verifying neural networks' robustness to adversarial perturbations and ensuring that certain fairness constraints are met during the learning process~\cite{formal_adversarial}.
+However, these formal methods can be computationally infeasible or altogether useless during model selection~\cite{vehicle_testing_review}.
 
-
-\section{Non-Parametric Modelling}
-Non-parametric modelling is a statistical approach that does not assume a specific form for the underlying distribution of the data. Instead of relying on parameters like means or variances, non-parametric models focus on the structure and relationships within the data itself. This flexibility makes non-parametric methods particularly useful for descriptive statistics, where the goal is often to explore and summarize data without imposing a strict assumption about its underlying distribution. For instance, methods such as kernel density estimation or k-nearest neighbours can provide insights into the data's structure by directly learning from the observed values.
-
-However, non-parametric methods face significant limitations when it comes to predictive statistics in safety-critical systems. 
-Unlike parametric models, which typically include coefficients that represent the strength of relationships between variables, non-parametric models do not offer direct interpretability regarding how changes in input variables will affect outputs. This becomes problematic in safety-critical contexts—such as in aviation, healthcare, or autonomous vehicles—where precise understanding and control over model behaviour is paramount. 
-In these settings, models need to account for interdependent relationships between variables (\textit{e.g.} how multiple sensor inputs may jointly influence a decision-making process) and provide confidence in their predictions under various operating conditions.
-
-For example, in automotive safety, while non-parametric models could help analyse crash data or assess general trends, they would not be sufficient to predict the likelihood of failure in a complex system with interrelated components (such as brake performance under different conditions). A parametric model, on the other hand, might use well-defined coefficients to model these interdependencies and allow for robust safety predictions, ensuring that all factors, including hidden or complex relationships, are accounted for.
+As ML models continue to play a larger role in critical applications, the need for formal verification to guarantee their reliability and safety will only grow.
+While formal verification guarantees the correctness of a system through mathematical proofs, simulation provides a way to build trust in complex systems before they are deployed.
 
 
+\section{Simulation}
+Simulation is a powerful verification technique in which complex systems are modelled and tested under a variety of conditions before real-world deployment. These techniques are especially prominent in high-stakes domains such as aerospace, automotive safety, and medical science, where real-world testing is expensive, dangerous, or ethically challenging.
 
-\section{Parametric Models}
+In the aerospace industry, simulation is integral to the development and certification of aircraft. One well-known example is the Boeing 777, which was the first commercial aircraft to be entirely designed using computer-aided design (CAD) and simulation tools, minimizing the need for physical prototypes~\cite{boeing777}.
+It is also famous for being the first ``fly-by-wire'' system where manual pilot input was replaced with electrical signals and onboard computers which forced the industry to simulate physical interactions in software to ensure safety~\cite{boeing777}.
 
-Parametric models are a family of statistical distributions defined by a fixed number of parameters that govern their behaviour. These models are often used when we assume that the data follows a specific distribution, such as normal, exponential, or binomial. By fitting the model to the data, we estimate the parameters that best represent the underlying process. This approach makes parametric models highly effective for predictive modelling and hypothesis testing, as the parameters provide a clear interpretation of how variables interact with one another.
+In automotive engineering, crash simulations are widely used to complement physical crash testing. 
+However, these simulations often rely on models based on the 50th percentile male body, leading to safety designs that disproportionately protect average-sized men. Research has shown that women are significantly more likely to suffer injury in car crashes due to this bias in crash test dummies and the resulting simulations~\cite{crashgenderbias}.
 
-One commonly used parametric distribution is the exponential distribution, which is frequently employed to model the time between events in processes that occur at a constant rate, such as the failure times of mechanical components or the average waiting time at a bus stop. The exponential distribution is often used to introduce discussions of failure rates or the occurrence of rare events, making it a standard example in many introductory statistics textbooks~\cite{stats}.
+Similarly, in medical science, simulations of drug interactions or disease progression are often built from datasets that over-represent male physiology~\cite{merone2022sex}. 
+This has led to a ``male body problem'' in medical research, where treatments may be less effective or riskier for women. 
+Additionally, statistical simulations in clinical trials often rely heavily on p-values, which can misrepresent the reliability of results when not properly contextualized—known as the p-value problem~\cite{goodman1993p}.
 
-We begin our discussion with the exponential distribution here to provide readers, particularly those new to the field, with an introduction to the language and notation that follows in more complex models. 
+Unlike physical systems that are governed by well-known physical laws, many ML models can be hard to explain or interpret~\cite{explainable}. 
+By harnessing adversarial attacks to simulate worst-case samples, model builders can test the robustness and reliability of machine learning systems under extreme or intentionally challenging conditions.
+Adversarial simulation involves creating perturbed inputs that are specifically designed to cause model failures, revealing vulnerabilities that may not appear under standard testing conditions~\cite{fgm}.
+This approach enables practitioners to stress-test models systematically before they are deployed in the real-world. 
+However, there is a data-driven approach that relies on real-world experimentation.
+
+\section{Empirical Modelling}
+
+Empirical models can take various forms, such as statistical models, ML models (Chapter 3), or system dynamics models (\textit{e.g.} structural or mechanical engineering). 
+For example, a simple statistical model is the exponential distribution, which is often applied in reliability engineering to model the time between events in systems that experience a constant failure rate over time.
 The exponential distribution is characterized by a single parameter, $\lambda$, which represents the rate of failure (or one divided by the mean time between events). 
 Its probability density function (PDF) is given by: 
 \begin{equation*}
-f(x) = \lambda e^{-\lambda x}~\textrm{~when~}x\geq 0
+f(t) = \lambda e^{-\lambda t}~\textrm{~when~}t\geq 0
 \end{equation*}
-where $f(x)$ is a function of some input $x$ and $\lambda$ is the failure rate.
-Please note the required assumption that the failure rate is invariant over time. 
-In real-world, complex systems other methods are used to estimate the real-world likelihood of failure~\cite{aft_models}.
+where $f(t)$ is a function of some time $t$ and $\lambda$ is the failure rate~\cite{stats}.
+In real-world complex systems other methods are used to estimate the real-world likelihood of failure~\cite{collett2023modelling}.
 
-
-\section{Survival Models}
 Survival models play a critical role across a range of domains where understanding time-to-event behaviour is essential. 
 In medicine, survival analysis is extensively used in clinical trials and epidemiological studies to model patient survival times, time until disease recurrence, or time to recovery~\cite{aft_models}. 
-Covariates such as age, treatment type, genetic markers, and co-morbidities are incorporated to estimate patient-specific risks and guide personalized treatment strategies~\cite{aft_models}. 
+In medicine, covariates such as age, treatment type, genetic markers, and co-morbidities are incorporated to estimate patient-specific risks and guide personalized treatment strategies~\cite{aft_models}. 
 In the automotive domain, survival models help assess the reliability and durability of components, such as engines, brake systems, and electrical subsystems. 
-By analysing failure times under different usage conditions and environments, manufacturers can improve design, schedule preventive maintenance, and optimize warranty policies~\cite{todo}. 
-In aircraft design, survival analysis informs the estimation of failure probabilities for critical components under stress, load, and fatigue over time~\cite{todo}. 
-These models support decisions in structural engineering, maintenance scheduling, and certification by regulatory authorities to ensure high standards of safety and reliability throughout the aircraft’s operational lifecycle~\cite{todo}.
+By analysing failure times under different usage conditions and environments, manufacturers can improve design, schedule preventive maintenance, and optimize warranty policies~\cite{automotive_survival}. 
+In aircraft design, survival analysis informs the estimation of failure probabilities for critical components under stress, load, and fatigue over time~\cite{aircraft_survival}. 
+These models support decisions in structural engineering, maintenance scheduling, and certification by regulatory authorities to ensure high standards of safety and reliability throughout the aircraft’s operational lifecycle~\cite{aircraft_survival}.
 
-As opposed to the simple exponential distribution discussed above which provides a way to estimate the time-to-failure when the failure rate is constant, survival models do not assume a constant rate of failure and they are broadly classed into proportional hazard and accelerated failure time models. 
-Both frameworks can incorporate covariates that influence the likelihood of an event (such as failure or death), but they differ in how these covariates interact with time and the hazard function. The exponential distribution, with its simple structure, can be discussed in either context.
-Both models are discussed in depth in Paper III and Paper IV employs accelerated failure time models to model the adversarial failure rate of several neural networks trained on one of several different pieces of hardware.
+As opposed to the simple exponential distribution discussed above which provides a way to estimate the time-to-failure when the failure rate is constant, survival models do not assume a constant rate of failure.
+Survival models are discussed in depth in Paper III, and Paper IV employs accelerated failure time models to model the adversarial failure rate of several neural networks trained on one of several different pieces of hardware.
+Furthermore, ML models more generally are used in all of the papers. 
+
+\section{Static and Dynamic Analysis}
+
+When building a bridge, static analyses are used to estimate the forces acting on a component when no acceleration is experienced by the component and dynamic analyses are used to estimate forces when acceleration is experienced~\cite{structural_eng}.
+This same metaphor can be applied to software development---where static analysis examines code for errors, vulnerabilities, and compliance issues without executing it~\cite{beller2016analyzing}, while dynamic analysis tests and monitors the software during runtime to uncover defects that only appear during execution~\cite{ball1999concept}. 
+
+In automotive or aviation, physical components such as engines, control surfaces, or braking systems are subjected to both static and dynamic analyses to verify their integrity under both constant and changing loads; similarly, embedded software controlling these components undergoes static analysis to catch coding errors early and dynamic analysis to validate behaviour under real-world operational conditions~\cite{boeing777}.
+In medical or banking software, static analysis is critical to ensure compliance with regulatory standards like HIPAA or PCI DSS by identifying security vulnerabilities and logical errors before deployment, while dynamic analysis is employed to validate the correctness, reliability, and security of live systems handling sensitive patient or financial data~\cite{jetley2008static,kuncoro2017mobile}.
+
+Throughout this thesis, static analyses in the form of pre-commit hooks were used to ensure code quality, consistency, and the early detection of potential errors before code was committed to the version control system. Pre-commit hooks are automated scripts that run a set of checks---such as linting, formatting enforcement, or static code analysis---each time a developer attempts to make a change to the source code, effectively acting as a gatekeeper to prevent problematic code from entering the codebase~\cite{precommit}.
+In addition, functional and integration tests were used to conduct dynamic analyses of the software components developed. Functional tests verify that individual functions or features perform as expected when executed and integration tests, on the other hand, validate that different modules or services interact correctly and robustly when combined, ensuring that defects that only emerge from complex system interactions are detected and addressed during runtime~\cite{wang2006software}.
 
 
 \section{Trust}
@@ -90,4 +101,8 @@ Worse still, performance metrics in machine learning often paint an overly optim
 As researchers have noted~\cite{madry2017towards, carlini_towards_2017,croce_reliable_2020,meyers}, traditional test/train evaluation only uncovers failures within the training distribution which leaves models vulnerable to catastrophic failures when deployed in the real world.
 
 To build truly trustworthy systems, model builders must go beyond conventional benchmarks and provide strong, actionable guarantees. 
-These guarantees must address the practical, social, and technical limitations outlined above—and they must do so efficiently. In particular, we need rigorous, cost-effective methods for verifying model behaviour under diverse and challenging conditions, ideally fast enough to be integrated into development feedback loops and used in simulation, rather than relying on deployment in real-world systems like autonomous vehicles, delivery drones, or manufacturing robots.
+These guarantees must address the practical, social, and technical limitations outlined above—and they must do so efficiently. 
+In particular, we need rigorous, cost-effective methods for verifying model behaviour under diverse and challenging conditions, ideally fast enough to be integrated into development feedback loops and used in simulation, rather than relying on deployment in real-world systems like autonomous vehicles, delivery drones, or manufacturing robots.
+Paper III presents a metric for quantifying the trust of a model against a given set of attacks and Paper IV uses this to build models that are not only more trustworthy, but also more power and cost efficient. 
+Paper V then outlines a model that aims to keep user data private and thus be more trustworthy by default. 
+Finally, Paper VI outlines a safety-critical framework for ML verification and validation and presents the software tooling required to not only reproduce the work included in this thesis, but to conduct the same type of massive and rigorous evaluations of any ML model trained on any dataset.

@@ -1,18 +1,17 @@
 \chapter*{Abstract}
-This thesis investigates adversarial robustness, privacy, and reproducibility in safety-critical machine learning systems, with a particular focus on computer vision, anomaly detection, and evasion attacks. 
-It is comprised of six papers that  collectively advance the theoretical and empirical understanding of model vulnerability and practical defence strategies as well as the software tooling to reproduce the experiments included within.
+\begin{abstract}
 
-Paper I surveys five years of adversarial evasion attacks and defences in computer vision, introducing a comparative runtime analysis that contextualizes the cost-benefit trade-offs of common defences. 
+This thesis studies adversarial robustness, privacy, and reproducibility in safety-critical machine learning systems, with particular emphasis on computer vision, anomaly detection, and evasion attacks.
+The work begins by analysing the practical costs and benefits of defence strategies against adversarial attacks, revealing that common robustness metrics are poor indicators of real-world adversarial performance (Paper I). 
+Through large-scale experiments, it further demonstrates that adversarial examples can often be generated in linear time, granting attackers a computational advantage over defenders (Paper II).
+To address this, a novel metric—the Training Rate and Survival Heuristic (TRASH)—was developed to predict model failure under attack and facilitate early rejection of vulnerable architectures (Paper III).
+This metric was then extended to real-world cost, showing that adversarial robustness can be improved using low-cost, low-precision hardware without sacrificing accuracy (Paper IV).
 
-Paper II builds on this foundation by exploring the feasibility of massively parallel adversarial attacks, showing that attackers can often operate in linear time, granting a computational advantage over traditional model training methods that routinely take much longer. 
-Paper III introduces a novel metric, the training rate and survival heuristic (TRASH score), to quantify model robustness in terms of survival time under attack, enabling rapid rejection of insecure model configurations.
+Beyond robustness, the thesis tackles privacy by designing a lightweight, client-side spam detection model that preserves user data and resists several classes of attacks without requiring server-side computation (Paper V).
+Recognizing the need for reproducible and auditable experiments in safety-critical contexts, the thesis also develops \texttt{deckard}, a declarative pipeline framework for distributed and robust machine learning experimentation (Paper VI).
 
-Paper IV expands the TRASH heuristic to include cost-awareness, demonstrating that adversarial robustness can be improved with low-cost, low-precision hardware, and that models trained for dollars can often be compromised for pennies. 
+Together, these contributions offer empirical techniques for evaluating and improving model robustness, propose a privacy-preserving classification strategy, and deliver practical tooling for reproducible experimentation. 
+Ultimately, this thesis advances the goal of building machine learning systems that are not only accurate, but also private, robust, reproducible, and trustworthy.
 
-Paper V addresses privacy concerns by presenting a privacy-preserving distance metric that avoids server-side processing and leverages client-only data. 
-This model design is intentionally robust to several classes of attacks against ML models, offering a lightweight and secure alternative to traditional spam detection systems.
+\end{abstract}
 
-Finally, Paper VI introduces deckard, a declarative pipeline framework for safety-critical machine learning. 
-This tool enables reproducible, distributed experimentation with arbitrary software and hardware configurations and supports robustness evaluation natively---bridging the gap between theory, experimentation, and compliance with emerging regulatory standards.
-
-Together, these papers provide a coherent body of work that addresses not only how and why machine learning systems fail under adversarial conditions, but also how to design, test, and deploy systems that are resilient, privacy-preserving, and robust.
