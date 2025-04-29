@@ -1,0 +1,57 @@
+schema: '2.0'
+stages:
+  git_clone_papers@0:
+    cmd: git clone https://github.com/simplymathematics/Safety-Critical-Computer-Vision.git
+      papers/paper_one && rm -rf papers/paper_one/.dvcignore
+    deps:
+    - path: https://github.com/simplymathematics/Safety-Critical-Computer-Vision.git
+      hash: md5
+      checksum: W/"a27fa821035bb4e0b646af18bc97497f"
+    outs:
+    - path: papers/paper_one
+      hash: md5
+      md5: 0428a09f1fce435ce3d4e31e576cfb31.dir
+      size: 1917164
+      nfiles: 27
+  git_clone_papers@1:
+    cmd: git clone https://github.com/simplymathematics/KDD-Paper-EAI-AISEC.git papers/paper_two
+      && rm -rf papers/paper_two/.dvcignore
+    deps:
+    - path: https://github.com/simplymathematics/KDD-Paper-EAI-AISEC.git
+      hash: md5
+      checksum: W/"af42a675b982d3a213f0c2d936167cc6"
+    outs:
+    - path: papers/paper_two
+      hash: md5
+      md5: 05707505f33da75b3e7534af90375e52.dir
+      size: 5272346
+      nfiles: 55
+  git_clone_papers@2:
+    cmd: git clone https://github.com/simplymathematics/ml_afr.git papers/paper_three
+      &&  rm -rf papers/paper_three/.git &&  rm -rf papers/paper_three/.github &&
+      rm -rf papers/paper_three/.gitignore  rm -rf papers/paper_three/.dvc rm -rf
+      papers/paper_three/.dvcignore
+    deps:
+    - path: https://github.com/simplymathematics/ml_afr.git
+      hash: md5
+      checksum: W/"4f46220a27c158590dfe5a16205d09f7"
+    outs:
+    - path: papers/paper_three
+      hash: md5
+      md5: 49377e38b12fff35d8b0f65729e1018a.dir
+      size: 1409252
+      nfiles: 60
+  git_clone_papers@3:
+    cmd: git clone https://github.com/simplymathematics/kepler-ml.git papers/paper_four
+      &&  rm -rf papers/paper_four/.git &&  rm -rf papers/paper_four/.github && rm
+      -rf papers/paper_four/.gitignore  rm -rf papers/paper_four/.dvc rm -rf papers/paper_four/.dvcignore
+    deps:
+    - path: https://github.com/simplymathematics/kepler-ml.git
+      hash: md5
+      checksum: W/"063e10148625b6199862729d4db1145f"
+    outs:
+    - path: papers/paper_four
+      hash: md5
+      md5: a4aab9b3a489dd75e98cfe4e3c22beed.dir
+      size: 369168069
+      nfiles: 178
