@@ -1,0 +1,21 @@
+stages:
+  git_clone_papers:
+    foreach:
+      - path: paper1
+        url : https://github.com/simplymathematics/Safety-Critical-Computer-Vision.git
+      - path:  paper2
+        url : https://github.com/simplymathematics/KDD-Paper-EAI-AISEC.git
+      - path:  paper3
+        url: https://github.com/simplymathematics/ml_afr.git
+      - path:  paper4
+        url: https://github.com/simplymathematics/kepler-ml.git
+      - path:  paper5
+        url: https://github.com/simplymathematics/Gzip-KNN.git
+      - path:  paper6
+        url: https://github.com/simplymathematics/deckard_paper.git
+    do: 
+      desc:
+        Cloning from url into path
+      cmd: >-
+        ((git submodule add ${item.url} ${item.path}) || (echo ${item.path} already exists)) &&
+        git submodule update --init --recursive --remote &&  echo ${item.path} is up-to-date.
