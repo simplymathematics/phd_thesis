@@ -1,10 +1,10 @@
 \chapter{Verification and Validation}
 \label{ch:vnv}
 The previous chapters introduced the ML pipeline, outlined the regulations that govern safety and privacy, examined some particular ML models, and outlined a very real threat model against them in the form of attacks. 
-In contrast, this chapter
-Verification and validation is the general idea that the likelihood of failures can be modelled and that a component can be audited using these models to verify whether or not it is legally ``safe.'' 
-These can broadly be classed into several categories: formal verification, simulation, empirical modelling, and static or dynamic analysis.
-Fields like aviation, automotive, and medicine deploy some combination of these to mitigate and control risk on a daily basis.
+In contrast, this chapter discusses ways in which this thesis adheres to and promotes best practices for reproducibility and auditability.
+Verification and validation (V\&V) broadly refers to the processes used to ensure that a system meets its requirements and behaves safely and reliably under expected--and unexpected-- conditions.
+V\&V methods can broadly be classed into several categories: formal verification, simulation, empirical modelling, and static or dynamic analysis.
+Fields like aviation, automotive, and medicine deploy some combination of these to mitigate and control risks on a daily basis.
 
 
 \section{Formal Verification}
@@ -12,8 +12,8 @@ Formal verification is a method of mathematically proving the correctness of a s
 Unlike simulation, which tests a system under selected scenarios, formal verification attempts to exhaustively prove that certain properties (\textit{e.g.}, safety, robustness, or correctness) always hold, regardless of the input or system state. 
 This makes it especially attractive in systems where failure is catastrophic and exhaustive testing is infeasible.
 
-The strength of formal verification lies in its guarantees: if a property is proven, it holds for all cases within the bounds of the model. 
-However, this rigour comes with significant cost and complexity. 
+The strength of formal verification lies in its guarantees: if a property is proven, it holds for all cases within the bounds of the assumptions made. 
+However, this rigour comes with significant costs and complexity. 
 Creating formal specifications requires a precise and often abstract understanding of the system, and the proofs themselves can be highly non-trivial, requiring expert knowledge and substantial computational resources~\cite{formal_adversarial,vehicle_formal}.
 
 One landmark example of formal verification is the CompCert C compiler, which has been formally verified to produce assembly code that is functionally equivalent to its source code~\cite{leroy2009formally}. 
@@ -22,87 +22,102 @@ In medical devices, formal verification has been applied to implantable cardiac 
 Research efforts, such as those by Jiang et al.~\cite{jiang2012modeling}, have demonstrated how formal models of pacemaker logic can be verified to ensure the device will never enter dangerous states, even under extreme timing conditions or unexpected cardiac rhythms.
 
 In the domain of machine learning, formal verification is becoming increasingly relevant as ML models are being deployed in safety-critical applications such as autonomous vehicles, medical diagnostics, and security systems. 
-Verifying the correctness of ML models with respect to a formal specification presents unique challenges compared to traditional software systems. U
-Unlike conventional software, ML models are typically data-driven and may exhibit unpredictable behaviour due to the complex nature of their learned representations. 
+Verifying the correctness of ML models with respect to a formal specification presents unique challenges compared to traditional software systems. Unlike conventional software, ML models are typically data-driven and may exhibit unpredictable behaviour due to the complex nature of their learned representations. 
 Despite these challenges, researchers have developed techniques for formal verification of certain aspects of ML models, such as ensuring robustness to adversarial attacks or proving the correctness of a model’s decision-making process in specific environments. 
 While the field is still in its infancy, work has been done in verifying neural networks' robustness to adversarial perturbations and ensuring that certain fairness constraints are met during the learning process~\cite{formal_adversarial}.
 However, these formal methods can be computationally infeasible or altogether useless during model selection~\cite{vehicle_testing_review}.
 
 As ML models continue to play a larger role in critical applications, the need for formal verification to guarantee their reliability and safety will only grow.
-While formal verification guarantees the correctness of a system through mathematical proofs, simulation provides a way to build trust in complex systems before they are deployed.
+While formal verification guarantees the correctness of a system through mathematical proofs, simulation provides a way to find how common error states and other extreme conditions are.
 
 
 \section{Simulation}
 Simulation is a powerful verification technique in which complex systems are modelled and tested under a variety of conditions before real-world deployment. These techniques are especially prominent in high-stakes domains such as aerospace, automotive safety, and medical science, where real-world testing is expensive, dangerous, or ethically challenging.
 
-In the aerospace industry, simulation is integral to the development and certification of aircraft. One well-known example is the Boeing 777, which was the first commercial aircraft to be entirely designed using computer-aided design (CAD) and simulation tools, minimizing the need for physical prototypes~\cite{boeing777}.
+In the aerospace industry, simulation is integral to the development and certification of an aircraft. 
+One well-known example is the Boeing 777, which was the first commercial aircraft to be entirely designed using computer-aided design (CAD) and simulation tools, minimizing the need for physical prototypes~\cite{boeing777}.
 It is also famous for being the first ``fly-by-wire'' system where manual pilot input was replaced with electrical signals and onboard computers which forced the industry to simulate physical interactions in software to ensure safety~\cite{boeing777}.
 
 In automotive engineering, crash simulations are widely used to complement physical crash testing. 
-However, these simulations often rely on models based on the 50th percentile male body, leading to safety designs that disproportionately protect average-sized men. Research has shown that women are significantly more likely to suffer injury in car crashes due to this bias in crash test dummies and the resulting simulations~\cite{crashgenderbias}.
+However, these simulations often rely on models based on the median male body, leading to safety designs that disproportionately protect average-sized men. Research has shown that women are significantly more likely to suffer injury in car crashes due to this bias in crash test dummies and the resulting simulations~\cite{crashgenderbias}.
 
 Similarly, in medical science, simulations of drug interactions or disease progression are often built from datasets that over-represent male physiology~\cite{merone2022sex}. 
 This has led to a ``male body problem'' in medical research, where treatments may be less effective or riskier for women. 
-Additionally, statistical simulations in clinical trials often rely heavily on p-values, which can misrepresent the reliability of results when not properly contextualized—known as the p-value problem~\cite{goodman1993p}.
+Additionally, statistical analyses in clinical trials often rely heavily on p-values, which can misrepresent the reliability of results when not properly contextualized---known as the p-value problem~\cite{goodman1993p}.
 
 Unlike physical systems that are governed by well-known physical laws, many ML models can be hard to explain or interpret~\cite{explainable}. 
 By harnessing adversarial attacks to simulate worst-case samples, model builders can test the robustness and reliability of machine learning systems under extreme or intentionally challenging conditions.
 Adversarial simulation involves creating perturbed inputs that are specifically designed to cause model failures, revealing vulnerabilities that may not appear under standard testing conditions~\cite{fgm}.
 This approach enables practitioners to stress-test models systematically before they are deployed in the real-world. 
-However, there is a data-driven approach that relies on real-world experimentation.
+However, there is a data-driven approach that relies on real-world experimentation call.
 
 \section{Empirical Modelling}
 
-Empirical models can take various forms, such as statistical models, ML models (Chapter 3), or system dynamics models (\textit{e.g.} structural or mechanical engineering). 
+Empirical models can take various forms, such as statistical models, ML models (Chapter 3), or system dynamics models (\textit{e.g.} structural or mechanical engineering~\cite{structural_eng}). 
 For example, a simple statistical model is the exponential distribution, which is often applied in reliability engineering to model the time between events in systems that experience a constant failure rate over time.
-The exponential distribution is characterized by a single parameter, $\lambda$, which represents the rate of failure (or one divided by the mean time between events). 
-Its probability density function (PDF) is given by: 
-\begin{equation*}
-f(t) = \lambda e^{-\lambda t}~\textrm{~when~}t\geq 0
-\end{equation*}
-where $f(t)$ is a function of some time $t$ and $\lambda$ is the failure rate~\cite{stats}.
-In real-world complex systems other methods are used to estimate the real-world likelihood of failure~\cite{collett2023modelling}.
+A classic example from reliability engineering is the exponential distribution, which models the time between failures in systems that exhibit a constant failure rate. 
+This distribution is defined by a single parameter, $\lambda$, the rate of failure (or the inverse of the mean time between failures). 
+Its probability density function (PDF) is:
+
+\begin{equation*} f(t) = \lambda e^{-\lambda t} \quad \text{for } t \geq 0, \end{equation*}
+
+where $f(t)$ denotes the likelihood of failure at time $t$. 
+While analytically simple, this model assumes a constant hazard rate, which is often unrealistic for complex systems.
+
+More flexible are survival models, which do not assume a constant failure rate and are therefore better suited for modelling the complex relationship between times, cost, and robustness.
+These models are explored in detail in Paper~III, where survival time is used as a proxy for model robustness, and in Paper~IV, which employs accelerated failure time (AFT) models to analyse adversarial robustness across neural networks trained on different hardware architectures.
+
+In an AFT model, the log of survival time is modelled as a linear function of covariates:
+
+\begin{equation*} 
+\log(T) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k + \varepsilon, \end{equation*}
+
+where $T$ is the survival time, $x_i$ are covariates (e.g., model depth, learning rate, hardware type), $\beta_i$ are model coefficients, and $\varepsilon$ is a random error term. This allows interpretation of covariates as multiplicative effects on the survival time, offering a more intuitive understanding of robustness under adversarial pressure.
 
 Survival models play a critical role across a range of domains where understanding time-to-event behaviour is essential. 
-In medicine, survival analysis is extensively used in clinical trials and epidemiological studies to model patient survival times, time until disease recurrence, or time to recovery~\cite{aft_models}. 
+In medicine, survival analysis is extensively used in epidemiological studies to model patient survival times, time until disease recurrence, or time to recovery~\cite{aft_models}. 
 In medicine, covariates such as age, treatment type, genetic markers, and co-morbidities are incorporated to estimate patient-specific risks and guide personalized treatment strategies~\cite{aft_models}. 
 In the automotive domain, survival models help assess the reliability and durability of components, such as engines, brake systems, and electrical subsystems. 
 By analysing failure times under different usage conditions and environments, manufacturers can improve design, schedule preventive maintenance, and optimize warranty policies~\cite{automotive_survival}. 
 In aircraft design, survival analysis informs the estimation of failure probabilities for critical components under stress, load, and fatigue over time~\cite{aircraft_survival}. 
 These models support decisions in structural engineering, maintenance scheduling, and certification by regulatory authorities to ensure high standards of safety and reliability throughout the aircraft’s operational lifecycle~\cite{aircraft_survival}.
 
-As opposed to the simple exponential distribution discussed above which provides a way to estimate the time-to-failure when the failure rate is constant, survival models do not assume a constant rate of failure.
-Survival models are discussed in depth in Paper III, and Paper IV employs accelerated failure time models to model the adversarial failure rate of several neural networks trained on one of several different pieces of hardware.
-Furthermore, ML models more generally are used in all of the papers. 
 
 \section{Static and Dynamic Analysis}
 
-When building a bridge, static analyses are used to estimate the forces acting on a component when no acceleration is experienced by the component and dynamic analyses are used to estimate forces when acceleration is experienced~\cite{structural_eng}.
+When building a bridge, static analyses are used to estimate the forces acting on a component when a part is not moving and dynamic analyses are used to estimate forces when acceleration is experienced~\cite{structural_eng}.
 This same metaphor can be applied to software development---where static analysis examines code for errors, vulnerabilities, and compliance issues without executing it~\cite{beller2016analyzing}, while dynamic analysis tests and monitors the software during runtime to uncover defects that only appear during execution~\cite{ball1999concept}. 
+These two approaches were applied throughout this thesis to ensure the correctness, reliability, and reproducibility of the developed software and experimental results.
 
-In automotive or aviation, physical components such as engines, control surfaces, or braking systems are subjected to both static and dynamic analyses to verify their integrity under both constant and changing loads; similarly, embedded software controlling these components undergoes static analysis to catch coding errors early and dynamic analysis to validate behaviour under real-world operational conditions~\cite{boeing777}.
-In medical or banking software, static analysis is critical to ensure compliance with regulatory standards like HIPAA or PCI DSS by identifying security vulnerabilities and logical errors before deployment, while dynamic analysis is employed to validate the correctness, reliability, and security of live systems handling sensitive patient or financial data~\cite{jetley2008static,kuncoro2017mobile}.
+In automotive or aviation, physical components such as engines, control surfaces, or braking systems are subjected to both static and dynamic analyses to verify their integrity under both constant and changing loads. Similarly, embedded software controlling these components undergoes static analysis to catch coding errors early and dynamic analysis to validate behaviour under real-world operational conditions~\cite{boeing777}.
+In medical or banking software, static analysis is critical to ensure compliance with regulatory standards like HIPAA or GDPR by identifying security vulnerabilities and logical errors before deployment, while dynamic analysis is employed to validate the correctness, reliability, and security of live systems handling sensitive patient or financial data~\cite{jetley2008static,kuncoro2017mobile}.
 
-Throughout this thesis, static analyses in the form of pre-commit hooks were used to ensure code quality, consistency, and the early detection of potential errors before code was committed to the version control system. Pre-commit hooks are automated scripts that run a set of checks---such as linting, formatting enforcement, or static code analysis---each time a developer attempts to make a change to the source code, effectively acting as a gatekeeper to prevent problematic code from entering the codebase~\cite{precommit}.
-In addition, functional and integration tests were used to conduct dynamic analyses of the software components developed. Functional tests verify that individual functions or features perform as expected when executed and integration tests, on the other hand, validate that different modules or services interact correctly and robustly when combined, ensuring that defects that only emerge from complex system interactions are detected and addressed during runtime~\cite{wang2006software}.
+Throughout this thesis, static analyses in the form of pre-commit scripts~\cite{precommit} and unit tests~\cite{testautomation} were used to ensure code quality, consistency, and the early detection of potential errors before code was used for experimentation as well as in the generation of the included papers. 
+Pre-commit hooks are automated scripts that run a set of checks---such as linting, formatting enforcement, or static code analysis---each time a developer attempts to make a change to the source code, effectively acting as a gatekeeper to prevent problematic code from entering the codebase~\cite{precommit}.
+All papers were formatted for consistency in this way and all source code was evaluated for things like unreachable code, undeclared variables, and un-tested functions.
+In addition, functional and integration tests were used to conduct dynamic analyses of the software components developed. 
+Functional tests verify that individual functions or features perform as expected when executed and integration tests, on the other hand, validate that different modules or services interact correctly and robustly when combined, ensuring that defects that only emerge from complex system interactions are detected and addressed during runtime~\cite{wang2006software}.
+Furthermore, each paper and the source code for the experiments has been made available as part of the software package described in Paper VI thus ensuring that anyone can verify and validate the findings presented in this thesis. 
 
-
-\section{Trust}
+\section{Accuracy is Not Enough}
 
 As we move from modelling individual components to reasoning about system-level reliability, a more fundamental question arises: ``how can we trust complex systems whose behaviours are shaped by large-scale, opaque, and data-dependent models?''
 
-Historically, marginal gains in model performance have come at the cost of exponentially larger models~\cite{desislavov2021compute}. These models require increasingly vast datasets~\cite{desislavov2021compute,vapnik1994measuring,blumer1989learnability}, which are often drawn from a narrowing range of sources~\cite{koch2021reduced}. 
-This concentration introduces critical risks, including gender bias~\cite{lu2020gender}, racial discrimination~\cite{buolamwini2018gender}, and fatal design flaws~\cite{banks2018driver}. 
-These concerns are not new~\cite{corsaro1982something, ramirez2000resource, buolamwini2018gender}; they echo through decades of evidence showing higher fatality rates for female-bodied individuals in car accidents~\cite{evans2001gender}, or neural networks that inadvertently encode racial information from medical images alone~\cite{gichoya2022ai}.
+Historically, marginal gains in model performance have come at the cost of exponentially larger models~\cite{desislavov2021compute}. 
+Large models require increasingly vast datasets~\cite{desislavov2021compute,vapnik1994measuring,blumer1989learnability}, which are collected, catalogued, distributed by narrowing number of elite and well-funded institutions~\cite{koch2021reduced}. 
+By amplifying systematic biases, this concentration introduces critical risks, including gender bias~\cite{lu2020gender}, racial discrimination~\cite{buolamwini2018gender}, and fatal design flaws~\cite{banks2018driver}. 
+These concerns are not new~\cite{corsaro1982something, ramirez2000resource, buolamwini2018gender}; they echo through decades of evidence showing higher fatality rates for female-bodied individuals in car accidents~\cite{evans2001gender}, or neural networks that inadvertently encode racial information from medical images ~\cite{gichoya2022ai}.
 
 Beyond social and ethical implications, data collection and labelling for machine learning itself introduces a host of practical concerns. 
-It is expensive~\cite{roh2019survey}, raises significant privacy issues~\cite{bloom2017self}, extends time-to-market~\cite{lam2004new}, and slows innovation~\cite{zirger1996effect}. 
+It is expensive~\cite{roh2019survey}, raises significant privacy issues~\cite{bloom2017self}, extends time-to-market~\cite{lam2004new}, slows innovation~\cite{zirger1996effect}, and relies on vast numbers of outsourced workers~\cite{ai_inequity}.
 Worse still, performance metrics in machine learning often paint an overly optimistic picture~\cite{madry2017towards,croce2020reliable}. 
 As researchers have noted~\cite{madry2017towards, carlini_towards_2017,croce_reliable_2020,meyers}, traditional test/train evaluation only uncovers failures within the training distribution which leaves models vulnerable to catastrophic failures when deployed in the real world.
 
 To build truly trustworthy systems, model builders must go beyond conventional benchmarks and provide strong, actionable guarantees. 
-These guarantees must address the practical, social, and technical limitations outlined above—and they must do so efficiently. 
+These guarantees must address the practical, social, and technical limitations outlined above--—and they must do so efficiently. 
 In particular, we need rigorous, cost-effective methods for verifying model behaviour under diverse and challenging conditions, ideally fast enough to be integrated into development feedback loops and used in simulation, rather than relying on deployment in real-world systems like autonomous vehicles, delivery drones, or manufacturing robots.
+
+Papers I and II examines the run-time and efficacy of several adversarial attacks and model defences in an effort to find which defences are trustworthy.
 Paper III presents a metric for quantifying the trust of a model against a given set of attacks and Paper IV uses this to build models that are not only more trustworthy, but also more power and cost efficient. 
 Paper V then outlines a model that aims to keep user data private and thus be more trustworthy by default. 
 Finally, Paper VI outlines a safety-critical framework for ML verification and validation and presents the software tooling required to not only reproduce the work included in this thesis, but to conduct the same type of massive and rigorous evaluations of any ML model trained on any dataset.
