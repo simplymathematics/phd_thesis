@@ -3,7 +3,7 @@
 
 In security research, it is commonplace to discuss a system's safety in terms of a \textit{worst-case scenario} that assumes that attackers are maximally knowledgable, well-resourced, and highly motivated~\cite{nist_antivirus}. 
 While these assumptions might seem extreme, for complex and opaque systems like ML models, this worst-case evaluation is useful for understanding weaknesses and flaws in ML pipelines and critical for highlighting edge-case failures that would otherwise be unforeseen.
-However, in the context of ML, those unforeseen edge cases \textit{can} be simulated using the aforementioned adversarial attacks.
+However, in the context of ML, those unforeseen edge cases \textit{can} be simulated using the aforementioned adversarial attacks---where a malicious user induces unintended behaviour of an ML model.
 
 \section{Computer Security}
 
@@ -60,6 +60,9 @@ Post-deployment attacks, including model extraction and membership inference att
 Given this fluid escalation of attacker knowledge and capabilities, it is crucial that threat models are explicitly stated and considered throughout the design, evaluation, and deployment of ML systems.
 
 Furthermore, by designing systems that are robust to attacks, we can ensure models that are safer, more private, and more reliable across all use cases and diverse users and bystanders.
+Papers I and II develop this thinking. 
+Papers III and IV formalise risk analysis for adversarial attacks. 
+Paper V proposes a model that is safer-by-design and Paper VI presents a software framework for incorporating these evaluations into all ML pipelines.
 
 
 \subsection{Extraction Attacks}

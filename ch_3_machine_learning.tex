@@ -48,7 +48,9 @@ These kernel SVM models are used in Papers II and V.
 
 \section{Neural Networks}
 Neural networks are another class of ML models that can be both parametric~\cite{parametric_neural_network} and non-parametric~\cite{non_parametric_neural_network}. 
-A neural network can be illustrated of as a graph composes of nodes that are connected by edges, composed of an input layer, one or more ``hidden'' layers that perform non-linear operations on the input data, and an output layer returns a vector of probabilities or likelihoods (called a \textit{soft label}), or a series of binary classifications (called a \textit{hard label}). 
+A neural network can be viewed as a computational graph composed of layers of interconnected nodes. It learns representations of the input data in multiple stages: each hidden layer extracts features from the output of the previous layer, progressively building more abstract or complex representations. 
+The final layer typically maps this learned feature representation to an output using a standard machine learning model, such as a linear classifier or regression function.
+They often return a vector of probabilities or likelihoods (called a \textit{soft label}), or a series of binary classifications (called a \textit{hard label}). 
 Figure~\ref{fig:neural_network} depicts a simple neural network using circles to represent nodes, black lines to represent edges, and colour is used to identify input, hidden, and output layers. 
 
 \begin{figure}[!ht]
