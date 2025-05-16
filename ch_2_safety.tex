@@ -14,8 +14,8 @@ The National Highway and Transportation Administration in the United States esti
 Road design is only considered a factor in 1.6\% of cases~\cite{nhtsa}. 
 That is to say, the standards that govern the engineers behind car braking systems and road design are clearly working. 
 In the United States, many of these standards are defined by the National Institute of Standards and Technology (NIST), which is a US federal government agency~\cite{nist_summary}.
-The International Standards Organization (ISO) and the International Electrotechnical Commission (IEC) are non-governmental organizations, headquarted in Switzerland, that develops standards globally with the latter obviously focused on electronics and software. 
-These three organizations govern safety-critical products across many domains--- medical devices, industrial equipment, and consumer products designed for all manner of tasks. 
+The International Standards Organisation (ISO) and the International Electrotechnical Commission (IEC) are non-governmental organisations, headquarted in Switzerland, that develops standards globally with the latter obviously focused on electronics and software. 
+These three organisations govern safety-critical products across many domains--- medical devices, industrial equipment, and consumer products designed for all manner of tasks. 
 
 These regulations are discussed in the context of safety, security, privacy, and reliability before examining the specific requirements to verify and validate these properties. 
 In the broader context of this thesis, which aims to advance the trustworthiness of machine learning systems, it is essential to recognise that ML models—particularly those deployed in safety-critical domains—must be held to \textit{at least} the same rigorous standards that govern traditional technologies such as kitchen appliances, mobile phones, and auto-mobiles. 
@@ -116,8 +116,8 @@ That is, the test-case failure rate is an optimistic overestimate of the real-wo
 
 \section{Security}
 
-Like safety, security is subject to well-defined standards. These address both organizational practices and technical mechanisms. 
-For example, the ISO/IEC 27000-series focuses on information security management systems, helping organizations ensure secure development and operations by setting the best practices for \textit{threat modelling}, which is the process of outlining risks and specifying mitigation techniques (\textit{e.g.}, attacks and defences respectively).
+Like safety, security is subject to well-defined standards. These address both organisational practices and technical mechanisms. 
+For example, the ISO/IEC 27000-series focuses on information security management systems, helping organisations ensure secure development and operations by setting the best practices for \textit{threat modelling}, which is the process of outlining risks and specifying mitigation techniques (\textit{e.g.}, attacks and defences respectively).
 NIST Special Publication 800-53~\cite{todo} provides a catalogue of security and privacy controls, similar to the ISO27000 series of regulations. 
 IEC 18003 defines standards for cryptographic techniques, encryption algorithms, key management, and hashing.
 Notably, ML models are generally not considered cryptographically secure~\cite{abelson2021bugs}, which raises profound concerns about data and model privacy~\cite{todo} as these models are known to leak not only information about themselves~\cite{todo} but also information about the data used to train models~\cite{todo}.

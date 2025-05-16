@@ -1,10 +1,10 @@
 \chapter{Verification and Validation}
 \label{ch:vnv}
-The previous chapters introduced the ML pipeline, outlined the regulations that govern safety and privacy, examined some particular ML models, and outlined a very real threat model against them in the form of attacks. 
-In contrast, this chapter discusses ways in which this thesis adheres to and promotes best practices for reproducibility and auditability.
-Verification and validation (V\&V) broadly refers to the processes used to ensure that a system meets its requirements and behaves safely and reliably under expected--and unexpected-- conditions.
-V\&V methods can broadly be classed into several categories: formal verification, simulation, empirical modelling, and static or dynamic analysis.
-Fields like aviation, automotive, and medicine deploy some combination of these to mitigate and control risks on a daily basis.
+The previous chapters introduced the ML pipeline, outlined the regulations that govern safety and privacy, examined some particular ML models, and described a very real threat model against them in the form of attacks. 
+In contrast, this chapter discusses the ways in which this thesis adheres to and promotes best practices for reproducibility and auditability.
+Verification and validation (V\&V) broadly refers to the processes used to ensure that a system meets its requirements and behaves safely and reliably under expected-- and unexpected-- conditions.
+V\&V methods can broadly be classified into several categories: formal verification, simulation, empirical modelling, and static or dynamic analysis.
+Fields like aviation, automotive, and medicine use some combination of these to mitigate and control risks on a daily basis.
 
 
 \section{Formal Verification}
@@ -16,12 +16,12 @@ The strength of formal verification lies in its guarantees: if a property is pro
 However, this rigour comes with significant costs and complexity. 
 Creating formal specifications requires a precise and often abstract understanding of the system, and the proofs themselves can be highly non-trivial, requiring expert knowledge and substantial computational resources~\cite{formal_adversarial,vehicle_formal}.
 
-One landmark example of formal verification is the CompCert C compiler, which has been formally verified to produce assembly code that is functionally equivalent to its source code~\cite{leroy2009formally}. 
-In contrast to conventional compilers, which may contain bugs in optimization or code generation, CompCert offers mathematical guarantees of correctness, making it appealing for critical systems like avionics and medical devices.
+An important example of formal verification is the CompCert C compiler, which has been formally verified to produce assembly code that is functionally equivalent to its source code~\cite{leroy2009formally}. 
+In contrast to conventional compilers, which may contain bugs in optimisation or code generation, CompCert offers mathematical guarantees of correctness, making it appealing for critical systems such as avionics and medical devices.
 In medical devices, formal verification has been applied to implantable cardiac pacemakers, which must maintain life-critical timing constraints to not accidentally kill the person they are meant to help.
-Research efforts, such as those by Jiang et al.~\cite{jiang2012modeling}, have demonstrated how formal models of pacemaker logic can be verified to ensure the device will never enter dangerous states, even under extreme timing conditions or unexpected cardiac rhythms.
+Research efforts, such as those of Jiang et al.~\cite{jiang2012modeling}, have demonstrated how formal models of pacemaker logic can be verified to ensure that the device will never enter dangerous states, even under extreme timing conditions or unexpected cardiac rhythms.
 
-In the domain of machine learning, formal verification is becoming increasingly relevant as ML models are being deployed in safety-critical applications such as autonomous vehicles, medical diagnostics, and security systems. 
+In the domain of machine learning, formal verification is becoming increasingly relevant, as ML models are being deployed in safety-critical applications such as autonomous vehicles, medical diagnostics, and security systems. 
 Verifying the correctness of ML models with respect to a formal specification presents unique challenges compared to traditional software systems. Unlike conventional software, ML models are typically data-driven and may exhibit unpredictable behaviour due to the complex nature of their learned representations. 
 Despite these challenges, researchers have developed techniques for formal verification of certain aspects of ML models, such as ensuring robustness to adversarial attacks or proving the correctness of a model’s decision-making process in specific environments. 
 While the field is still in its infancy, work has been done in verifying neural networks' robustness to adversarial perturbations and ensuring that certain fairness constraints are met during the learning process~\cite{formal_adversarial}.
@@ -35,15 +35,15 @@ While formal verification guarantees the correctness of a system through mathema
 Simulation is a powerful verification technique in which complex systems are modelled and tested under a variety of conditions before real-world deployment. These techniques are especially prominent in high-stakes domains such as aerospace, automotive safety, and medical science, where real-world testing is expensive, dangerous, or ethically challenging.
 
 In the aerospace industry, simulation is integral to the development and certification of an aircraft. 
-One well-known example is the Boeing 777, which was the first commercial aircraft to be entirely designed using computer-aided design (CAD) and simulation tools, minimizing the need for physical prototypes~\cite{boeing777}.
+One well-known example is the Boeing 777, which was the first commercial aircraft to be entirely designed using computer-aided design (CAD) and simulation tools, minimising the need for physical prototypes~\cite{boeing777}.
 It is also famous for being the first ``fly-by-wire'' system where manual pilot input was replaced with electrical signals and onboard computers which forced the industry to simulate physical interactions in software to ensure safety~\cite{boeing777}.
 
 In automotive engineering, crash simulations are widely used to complement physical crash testing. 
-However, these simulations often rely on models based on the median male body, leading to safety designs that disproportionately protect average-sized men. Research has shown that women are significantly more likely to suffer injury in car crashes due to this bias in crash test dummies and the resulting simulations~\cite{crashgenderbias}.
+However, these simulations often rely on models based on the median male body, leading to safety designs that disproportionately protect average-sised men. Research has shown that women are significantly more likely to suffer injury in car crashes due to this bias in crash test dummies and the resulting simulations~\cite{crashgenderbias}.
 
 Similarly, in medical science, simulations of drug interactions or disease progression are often built from datasets that over-represent male physiology~\cite{merone2022sex}. 
 This has led to a ``male body problem'' in medical research, where treatments may be less effective or riskier for women. 
-Additionally, statistical analyses in clinical trials often rely heavily on p-values, which can misrepresent the reliability of results when not properly contextualized---known as the p-value problem~\cite{goodman1993p}.
+Additionally, statistical analyses in clinical trials often rely heavily on p-values, which can misrepresent the reliability of results when not properly contextualised---known as the p-value problem~\cite{goodman1993p}.
 
 Unlike physical systems that are governed by well-known physical laws, many ML models can be hard to explain or interpret~\cite{explainable}. 
 By harnessing adversarial attacks to simulate worst-case samples, model builders can test the robustness and reliability of machine learning systems under extreme or intentionally challenging conditions.
@@ -76,9 +76,9 @@ where $T$ is the survival time, $x_i$ are covariates (e.g., model depth, learnin
 
 Survival models play a critical role across a range of domains where understanding time-to-event behaviour is essential. 
 In medicine, survival analysis is extensively used in epidemiological studies to model patient survival times, time until disease recurrence, or time to recovery~\cite{aft_models}. 
-In medicine, covariates such as age, treatment type, genetic markers, and co-morbidities are incorporated to estimate patient-specific risks and guide personalized treatment strategies~\cite{aft_models}. 
+In medicine, covariates such as age, treatment type, genetic markers, and co-morbidities are incorporated to estimate patient-specific risks and guide personalised treatment strategies~\cite{aft_models}. 
 In the automotive domain, survival models help assess the reliability and durability of components, such as engines, brake systems, and electrical subsystems. 
-By analysing failure times under different usage conditions and environments, manufacturers can improve design, schedule preventive maintenance, and optimize warranty policies~\cite{automotive_survival}. 
+By analysing failure times under different usage conditions and environments, manufacturers can improve design, schedule preventive maintenance, and optimise warranty policies~\cite{automotive_survival}. 
 In aircraft design, survival analysis informs the estimation of failure probabilities for critical components under stress, load, and fatigue over time~\cite{aircraft_survival}. 
 These models support decisions in structural engineering, maintenance scheduling, and certification by regulatory authorities to ensure high standards of safety and reliability throughout the aircraft’s operational lifecycle~\cite{aircraft_survival}.
 

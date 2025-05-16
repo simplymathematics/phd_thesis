@@ -26,7 +26,7 @@ While much work has gone into evaluating the robustness for machine learning mod
 
 \subsection{Threat Model}
 \label{subsec:threat_model}
-In adversarial ML, a threat model characterizes the attacker’s knowledge, capabilities, and objectives. Understanding these aspects is essential for assessing system vulnerabilities and designing robust defences.
+In adversarial ML, a threat model characterises the attacker’s knowledge, capabilities, and objectives. Understanding these aspects is essential for assessing system vulnerabilities and designing robust defences.
 
 We begin by defining key terms related to attacker knowledge. 
 In a \textit{white-box} setting, the attacker is assumed to have full access to the model, including its architecture, parameters, and possibly the training data. 
@@ -38,7 +38,7 @@ The threat model also defines the attacker’s goals, \textit{e.g.}, targeted or
 Targeted attacks attempt to cause a specific behaviour, steering the model towards a particular incorrect output. 
 Untargeted attacks aim to induce any incorrect prediction, regardless of the output target. 
 Confidence reduction attacks seek to undermine the model’s certainty without necessarily changing its top prediction, degrading overall trust in the system.
-
+There are many more classes of attacks, and those are outlined in the subsections below.
 
 An important aspect of adversarial ML is that attacks can escalate a threat model from black-box assumptions toward white-box capabilities. 
 Even if an adversary initially has limited access to a model, techniques such as model extraction, inference, and membership attacks can allow them to progressively increase their knowledge.
@@ -53,7 +53,7 @@ Thus, in practice, the strict separation between black-box and white-box threat 
 Attackers may start with minimal assumptions but, through strategic queries and statistical analysis, gain detailed insight into the model, expanding their capabilities and increasing the severity of potential attacks.
 In short, ML does not make the training data or model parameters secure~\cite{abelson2021bugs}.
 
-Finally, attacks can be categorized based on the phase of the ML pipeline they target. 
+Finally, attacks can be categorised based on the phase of the ML pipeline they target. 
 Training-time attacks such as poisoning introduce malicious data during model development. 
 Inference-time attacks, such as evasion attacks, manipulate model inputs after deployment to induce misclassifications or large changes in a regression output. 
 Post-deployment attacks, including model extraction and membership inference attacks, aim to recover sensitive information or replicate the model through external interactions alone.
@@ -113,7 +113,7 @@ Beyond individual samples, poisoning can also operate at the feature or label le
 The threat of poisoning is exacerbated in distributed learning settings, such as federated learning, where training data is aggregated from many sources. 
 In these scenarios, malicious clients can upload poisoned updates without direct oversight, creating significant vulnerabilities~\cite{bagdasaryan2020backdoor}.
 
-Given the serious risks posed by poisoning attacks, research into robust training procedures—such as differential privacy, robust optimization, and certified defences—has grown rapidly in recent years~\cite{steinhardt2017certified,wang2022threats}. 
+Given the serious risks posed by poisoning attacks, research into robust training procedures—such as differential privacy, robust optimisation, and certified defences—has grown rapidly in recent years~\cite{steinhardt2017certified,wang2022threats}. 
 However, achieving strong resilience against poisoning attacks without sacrificing model performance remains an open problem.
 
 
@@ -124,9 +124,9 @@ Evasion attacks aim to manipulate input data during the inference phase to decei
 Evasion attacks vary largely by the optimisation criteria used to generate the adversarial examples.
 
 Some of the most prominent techniques involve crafting small, often imperceptible perturbations to the input data that cause the model to make incorrect predictions while leaving the data visually or semantically unchanged to a human observer. 
-Methods like the Fast Gradient Method (FGM)~\cite{fgm} and Projected Gradient Descent (PGD)~\cite{madry2017towards} craft perturbations by following the gradient of the loss function with respect to the input data, maximizing the model’s prediction error. 
+Methods like the Fast Gradient Method (FGM)~\cite{fgm} and Projected Gradient Descent (PGD)~\cite{madry2017towards} craft perturbations by following the gradient of the loss function with respect to the input data, maximising the model’s prediction error. 
 Other attacks, like DeepFool~\cite{deepfool}, seek minimal perturbations that move an input across the decision boundary.
 
-Beyond small perturbations, more conspicuous forms of evasion have also been studied, such as adversarial patches~\cite{adversarialpatch}, where localized and visible patterns placed on an object or image can reliably cause misclassification, regardless of the image they are applied to.
+Beyond small perturbations, more conspicuous forms of evasion have also been studied, such as adversarial patches~\cite{adversarialpatch}, where localised and visible patterns placed on an object or image can reliably cause misclassification, regardless of the image they are applied to.
 
 The feasibility of evasion attacks across a range of domains, including computer vision, cybersecurity, and natural language processing, highlights the pressing need for robust evaluation frameworks and defence mechanisms, such as adversarial training~\cite{madry2017towards} and certified defences~\cite{gowal2018effectiveness}.

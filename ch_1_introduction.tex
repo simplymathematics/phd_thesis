@@ -38,7 +38,7 @@ Furthermore, it has been shown that there's an inherent tension between the mode
 ML Models will, at best, obscure biased data behind opaque or hard-to-interpret decisions~\cite{buolamwini2018gender}.
 
 The inherent risks to user privacy~\cite{abelson2021bugs} and questionable ability of ML models to be safely deployed in the real-world~\cite{meyers,croce_reliable_2020,dohmatob_generalized_2019,meyers_aft,meyers} pose ongoing problems that have yet to be solved.
-In 1966, the ``Summer Vision Project" was designed to solve the problem of computer image-based classification at the Massachusetts Institute of Technology~\cite{summervision}; however, as recently as 2023, it was clear that ML systems ``consistently fail to meet established safety-critical standards by a wide margin''~\cite{meyers}, suggesting that the horizon of artificial intelligence is forever in the future.
+In 1966, the ``Summer Vision Project" was designed to solve the problem of computer image-based classification at the Massachusetts Institute of Technology~\cite{summervision}; however, as recently as 2023, it was clear that ML systems ``consistently fail to meet established safety-critical standards by a wide margin''~\cite{meyers}, suggesting that the horison of artificial intelligence is forever in the future.
 However, the intent of this text is not to be overly pessimistic. 
 Automated systems capable of learning have tremendous positive potential as well---from real-time translation and office-task automation to data-driven agriculture and reduced healthcare costs. 
 To put it simply, models deployed safely have the potential to improve or save human lives. 
@@ -66,7 +66,7 @@ Modern models can often outperform humans on specific tasks in which large amoun
 \subsection{Data Feminism}
 
 \textit{Feminism} in the words of famous scholar and feminist, Bell Hooks, is ``for all people, female and male, liberation from sexist role patterns, domination, and oppression''~\cite{hooks} and other authors highlight the need to focus on the intersection of categories like gender, class, sex, and race. 
-\textit{Intersectionality} is ``the means for dealing with other marginalizations as well.''~\cite{crenshaw}. 
+\textit{Intersectionality} is ``the means for dealing with other marginalisations as well.''~\cite{crenshaw}. 
 ``Data feminism", is a book by Catherine D'Ignazio and Lauren F. Klein~\cite{data_feminism}, but the framework it provides for thinking about the power relationships with data in the modern world can also be called \textit{data feminism}. 
 The central conceit of the book is something that is widely forgotten in the world of data science---that power and data are distributed unequally. 
 This is highlighted famously in a pair of studies by Joy Buolamwini~\textit{et al.}~\cite{buolamwini2018gender,raji2019actionable}.
@@ -94,7 +94,7 @@ In this thesis, we attempt to address the following research questions, each of 
     %  Trashfire
     \item[R3] How can we formalise the cost benefit relationship between robustness and particular choice of model?
     % A Cost-Aware approach (Cloud paper)
-    \item[R4] Can we extend the analysis in R3 to examine the relationship between power and robustness?
+    \item[R4] Can we extend the analysis in R3 to examine the relationship between cost and robustness?
     %  NCD Paper
     \item[R5] Is it possible to build a classifier that circumvents the inherent weaknesses of centralised training paradigms?
     %  Deckard Paper
@@ -108,7 +108,7 @@ In this thesis, we attempt to address the following research questions, each of 
 The generic template for a machine learning project is quite routine. 
 After the data has been collected and labelled, it is often split into ``training'' and ``testing'' sets. 
 The training set is used to learn characteristics of the data that can be used to make a decision on unseen (or testing) data using some (simplified) mathematical approximation of the real world (called a \textit{model}). 
-The central assumption is that performance on this test data will generalize to all unseen data. 
+The central assumption is that performance on this test data will generalise to all unseen data. 
 As such, test set accuracy is often used as a way to compare and benchmark models~\cite{croce2020robustbench,wang2019benchmarking}. 
 However, it has been shown many times that small changes in model input can result in drastic changes to the model output~\cite{hopskipjump,fgm,biggio_evasion_2013,carlini_towards_2017,deepfool,hopskipjump}. 
 If these perturbations are added intentionally, they are referred to as \textit{attacks}.  
@@ -140,12 +140,12 @@ In Paper II, in an effort to use the best-case dataset, myriad datasets were gen
 \begin{figure}
     \centering
     \centering
-    \includegraphics[width=.6\textwidth]{images/model_diagram.png}
+    \includegraphics[width=.6\textwidth]{images/model.png}
     \caption{
-    A typical machine learning pipeline begins with the selection of hyper-parameters. 
-    This selection usually occurs before the data is split into “train” and “test” sets, which are used to fit the model and evaluate its performance, respectively. 
-    Since modern models often have many such hyper-parameters, they are repeatedly trained and evaluated according to a chosen performance criterion, with the goal of identifying the best configuration for a given dataset.
-    Modern models typically have many configurable parameters and are repeatedly scored according to some criterion, with the goal of finding the best model for a particular dataset. 
+     Modern models typically have many hyper-parameters that must be configured by a model builder and internal parameters that are configured during model training through a chosen optimisation process and criterion.
+     A dataset is split is split into ``train'', ``test'', and sets, which are used to allow the model to learn patterns and evaluate model performance, respectively.
+     Models are repeatedly scored according to the chosen criterion, with the goal of finding the best model for a particular dataset. 
+     Another partition of the data, called the ``validation'' set (not pictured), is used to verify that this ``best-fit'' model will generalise to unseen data.   
     }
     \label{fig:model_pipeline}
 \end{figure}
@@ -160,7 +160,7 @@ While this modelling process aims to optimise performance on unseen data, it typ
 \label{subsec:methods-attacks}
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth]{images/attack_diagram.png}
+    \includegraphics[width=\linewidth]{images/attack.png}
     \caption{A typical machine learning threat model can be attacked in many ways.
     An attacker might use an inference attack to discover the training data or properties of it. 
     An attacker can use an extraction attack to reverse engineer model parameters and use an inversion attack to reverse engineer the decision boundary with an entirely different model. 
@@ -180,12 +180,26 @@ In poisoning attacks, the attacker intentionally injects malicious or manipulate
 Inference attacks exploit the model's output or responses to obtain sensitive information about the training data or other confidential details. By observing the model's predictions or confidence scores for carefully crafted inputs, attackers can extract information that was meant to be kept private \cite{chakraborty_adversarial_2018,orekondy2019knockoff}.
 Model inversion attacks (also called extraction attacks) aim to infer sensitive information about the training data or proprietary model by exploiting the model's outputs. Attackers utilise the model's responses to iteratively reconstruct or approximate training examples that are similar to the ones used during training \cite{chakraborty_adversarial_2018,choquette2021label,li2021membership}.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{images/defence.png}
+    \caption{
+    A typical machine learning model can be defended against an attacker in several ways. 
+    While these techniques are not always applied during the hyper-parameter tuning stage, their effect on the end user must nonetheless be considered. 
+    A retraining defence might include any of these strategies in addition to using attacks to generate samples. 
+    One can thing of Figure~\ref{fig:attack_pipeline} as the pipeline needed to conduct a retraining defence, assuming one labels and scores the attacked samples appropriately.
+    }
+    \label{fig:defence_pipeline}
+\end{figure}
+
+
+
 \subsection{Defences}
 Defences are techniques that are applied to models to mitigate the effects of attacks. 
 They come in several varieties, classed according to the model pipeline stage the effect. 
 Figure~\ref{fig:defence_pipeline} depicts how each stage interacts with the typical machine learning pipeline, described in Figure~\ref{fig:model_pipeline}.
 This might include adding some Gaussian noise to the data (\textit{pre-processing}) or model output (\textit{post-processing}) with the expectation that the model will be less sensitive to adversaries. 
-If the model-builder changes the input data (e.g. by adding or removing noise), then this is called a preprocessing defence. 
+If the model-builder changes the input data (e.g., by adding or removing noise), then this is called a preprocessing defence. 
 If the modeller changes a trained model with the expectation of more robust inference, then that is called a transformation defence. 
 A post-processing defence is when raw output of model inference is changed before being presented to a user. 
 Alternatively, known adversarial examples can simply be labelled appropriately and incorporated into a new generation of training data.
@@ -195,20 +209,6 @@ Other techniques try to detect malicious samples at run-time by examining the in
 The final category is adversarial retraining which uses attacks to create synthetic data before retraining the model on a dataset that includes the generated attacks.
 Paper II is focused on this technique and explains why it is not a feasible solution for models that are themselves expensive to train. 
 Several of these statistical defences are explored in Papers I-IV, while Paper V discusses a categorically different approach to reducing adversarial risk.
-
-
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.5\linewidth]{images/defence_diagram.png}
-    \caption{
-    A typical machine learning model can be defended against an attacker in several ways. 
-    While these techniques are not always applied during the hyper-parameter tuning stage, their effect on the end user must nonetheless be considered. 
-    A retraining defence might include any of these strategies in addition to using attacks to generate samples. 
-    One can thing of Figure~\ref{fig:attack_pipeline} as the pipeline needed to conduct a retraining defence, assuming one labels and scores the attacked samples appropriately.
-    }
-    \label{fig:defence_pipeline}
-\end{figure}
 
 
 

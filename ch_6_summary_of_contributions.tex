@@ -25,7 +25,7 @@ This paper raises questions about the cost of robustness in terms of both comput
 \vspace{1em}
 \noindent{}
 
-This paper formalizes a survival analysis method for machine learning applications that quantifies model robustness in terms of survival time. 
+This paper formalises a survival analysis method for machine learning applications that quantifies model robustness in terms of survival time. 
 By comparing this robustness measure to training time, a metric is introduced to quickly reject model architectures where the attacker has the advantage.
 This ratio is presented and dubbed the training rate and survival heuristic, or TRASH score. 
 The effect of training epochs and model depth on the ResNet model was examined across several benchmark image datasets to show that deeper models are not more robust.
@@ -66,13 +66,14 @@ By building a way to reliably reproduce ML experiments on arbitrary hardware pla
 Finally, to account for traditional metrics and various robustness criteria, the software can be used with a variety of multi-objective optimisation algorithms, attack classes, and scoring functions.
 In this paper, the software is outlined as a step towards explainable and robust AI.
 
+\newpage
 
 \section{Future Work}
 
 This thesis contributes to the nascent field of trustworthy machine learning by introducing empirical techniques for quantifying model robustness, proposing a privacy-preserving classification model, and providing a platform for reproducible experimentation. 
 Building on this foundation of safety and privacy, fairness and equity remain obvious next steps.
 One promising (but otherwise unexplored) direction is the detection and mitigation of demographic bias in both training and inference stages of ML systems.
-Time-to-failure (as outlined in Papers~III~\&~IV) can be used to find marginalised identities in a test set, and poisoning attacks could be used to generate synthetic data and mitigate the effects of this under-representation.
+Time-to-failure (as outlined in Papers~III~\&~IV) can be used to find under-represented subsets in a test set, and poisoning attacks could be used to generate synthetic data and mitigate the effects of this under-representation.
 By shifting from training-time interventions like poisoning attacks to run-time interventions like evasion, extraction, or inference attacks, this approach could potentially detect and mitigate sampling bias, sensor failure, or any other scenario that can be simulated at run-time.
 
 A second important direction is the development of certified robustness bounds that are grounded not only in adversarial threat models but also in fairness, privacy, and environmental metrics. 
@@ -85,8 +86,8 @@ Third, the work begun in \texttt{deckard} could be extended into a compliance la
 Embedding adversarial robustness, fairness diagnostics, and energy efficiency directly into the ML development pipeline could help bridge the gap between academic research and industrial and regulatory needs.
 
 Additionally, environmental sustainability must move from a passive reporting practice to an active optimisation target.
-This thesis outlined preliminary considerations for model cost-awareness, but future systems should incorporate carbon footprint, hardware lifespan, and resource consumption as first-class optimization objectives alongside traditional metrics like accuracy and throughput.
-Techniques like carbon-aware scheduling, model quantization, and lifetime-aware hardware selection present ripe opportunities for empirical study and real-world deployment.
+This thesis outlined preliminary considerations for model cost-awareness, but future systems should incorporate carbon footprint, hardware lifespan, and resource consumption as first-class optimisation objectives alongside traditional metrics like accuracy and throughput.
+Techniques like carbon-aware scheduling, model quantisation, and lifetime-aware hardware selection present ripe opportunities for empirical study and real-world deployment.
 
 Finally, a broader philosophical shift is required.
 While this thesis falls short of solving the problem of adversaries in ML systems, it is a step toward the deployment of ML systems that are not just accurate, but also responsible, private, reliable, secure, safe, and, above all, trustworthy.
