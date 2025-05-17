@@ -9,18 +9,12 @@
 \usepackage[final]{pdfpages}
 \usepackage{hyperref}
 \usepackage{subcaption}
-% \usepackage{subfigure}
-
 % Packages imported by you
 \usepackage{booktabs}
 \usepackage{csquotes}
 \usepackage{amsmath,amssymb}
 \usepackage{xcolor}
-\usepackage{lipsum}
-\setlipsum{%
-  par-before = \begingroup\color{gray},
-  par-after = \endgroup
-}
+\usepackage{textcomp} % To get the copyleft symbol
 % Library
 \usepackage[backend=biber]{biblatex}
 \usepackage{tikz}
@@ -30,12 +24,23 @@
 
 \graphicspath{{images/}}
 
-\input{thesis_other_chapters/commands}
 
+
+\input{thesis_other_chapters/commands}
 % ------------------------------------------------------
 % Begin document
 % ------------------------------------------------------
 \begin{document}
+
+% ------------------------------------------------------
+% Front cover
+% ------------------------------------------------------
+\input{thesis_other_chapters/front_cover}
+
+
+% ------------------------------------------------------
+% Pre-pages
+% ------------------------------------------------------
 \pagenumbering{roman}
 
 \input{thesis_other_chapters/titlepage}
@@ -88,5 +93,9 @@
 \input{papers/paper5}
 \input{papers/paper6}
 
+% ------------------------------------------------------
+%  Back Cover
+% ------------------------------------------------------
 
+\input{thesis_other_chapters/back_cover}
 \end{document}

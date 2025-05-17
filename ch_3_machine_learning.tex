@@ -1,21 +1,20 @@
 \chapter{Machine Learning}
 \label{ch:ml}
-Machine learning is a branch of mathematics and computer science that attempts to build models that can learn from data and/or generalise to unseen data to perform a task without explicit instructions, and the specific term dates back to (at least) 1959~\cite{samuel1959some}. 
+Machine learning is a branch of mathematics and computer science that attempts to build models that can learn from data and/or generalise to unseen data to perform a task without explicit instructions.
 For a full treatment of statistical learning theory, see ``Understanding Machine Learning''~\cite{shalev2014understanding}; here, a subset of models is introduced to illustrate key considerations and limitations.
 Figure~\ref{fig:data_model_comparison} provides a visualisation of the models discussed below and their efficacy on different types of data. 
 
 \begin{figure}[p]
     \centering
-    \includegraphics[width=.7\textheight, angle=90]{images/dataset_model_comparison.pdf}
+    \includegraphics[width=.95\textwidth]{images/dataset_model_comparison.pdf}
     \caption{
-    Each row depicts a different dataset where the values are classified into one of two classes, depicted by red or blue dots. 
-    The model's \textit{decision boundary} is depicted using the red and blue gradients with darker colours corresponding to a more confident decision. 
-    The first column depicts the raw input data and the true labels.
-    Each other columns depicts the prediction using colour.
-    The first 4 rows used generated two-dimensional data and the last row depicts a two-dimensional projection of the MNIST image dataset discussed in Section~\ref{subsec:methods-data} (since it would be impossible to plot the data in the 784 dimensions MNIST provides in the form of black and white pixels).
+    Each row depicts a different dataset where the values are classified into one of two classes, depicted by purple or orange dots and each column depicts a single dataset.
+    The model's \textit{decision boundary} is depicted using the purple and orange gradients with darker colours corresponding to a more confident decision. 
+    The first row depicts the raw input data and the true labels.
+    Each other row depicts the prediction using colour.
+    The first 4 columns used generated two-dimensional data and the last row depicts a two-dimensional projection of the MNIST image dataset discussed in Section~\ref{subsec:methods-data} (since it would be impossible to plot the data in the 784 dimensions MNIST provides in the form of black and white pixels).
     }
     \label{fig:data_model_comparison}
-    % \cm{todo: swap rows/columns, make full page, and update the caption accordingly}
 \end{figure}
 
 \section{Linear Regression}
@@ -48,7 +47,9 @@ These kernel SVM models are used in Papers II and V.
 
 \section{Neural Networks}
 Neural networks are another class of ML models that can be both parametric~\cite{parametric_neural_network} and non-parametric~\cite{non_parametric_neural_network}. 
-A neural network can be illustrated of as a graph composes of nodes that are connected by edges, composed of an input layer, one or more ``hidden'' layers that perform non-linear operations on the input data, and an output layer returns a vector of probabilities or likelihoods (called a \textit{soft label}), or a series of binary classifications (called a \textit{hard label}). 
+A neural network can be viewed as a computational graph composed of layers of interconnected nodes. It learns representations of the input data in multiple stages: each hidden layer extracts features from the output of the previous layer, progressively building more abstract or complex representations. 
+The final layer typically maps this learned feature representation to an output using a standard machine learning model, such as a linear classifier or regression function.
+They often return a vector of probabilities or likelihoods (called a \textit{soft label}), or a series of binary classifications (called a \textit{hard label}). 
 Figure~\ref{fig:neural_network} depicts a simple neural network using circles to represent nodes, black lines to represent edges, and colour is used to identify input, hidden, and output layers. 
 
 \begin{figure}[!ht]
@@ -97,23 +98,23 @@ Model architectures are sometimes chosen in an effort to model a particular biol
 
 \section{Loss}
 Regardless of the model, training it requires the definition of a loss function---a quantitative measure of how far the model’s output deviates from the expected result. 
-The choice of loss function is often dictated by the task at hand: for example, the cross-entropy loss is widely used for classification problems~\cite{shalev2014understanding} because it naturally penalizes confident but incorrect predictions; whereas mean squared error~(MSE)~\cite{stats} is commonly applied in regression tasks where the goal is to minimize the average squared difference between predicted and actual values. 
+The choice of loss function is often dictated by the task at hand: for example, the cross-entropy loss is widely used for classification problems~\cite{shalev2014understanding} because it naturally penalises confident but incorrect predictions; whereas mean squared error~(MSE)~\cite{stats} is commonly applied in regression tasks where the goal is to minimise the average squared difference between predicted and actual values. 
 More sophisticated loss functions can encode domain-specific requirements, such as robustness to outliers~\cite{zhang2015outlier}, uncertainty visualisation~\cite{model_uncertainty}, or fairness constraints~\cite{mehrabi2021survey}, and can be custom-designed to reflect complex trade-offs or safety margins.
 
-Furthermore, in domains such as healthcare, aviation, or autonomous systems, loss functions and optimization criteria may be carefully designed to reflect asymmetric costs of error~\cite{meyers2023safety}. 
-For instance, this might mean penalizing false negatives more heavily than false positives when a missed detection could result in harm than a false positive. 
+Furthermore, in domains such as healthcare, aviation, or autonomous systems, loss functions and optimisation criteria may be carefully designed to reflect asymmetric costs of error~\cite{meyers2023safety}. 
+For instance, this might mean penalising false negatives more heavily than false positives when a missed detection could result in harm than a false positive. 
 In other cases, this might mean providing mechanisms to notifying a user when a given classification is uncertain~\cite{model_uncertainty}.
 Nevertheless, even an excellent score on well chosen metric does not guarantee legally compliant performance in the presence of an adversary~\cite{meyers2023safety,meyers2024massively,trashfire,meyers_aft}, which are characterised further in Chapter~\ref{ch:adversaries}. 
 In addition to a well-chosen loss function, the optimisation algorithm must also be robust.
 
 \section{Optimisation}
-The optimisation process involves adjusting the model’s internal parameters—-typically numbered in the millions or even billions—-to minimize the chosen loss function across a given dataset. 
-This is most often done using stochastic gradient descent (SGD) or one of its many variants (\textit{e.g.}, Adam~\cite{adam}, RMSProp~\cite{rmsprop}, or Adadelta~\cite{adadelta}) which iteratively updates model parameters in the direction that minimises the chosen loss function by comparing model predictions to the ground truth.
+The optimisation process involves adjusting the model’s internal parameters—-typically numbered in the millions or even billions—-to minimise the chosen loss function across a given dataset. 
+This is most often done using stochastic gradient descent (SGD) or one of its many variants (e.g., Adam~\cite{adam}, RMSProp~\cite{rmsprop}, or Adadelta~\cite{adadelta}) which iteratively updates model parameters in the direction that minimises the chosen loss function by comparing model predictions to the ground truth.
 
-The optimization landscape of many ML models is highly non-convex---it often contains numerous local minima, saddle points, and flat regions. 
-In practice, modern optimization algorithms, combined with techniques like learning rate scheduling~\cite{learning_rate_scheduling}, regularization~\cite{xu2009robustness,jakubovitz2018improving,ross2018improving}, momentum~\cite{momentum}, and batch normalization~\cite{batch_normalisation}, enable effective navigation of this complex terrain. 
+The optimisation landscape of many ML models is highly non-convex---it often contains numerous local minima, saddle points, and flat regions. 
+In practice, modern optimisation algorithms, combined with techniques like learning rate scheduling~\cite{learning_rate_scheduling}, regularisation~\cite{xu2009robustness,jakubovitz2018improving,ross2018improving}, momentum~\cite{momentum}, and batch normalisation~\cite{batch_normalisation}, enable effective navigation of this complex terrain. 
 However, convergence to a low loss value does not necessarily imply generalisation to new data.
-As a result, the optimization process is closely tied to  the choice in validation metric~\cite{carlini2019evaluating} and techniques for measuring generalisation error like cross-validation scoring~\cite{shalev2014understanding} are used to ensure that the model not only performs well on training data but also works well \textit{in general}.
+As a result, the optimisation process is closely tied to  the choice in validation metric~\cite{carlini2019evaluating} and techniques for measuring generalisation error like cross-validation scoring~\cite{shalev2014understanding} are used to ensure that the model not only performs well on training data but also works well \textit{in general}.
 
 \section{The Ethics of ML}
 \label{sec:ethics}
@@ -149,7 +150,7 @@ Another author notes that many medical models do not convey uncertainty to users
 Unlike the experiments detailed in the included papers, many published ML papers are not reproducible~\cite{gundersen_reproducible,hutson2018reproduce,ciobanu2024reproducible,gundersen2022reproduce,medical_reproducibility}.
 Firstly, there is a problem of scale as ML research has increasingly shifted to industry due to the massive costs associated with training state-of-the-art models and employing the people capable of doing so~\cite{ahmed2023growing,jurowetzki2021privatization}. 
 This is in no small part due to the scale of both modern models and their associated datasets~\cite{desislavov2021compute,ai_power} which have grown in size~\cite{desislavov2021compute}.
-For example, commercially deployed image recognition systems and large-language models can cost millions of dollars of compute time to train~\cite{ai_cost_comparison}, making the reproduction of state-of-the-art research feasible for only a small number of organizations. 
+For example, commercially deployed image recognition systems and large-language models can cost millions of dollars of compute time to train~\cite{ai_cost_comparison}, making the reproduction of state-of-the-art research feasible for only a small number of organisations. 
 
 Even when model architectures are fully released, critical components can be omitted or under-specified---including details about training schedules, hyper-parameter selection, hardware or network configuration, and random seed initialisation~\cite{hutson2018reproduce,ciobanu2024reproducible,gundersen2022reproduce,medical_reproducibility,gundersen_reproducible}.
 Furthermore, many proprietary models are never released at all and the training data remains entirely private or protected by copyright, creating a performance gap between academic benchmarks and real-world implementations~\cite{ahmed2023growing,azarpromise}. 
@@ -160,10 +161,10 @@ Reproducibility is a prerequisite for trustworthy, reliable ML systems and datas
 \subsection{Bias}
 \label{subsec:bias}
 Some authors~\cite{birhane2021algorithmic} recommend a set of ethics that centres machine learning research on groups mostly likely to be adversely effected. 
-However, since these groups tend to be marginalised or statistical outliers compared to dominant groups, since these groups may represent only a small proportion of the training data, standard machine learning optimizations that minimize average loss naturally focus on the dominant majority, exacerbating disparities in safety and service~\cite{buolamwini2018gender}.
+However, since these groups tend to be marginalised or statistical outliers compared to dominant groups, since these groups may represent only a small proportion of the training data, standard machine learning optimisations that minimise average loss naturally focus on the dominant majority, exacerbating disparities in safety and service~\cite{buolamwini2018gender}.
 
 ML systems can inherit and amplify biases present in their training data or in the design decisions made by human creators~\cite{bungert2023understanding,raji2019actionable}. 
-These biases may manifest as systematic errors or unfair outcomes, such as unequal treatment across demographic groups, because the models optimize for patterns present in the data without an understanding of fairness or ethics~\cite{van2021fairness,van2021fairness,corbett2018measure}.
+These biases may manifest as systematic errors or unfair outcomes, such as unequal treatment across demographic groups, because the models optimise for patterns present in the data without an understanding of fairness or ethics~\cite{van2021fairness,van2021fairness,corbett2018measure}.
 For example, crash safety models historically based on the 50th percentile male body standard have resulted in vehicle designs that provide significantly less protection for female-bodied individuals, contributing to higher rates of injury and fatality for female-bodied people in car accidents~\cite{evans2001gender}. 
 In ML, researchers found neural networks that unintentionally detect self-reported racial information through methods they were unable to explain ``either by spatial location, in the frequency domain, or that were caused by common anatomic and phenotype confounders associated with racial identity''~\cite{gichoya2022ai}.
 Nevertheless, the problems of bias are not intractable. 
@@ -189,12 +190,12 @@ Even when models make their users fully aware of their limitations, the models c
 
 The development, training, and deployment of modern machine learning models demand enormous computational and data resources, which in turn translate to high energy consumption~\cite{ai_power}, hardware waste~\cite{ai_environment}, and broader sustainability challenges~\cite{ai_water,indian_point}.
 Furthermore, data collection can be very costly~\cite{roh2019survey}, increases development time~\cite{lam2004new}, and makes it harder to verify a product~\cite{zirger1996effect}. 
-As machine learning systems continue to scale in complexity and deployment, their environmental impact has become a growing concern among researchers~\cite{ai_power,power_consumption_ai}, policymakers~\cite{indian_point}, and practitioners~\cite{li2023clover}. 
+As machine learning systems continue to scale in complexity and deployment, their environmental impact has become a growing concern among researchers~\cite{ai_power}, policymakers~\cite{indian_point}, and practitioners~\cite{li2023clover}. 
 While the societal benefits of ML are allegedly significant, they come at a substantial ecological cost that is often under-reported and poorly accounted for in system evaluations.
 
 These training runs can span days~\cite{vgg}, weeks~\cite{resnet}, or even months~\cite{llama} across thousands of high-performance GPUs, consuming megawatt-hours of electricity and contributing significantly to carbon emissions~\cite{strubell2020energy}. 
 For example, the training of a single large language model has been estimated to emit as much carbon as five average American cars over their entire lifetimes~\cite{strubell2020energy}. 
-As models become larger and more capable, their environmental footprint continues to grow unless mitigated by advances in hardware efficiency, algorithmic optimization, or the adoption of green energy sources.
+As models become larger and more capable, their environmental footprint continues to grow unless mitigated by advances in hardware efficiency, algorithmic optimisation, or the adoption of green energy sources.
 
 Beyond training and inference, environmental costs accrue throughout the ML lifecycle. 
 Data collection is not only time-consuming and labour-intensive~\cite{roh2019survey}, but also energy-intensive—--particularly when involving data-intensive processes like web scraping, sensor networks, or other real-time data pipelines~\cite{ai_power}. 
@@ -202,7 +203,7 @@ Preprocessing and cleaning this data can further increase compute overhead, exte
 Moreover, the continual deployment and fine-tuning of models in production environments adds to long-term infrastructure demands, especially in cases where retraining is frequent or large models are frequently synchronised across a network.
 
 Hardware production for ML also presents a growing sustainability issue. 
-The demand for GPUs and specialized accelerators has led to increased extraction of rare earth metals and non-renewable materials~\cite{ai_environment}. 
+The demand for GPUs and specialised accelerators has led to increased extraction of rare earth metals and non-renewable materials~\cite{ai_environment}. 
 This contributes to electronic waste and accelerates hardware obsolescence as newer, more powerful chips are released to support ever-larger models~\cite{desislavov2021compute}.
 
 These challenges have prompted early efforts to promote sustainable machine learning. 
@@ -210,10 +211,10 @@ Some proposals include carbon-aware scheduling of training jobs~\cite{anthony202
 
 In the context of this thesis, environmental considerations directly influence choices such as model architecture, dataset size, and training strategies. 
 As such, all research was conducted on a single graphics card (Papers~I~and~III) or on a single processor~(Papers~II,~and~V), with the exception of Paper IV, which focused specifically on power optimisation and adversarial robustness in a cloud environment. 
-Additionally, understanding the resource constraints that organizations face when defending their models is critical when evaluating the practicality of proposed adversarial defences.
+Additionally, understanding the resource constraints that organisations face when defending their models is critical when evaluating the practicality of proposed adversarial defences.
 Thus, environmental impact is not just an abstract concern but a practical constraint that shapes both the feasibility and ethical responsibility of machine learning research.
 
 As machine learning continues to be deployed in safety-critical domains, it is vital that environmental sustainability becomes a core consideration—just as safety, security, privacy, and reliability are. 
 Ignoring these costs risks creating systems that may be technically impressive but environmentally unsustainable at scale and further exacerbate global inequities around who benefits from the deployment of these models.
 
-While Chapter 2 outlined the regulatory and safety challenges surrounding machine learning, and this chapter has explored the structural and ethical dimensions of model development, it is crucial to recognize that even well-intentioned, well-designed, and well-regulated systems can be actively subverted—--an increasingly urgent concern addressed in next chapter.
+While Chapter 2 outlined the regulatory and safety challenges surrounding machine learning, and this chapter has explored the structural and ethical dimensions of model development, it is crucial to recognise that even well-intentioned, well-designed, and well-regulated systems can be actively subverted—--an increasingly urgent concern addressed in next chapter.
