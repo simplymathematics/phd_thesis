@@ -1,24 +1,75 @@
 stages:
-  git_clone_papers:
+  # git_clone_papers:
+  #   foreach:
+  #     - path: paper1
+  #       url : https://github.com/simplymathematics/springer-ai-review.git
+  #       input_pdf: main.pdf
+  #       output_pdf: Paper1.pdf
+  #     - path:  paper2
+  #       url : https://github.com/simplymathematics/KDD-Paper-EAI-AISEC.git
+  #       input_pdf: main.pdf
+  #       output_pdf: Paper2.pdf
+  #     - path:  paper3
+  #       url: https://github.com/simplymathematics/ml_afr.git
+  #       input_pdf: main.pdf
+  #       output_pdf: Paper3.pdf
+  #     - path:  paper4
+  #       url: https://github.com/simplymathematics/kepler-ml.git
+  #       input_pdf: main.pdf
+  #       output_pdf: Paper4.pdf
+  #     - path:  paper5
+  #       url: https://github.com/simplymathematics/Gzip-KNN.git
+  #       input_pdf: paper.pdf
+  #       output_pdf: Paper5.pdf
+  #     - path:  paper6
+  #       url: https://github.com/simplymathematics/deckard_paper.git
+  #       input_pdf: main.pdf
+  #       output_pdf: Paper6.pdf
+  #   do: 
+  #     desc:
+  #       Creates submodules for each of the above repositories in the path specified.
+  #     cmd: >-
+  #       (git clone ${item.url} ${item.path}) || echo "already cloned" && 
+  #       cd ${item.path} &&
+  #       git submodule init &&
+  #       git submodule update --recursive --remote &&
+      #   dvc repro
+      # outs:
+      #   - ${item.path}:
+      #       cache: false
+      #       persist: true
+  copy_pdf:
     foreach:
       - path: paper1
         url : https://github.com/simplymathematics/springer-ai-review.git
+        input_pdf: main.pdf
+        output_pdf: Paper1.pdf
       - path:  paper2
         url : https://github.com/simplymathematics/KDD-Paper-EAI-AISEC.git
+        input_pdf: main.pdf
+        output_pdf: Paper2.pdf
       - path:  paper3
         url: https://github.com/simplymathematics/ml_afr.git
+        input_pdf: main.pdf
+        output_pdf: Paper3.pdf
       - path:  paper4
         url: https://github.com/simplymathematics/kepler-ml.git
+        input_pdf: main.pdf
+        output_pdf: Paper4.pdf
       - path:  paper5
         url: https://github.com/simplymathematics/Gzip-KNN.git
+        input_pdf: main.pdf
+        output_pdf: Paper5.pdf
       - path:  paper6
         url: https://github.com/simplymathematics/deckard_paper.git
-    do: 
-      desc:
-        Creates submodules for each of the above repositories in the path specified.
+        input_pdf: paper.pdf
+        output_pdf: Paper6.pdf
+    do:
       cmd: >-
-        (git clone ${item.url} ${item.path}) || echo "already cloned" && 
-        cd ${item.path} &&
-        git submodule init &&
-        git submodule update --recursive --remote && 
-        dvc repro ./dvc.yaml
+        cp ${item.path}/${item.input_pdf} ${item.output_pdf}
+      outs:
+        - ${item.output_pdf}:
+            cache: false
+            persist: false
+      deps:
+        - ${item.path}/

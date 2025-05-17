@@ -1,0 +1,92 @@
+schema: '2.0'
+stages:
+  git_clone_papers@5:
+    cmd: '(git clone https://github.com/simplymathematics/deckard_paper.git paper6)
+      || echo "already cloned" &&  cd paper6 && git submodule init && git submodule
+      update --recursive --remote '
+    outs:
+    - path: paper6
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
+  git_clone_papers@4:
+    cmd: '(git clone https://github.com/simplymathematics/Gzip-KNN.git paper5) ||
+      echo "already cloned" &&  cd paper5 && git submodule init && git submodule update
+      --recursive --remote '
+    outs:
+    - path: paper5
+      md5: b2be8e6e6f7e25c1bc64c3e761cb9166.dir
+      size: 1728555
+      nfiles: 45
+  copy_pdf@3:
+    cmd: cp paper4/main.pdf Paper4.pdf
+    deps:
+    - path: paper4/
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
+    outs:
+    - path: Paper4.pdf
+      md5: 5a5ab2f85e08b40130bf479aaceb85ae
+      size: 808090
+      isexec: true
+  copy_pdf@1:
+    cmd: cp paper2/main.pdf Paper2.pdf
+    deps:
+    - path: paper2/
+      md5: d83afc2a777fa18fff9dbe13e0b089e1.dir
+      size: 6436442
+      nfiles: 90
+    outs:
+    - path: Paper2.pdf
+      md5: 4b1a8d1196b1111c3ab87b1238ab9a30
+      size: 529140
+      isexec: true
+  copy_pdf@2:
+    cmd: cp paper3/main.pdf Paper3.pdf
+    deps:
+    - path: paper3/
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
+    outs:
+    - path: Paper3.pdf
+      md5: 3cbc49401ba05b48676171201e245380
+      size: 379386
+      isexec: true
+  copy_pdf@0:
+    cmd: cp paper1/main.pdf Paper1.pdf
+    deps:
+    - path: paper1/
+      md5: 830b9ea53f7d8303d96ea06028d58dcb.dir
+      size: 411678472
+      nfiles: 92
+    outs:
+    - path: Paper1.pdf
+      md5: 1a3364994c3b805d143ec4891b34b786
+      size: 1661018
+      isexec: true
+  copy_pdf@5:
+    cmd: cp paper6/paper.pdf Paper6.pdf
+    deps:
+    - path: paper6/
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
+    outs:
+    - path: Paper6.pdf
+      md5: a0835fd40a98a77caefb8a34c1a8e65b
+      size: 190188
+      isexec: true
+  copy_pdf@4:
+    cmd: cp paper5/main.pdf Paper5.pdf
+    deps:
+    - path: paper5/
+      md5: 0559870cf46d15c1e5855855e381eb4e.dir
+      size: 70618117
+      nfiles: 142
+    outs:
+    - path: Paper5.pdf
+      md5: 24319efb2bcb924a19e3a48e79344d9c
+      size: 555386
+      isexec: true
