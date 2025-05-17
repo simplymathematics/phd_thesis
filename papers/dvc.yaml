@@ -2,7 +2,7 @@ stages:
   git_clone_papers:
     foreach:
       - path: paper1
-        url : https://github.com/simplymathematics/Safety-Critical-Computer-Vision.git
+        url : https://github.com/simplymathematics/springer-ai-review.git
       - path:  paper2
         url : https://github.com/simplymathematics/KDD-Paper-EAI-AISEC.git
       - path:  paper3
@@ -17,5 +17,8 @@ stages:
       desc:
         Creates submodules for each of the above repositories in the path specified.
       cmd: >-
-        ((git submodule add ${item.url} ${item.path}) || (echo ${item.path} already exists)) &&
-        git submodule update --init --recursive --remote &&  echo ${item.path} is up-to-date.
+        (git clone ${item.url} ${item.path}) || echo "already cloned" && 
+        cd ${item.path} &&
+        git submodule init &&
+        git submodule update --recursive --remote && 
+        dvc repro ./dvc.yaml

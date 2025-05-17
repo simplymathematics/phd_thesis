@@ -1,57 +1,46 @@
 schema: '2.0'
 stages:
-  git_clone_papers@0:
-    cmd: git clone https://github.com/simplymathematics/Safety-Critical-Computer-Vision.git
-      papers/paper_one && rm -rf papers/paper_one/.dvcignore
+  check_tex@ch_5_verification_and_validation.tex:
+    cmd: chktex -q -V ch_5_verification_and_validation.tex -n 24 -n 8 -n 1 -n 45 -n
+      17 -n 9 && touch ch_5_verification_and_validation.tex.chktex.flag
     deps:
-    - path: https://github.com/simplymathematics/Safety-Critical-Computer-Vision.git
-      hash: md5
-      checksum: W/"a27fa821035bb4e0b646af18bc97497f"
+    - path: ch_5_verification_and_validation.tex
+      md5: f51cbd82be20863957e5b382d0e1fa5c
+      size: 15269
     outs:
-    - path: papers/paper_one
-      hash: md5
-      md5: 0428a09f1fce435ce3d4e31e576cfb31.dir
-      size: 1917164
-      nfiles: 27
-  git_clone_papers@1:
-    cmd: git clone https://github.com/simplymathematics/KDD-Paper-EAI-AISEC.git papers/paper_two
-      && rm -rf papers/paper_two/.dvcignore
+    - path: ch_5_verification_and_validation.tex.chktex.flag
+      md5: d41d8cd98f00b204e9800998ecf8427e
+      size: 0
+      isexec: true
+  pre_commit:
+    cmd: pre-commit run --all-files  && touch pre_commit.flag
     deps:
-    - path: https://github.com/simplymathematics/KDD-Paper-EAI-AISEC.git
-      hash: md5
-      checksum: W/"af42a675b982d3a213f0c2d936167cc6"
+    - path: .pre-commit-config.yaml
+      md5: a926947c9efdf03de73b765d21812f2c
+      size: 1595
+    - path: ch_1_introduction.tex
+      md5: 2348be4f7d08e3e8cd4777346ea4ce0e
+      size: 32310
+    - path: ch_2_safety.tex
+      md5: d5691d10dd2f79e9afd3b9f2daf21182
+      size: 15602
+    - path: ch_3_machine_learning.tex
+      md5: 4f8935572039b1b172092a28bdc426cc
+      size: 25994
+    - path: ch_4_adversaries.tex
+      md5: 44acaae0d7e414d17e90483c9f1eb8d6
+      size: 16596
+    - path: ch_5_verification_and_validation.tex
+      md5: 36916bc4f630a1e82f599b33d297d861
+      size: 15266
+    - path: ch_6_summary_of_contributions.tex
+      md5: c87d9afb75d91d887fe7787a70b1be3c
+      size: 11075
+    - path: main.tex
+      md5: 88a18c78d99c18b5898f665bc2bcf3b5
+      size: 1965
     outs:
-    - path: papers/paper_two
-      hash: md5
-      md5: 05707505f33da75b3e7534af90375e52.dir
-      size: 5272346
-      nfiles: 55
-  git_clone_papers@2:
-    cmd: git clone https://github.com/simplymathematics/ml_afr.git papers/paper_three
-      &&  rm -rf papers/paper_three/.git &&  rm -rf papers/paper_three/.github &&
-      rm -rf papers/paper_three/.gitignore  rm -rf papers/paper_three/.dvc rm -rf
-      papers/paper_three/.dvcignore
-    deps:
-    - path: https://github.com/simplymathematics/ml_afr.git
-      hash: md5
-      checksum: W/"4f46220a27c158590dfe5a16205d09f7"
-    outs:
-    - path: papers/paper_three
-      hash: md5
-      md5: 49377e38b12fff35d8b0f65729e1018a.dir
-      size: 1409252
-      nfiles: 60
-  git_clone_papers@3:
-    cmd: git clone https://github.com/simplymathematics/kepler-ml.git papers/paper_four
-      &&  rm -rf papers/paper_four/.git &&  rm -rf papers/paper_four/.github && rm
-      -rf papers/paper_four/.gitignore  rm -rf papers/paper_four/.dvc rm -rf papers/paper_four/.dvcignore
-    deps:
-    - path: https://github.com/simplymathematics/kepler-ml.git
-      hash: md5
-      checksum: W/"063e10148625b6199862729d4db1145f"
-    outs:
-    - path: papers/paper_four
-      hash: md5
-      md5: a4aab9b3a489dd75e98cfe4e3c22beed.dir
-      size: 369168069
-      nfiles: 178
+    - path: pre_commit.flag
+      md5: d41d8cd98f00b204e9800998ecf8427e
+      size: 0
+      isexec: true

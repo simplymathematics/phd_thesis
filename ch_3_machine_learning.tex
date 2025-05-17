@@ -108,7 +108,7 @@ In addition to a well-chosen loss function, the optimisation algorithm must also
 
 \section{Optimisation}
 The optimisation process involves adjusting the model’s internal parameters—-typically numbered in the millions or even billions—-to minimize the chosen loss function across a given dataset. 
-This is most often done using stochastic gradient descent (SGD) or one of its many variants (e.g., Adam~\cite{adam}, RMSProp~\cite{rmsprop}, or Adadelta~\cite{adadelta}) which iteratively updates model parameters in the direction that minimises the chosen loss function by comparing model predictions to the ground truth.
+This is most often done using stochastic gradient descent (SGD) or one of its many variants (\textit{e.g.}, Adam~\cite{adam}, RMSProp~\cite{rmsprop}, or Adadelta~\cite{adadelta}) which iteratively updates model parameters in the direction that minimises the chosen loss function by comparing model predictions to the ground truth.
 
 The optimization landscape of many ML models is highly non-convex---it often contains numerous local minima, saddle points, and flat regions. 
 In practice, modern optimization algorithms, combined with techniques like learning rate scheduling~\cite{learning_rate_scheduling}, regularization~\cite{xu2009robustness,jakubovitz2018improving,ross2018improving}, momentum~\cite{momentum}, and batch normalization~\cite{batch_normalisation}, enable effective navigation of this complex terrain. 

@@ -12,7 +12,7 @@
 	url = https://github.com/simplymathematics/deckard_paper.git
 [submodule "papers/paper1"]
 	path = papers/paper1
-	url = https://github.com/simplymathematics/Safety-Critical-Computer-Vision.git
+	url = https://github.com/simplymathematics/springer-ai-review.git
 [submodule "papers/paper2"]
 	path = papers/paper2
 	url = https://github.com/simplymathematics/KDD-Paper-EAI-AISEC.git

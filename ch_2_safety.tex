@@ -108,8 +108,8 @@ Together, they establish a risk matrix that balances the likelihood of a failure
     \label{tab:consequence_risk}
 \end{table}
 
-The IEC standards \cite{IEC61508} define the Safety Inegrity Level (SIL) in failures per year, which is reproduced here in Table~\ref{tab:risk_classes}. 
-Since safety-critical systems (e.g., autonomous vehicles, medical imaging software, malware detection systems, etc.)~have the potential to cause major injuries (or worse), validating the failure rate using a test set would require at least 10s of thousands of samples and highly confident measures would require substantially more. 
+The IEC standards~\cite{IEC61508} define the Safety Inegrity Level (SIL) in failures per year, which is reproduced here in Table~\ref{tab:risk_classes}. 
+Since safety-critical systems (\textit{e.g.}, autonomous vehicles, medical imaging software, malware detection systems, \textit{etc.})~have the potential to cause major injuries (or worse), validating the failure rate using a test set would require at least 10s of thousands of samples and highly confident measures would require substantially more. 
 Furthermore, if we assume that \textit{accidental} errors are possible in real-world systems due to things like dust, lens flare, component failure, packet loss, \textit{etc.}, it naturally follows that the failure rate is an over-estimate of the model's performance at the edge or other ``worst-case scenarios''. 
 That is, the test-case failure rate is an optimistic overestimate of the real-world failure rate~\cite{azarpromise}. 
 

@@ -93,12 +93,12 @@ As we move from modelling individual components to reasoning about system-level 
 
 Historically, marginal gains in model performance have come at the cost of exponentially larger models~\cite{desislavov2021compute}. These models require increasingly vast datasets~\cite{desislavov2021compute,vapnik1994measuring,blumer1989learnability}, which are often drawn from a narrowing range of sources~\cite{koch2021reduced}. 
 This concentration introduces critical risks, including gender bias~\cite{lu2020gender}, racial discrimination~\cite{buolamwini2018gender}, and fatal design flaws~\cite{banks2018driver}. 
-These concerns are not new~\cite{corsaro1982something, ramirez2000resource, buolamwini2018gender}; they echo through decades of evidence showing higher fatality rates for female-bodied individuals in car accidents~\cite{evans2001gender}, or neural networks that inadvertently encode racial information from medical images alone~\cite{gichoya2022ai}.
+These concerns are not new~\cite{corsaro1982something,ramirez2000resource,buolamwini2018gender}; they echo through decades of evidence showing higher fatality rates for female-bodied individuals in car accidents~\cite{evans2001gender}, or neural networks that inadvertently encode racial information from medical images alone~\cite{gichoya2022ai}.
 
 Beyond social and ethical implications, data collection and labelling for machine learning itself introduces a host of practical concerns. 
 It is expensive~\cite{roh2019survey}, raises significant privacy issues~\cite{bloom2017self}, extends time-to-market~\cite{lam2004new}, and slows innovation~\cite{zirger1996effect}. 
 Worse still, performance metrics in machine learning often paint an overly optimistic picture~\cite{madry2017towards,croce2020reliable}. 
-As researchers have noted~\cite{madry2017towards, carlini_towards_2017,croce_reliable_2020,meyers}, traditional test/train evaluation only uncovers failures within the training distribution which leaves models vulnerable to catastrophic failures when deployed in the real world.
+As researchers have noted~\cite{madry2017towards,carlini_towards_2017,croce_reliable_2020,meyers}, traditional test/train evaluation only uncovers failures within the training distribution which leaves models vulnerable to catastrophic failures when deployed in the real world.
 
 To build truly trustworthy systems, model builders must go beyond conventional benchmarks and provide strong, actionable guarantees. 
 These guarantees must address the practical, social, and technical limitations outlined above—and they must do so efficiently. 

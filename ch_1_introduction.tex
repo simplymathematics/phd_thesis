@@ -5,8 +5,6 @@ Despite widespread adoption~\cite{ai_automotive,ai_aviation,ai_luggage,ai_prison
 AI in general is an ill-defined concept~\cite{phillips1999if}, in the words of the human-computer-action pioneer, Larry Tesler, ``Intelligence is whatever machines haven't done yet''~\cite{hofstadter1999godel}.
 Therefore, throughout the text, the term \textit{machine learning} (ML) will be used instead, which is a well defined statistical concept~\cite{shalev2014understanding}.
 While the terms are used rather interchangeably in the wider literature, even the most advanced large language models (LLMs) ``cannot perform genuine logical reasoning''~\cite{gsm-symbolic} and calling these models ``intelligent'' overstates their abilities enormously.
-% In addition, machine learning models often suffer from opacity to the researchers that deploy them. 
-% Sensitivity analysis, correlation plots, and low-dimensional graphs help highlight cross-sections of a model's inner-workings but fail to build systems that are robust to attack, free from bias, or explainable in plain language. 
 While machine learning models hold immense promise—such as lowering healthcare costs~\cite{ai_medical_imaging}, improving translation across languages~\cite{ai_translation}, and reducing car-related fatalities~\cite{ai_automotive_safety}—their widespread deployment also raises serious concerns. These include unintentional bias~\cite{buolamwini2018gender}, misuse for mass surveillance~\cite{abelson2021bugs}, high energy consumption~\cite{ai_power}, and the potential to exacerbate global inequality~\cite{ai_inequity}.
 Therefore, a systematic analysis of the ``trustworthiness'' of these ML systems is required.
 This project is a systematic approach to measuring the trustworthiness of these systems.
@@ -38,7 +36,7 @@ Furthermore, it has been shown that there's an inherent tension between the mode
 ML Models will, at best, obscure biased data behind opaque or hard-to-interpret decisions~\cite{buolamwini2018gender}.
 
 The inherent risks to user privacy~\cite{abelson2021bugs} and questionable ability of ML models to be safely deployed in the real-world~\cite{meyers,croce_reliable_2020,dohmatob_generalized_2019,meyers_aft,meyers} pose ongoing problems that have yet to be solved.
-In 1966, the ``Summer Vision Project" was designed to solve the problem of computer image-based classification at the Massachusetts Institute of Technology~\cite{summervision}; however, as recently as 2023, it was clear that ML systems ``consistently fail to meet established safety-critical standards by a wide margin''~\cite{meyers}.
+In 1966, the ``Summer Vision Project'' was designed to solve the problem of computer image-based classification at the Massachusetts Institute of Technology~\cite{summervision}; however, as recently as 2023, it was clear that ML systems ``consistently fail to meet established safety-critical standards by a wide margin''~\cite{meyers}.
 However, the intent of this text is not to be overly pessimistic. 
 Automated systems capable of learning have tremendous positive potential as well---from real-time translation and office-task automation to data-driven agriculture and reduced healthcare costs. 
 To put it simply, models deployed safely have the potential to improve or save human lives. 
@@ -127,7 +125,7 @@ MNIST in particular is considered relatively easy because it uses low-resolution
 In addition, CIFAR10 is known to be easier than CIFAR100~\cite{shalev2014understanding,dohmatob_generalized_2019} despite the two databases having images of the same resolution and colour depth as the difficulty of a classification increases with the number of distinct categories. 
 Several standard anomaly detection datasets were also evaluated. 
 The oldest such dataset is Knowledge Discovery and Data-mining (KDD) database that was cleaned and dubbed the network security laboratory (thus KDD-NSL)~\cite{kdd-nsl}. 
-It captures system-level data that tries to capture the behaviour of both normal (benign) users and malicious software (viruses, malware, etc.). Similarly, the distributed denial of service dataset (DDoS) provided by the University of Toronto was also of interest~\cite{ddos} as it captured network-level data that tries to capture the behaviour of both normal users and a variety of attack types. 
+It captures system-level data that tries to capture the behaviour of both normal (benign) users and malicious software (viruses, malware, \textit{etc.}). Similarly, the distributed denial of service dataset (DDoS) provided by the University of Toronto was also of interest~\cite{ddos} as it captured network-level data that tries to capture the behaviour of both normal users and a variety of attack types. 
 Both of these datasets distribute the data with several class labels to distinguish between different types of attacks; however, for the purposes of this thesis all attacks were collapsed into a single \textit{adversarial} category. 
 However, KDD-NSL has a only a few thousand examples and DDoS has 10s of thousands as the origins of these datasets are separated by decades. 
 This is the natural division of the next two datasets---the short message system spam (SMS spam) database~\cite{sms_spam} and a database of tweets, metadata, and ``bot-scores'' collected from the platform formally known as Twitter~\cite{truthseeker} (dubbed Truthseeker). 
@@ -174,10 +172,10 @@ The goal of an adversarial attack is often to exploit vulnerabilities in the mod
 These attacks can occur during various stages of the machine learning pipeline, including during training, inference, or deployment. 
 Figure~\ref{fig:attack_pipeline} show how each class of attacks targets a different stage of the pipeline depicted in Figure~\ref{fig:model_pipeline}.
 Evasion attacks aim to manipulate input data during the inference phase to deceive the model into misclassifying or ignoring certain inputs. 
-Attackers carefully craft perturbations or modify the input features to mislead the model while still appearing similar to the original input \cite{biggio_evasion_2013,carlini_towards_2017,adversarialpatch,pixelattack,hopskipjump}. 
-In poisoning attacks, the attacker intentionally injects malicious or manipulated training samples into the training dataset where the goal is to influence the model's behaviour during training so that it learns to make incorrect predictions or exhibit unwanted behaviours when presented with specific inputs \cite{biggio_poisoning_2013, saha2020hidden}. 
-Inference attacks exploit the model's output or responses to obtain sensitive information about the training data or other confidential details. By observing the model's predictions or confidence scores for carefully crafted inputs, attackers can extract information that was meant to be kept private \cite{chakraborty_adversarial_2018,orekondy2019knockoff}.
-Model inversion attacks (also called extraction attacks) aim to infer sensitive information about the training data or proprietary model by exploiting the model's outputs. Attackers utilise the model's responses to iteratively reconstruct or approximate training examples that are similar to the ones used during training \cite{chakraborty_adversarial_2018,choquette2021label,li2021membership}.
+Attackers carefully craft perturbations or modify the input features to mislead the model while still appearing similar to the original input ~\cite{biggio_evasion_2013,carlini_towards_2017,adversarialpatch,pixelattack,hopskipjump}. 
+In poisoning attacks, the attacker intentionally injects malicious or manipulated training samples into the training dataset where the goal is to influence the model's behaviour during training so that it learns to make incorrect predictions or exhibit unwanted behaviours when presented with specific inputs ~\cite{biggio_poisoning_2013,saha2020hidden}. 
+Inference attacks exploit the model's output or responses to obtain sensitive information about the training data or other confidential details. By observing the model's predictions or confidence scores for carefully crafted inputs, attackers can extract information that was meant to be kept private ~\cite{chakraborty_adversarial_2018,orekondy2019knockoff}.
+Model inversion attacks (also called extraction attacks) aim to infer sensitive information about the training data or proprietary model by exploiting the model's outputs. Attackers utilise the model's responses to iteratively reconstruct or approximate training examples that are similar to the ones used during training ~\cite{chakraborty_adversarial_2018,choquette2021label,li2021membership}.
 
 \subsection{Defences}
 Defences are techniques that are applied to models to mitigate the effects of attacks. 
@@ -199,7 +197,7 @@ Several of these statistical defences are explored in Papers I-IV, while Paper V
     \includegraphics[width=0.5\linewidth]{images/defence_diagram.png}
     \caption{
     A typical machine learning model can be defended against an attacker in several ways. 
-    If the model-builder changes the input data (e.g. by adding or removing noise), then this is called a preprocessing defence. 
+    If the model-builder changes the input data (\textit{e.g.} by adding or removing noise), then this is called a preprocessing defence. 
     If the modeller changes a trained model with the expectation of more robust inference, then that is called a transformation defence. 
     A post-processing defence is when raw output of model inference is changed before being presented to a user. 
     While these techniques are not always applied during the hyper-parameter tuning stage, their effect on the end user must nonetheless be considered. 
