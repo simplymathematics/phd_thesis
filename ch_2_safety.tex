@@ -35,7 +35,7 @@ In the context of billions of drivers or commercial airline passengers, 1 failur
 
 The standard defines ``frequent'' failures as those occurring more than $10^{-3}$ times per year—meaning multiple times within an individual's lifetime. 
 Crucially, the severity of the failure also matters. 
-Terms like ``catastrophic,'' ``marginal,'' and ``negligible'' are precisely defined (Table~\ref{tab:consequence_categories}). IEC 61508 then introduces Safety Integrity Levels (SILs)—four classes based on risk, combining failure rates and consequence severity (see Tables~\ref{tab:risk_classes} and \ref{tab:consequence_risk}). 
+Terms like ``catastrophic,'' ``marginal,'' and ``negligible'' are precisely defined (Table~\ref{tab:consequence_categories}). IEC 61508 then introduces Safety Integrity Levels (SILs)—four classes based on risk, combining failure rates and consequence severity (see Tables~\ref{tab:risk_classes} and~\ref{tab:consequence_risk}). 
 Together, they establish a risk matrix that balances the likelihood of a failure with its impact.
  
 
@@ -148,7 +148,7 @@ For ML-specific tasks the AI Act applies, which additionally regulates commercia
 The AI Act designates high-risk activities as thing like medical devices, hiring systems, and critical infrastructure and how they must comply with existing regulations (\textit{e.g.}, the IEC or ISO standards outlined above). 
 The act designates limited risk applications include things like biometric models, AI generated, and sentiment analysis and must disclose the use of AI, must minimise the effects on vulnerable groups, and must make the content accessible to those with disabilities. 
 
-While privacy regulations such as GDPR and sector-specific laws like HIPAA or COPPA define how personal data must be collected, stored, and processed, they are largely silent on the reliability of the systems that process that data---particularly when those systems involve ML. 
+While privacy regulations such as GDPR and sector-specific laws like HIPAA or COPPA define how personal data must be collected, stored, and processed, they are largely silent on the reliability of the systems that process that data---particularly when those systems involve ML\@. 
 However, as AI models increasingly influence decisions in domains such as healthcare~\cite{ai_medical_imaging}, security~\cite{ai_security}, transportation~\cite{ai_automotive,ai_aviation}, and criminal justice~\cite{ai_prison}.
 A system that preserves privacy but produces unpredictable or erroneous outputs can still cause significant harm.
 
@@ -170,7 +170,7 @@ Paper~I presents a comprehensive survey of various model attack and defence tech
 Paper~II investigates the impact of minor hyper-parameter variations and shows that naive adversarial retraining tends to degrade model performance under different attack scenarios, while also introducing significant (polynomial-time) computational overhead. 
 In the broader context of complex electro-mechanical systems, modelling and mitigating failures or unforeseen edge cases is typically addressed through systematic verification and validation processes~\cite{iso26262}.
 Then the cost-robustness trade-offs are examined in the context model complexity (Paper~III) and hardware choice (Paper~IV), before attempting to design a model that is safer-by-design (Paper~V).
-Finally, a safety-critical framework for ML verification and validation is presented in Paper~VI.
+Finally, a safety-critical framework for ML verification and validation is presented in Paper~VI\@.
 
 
 

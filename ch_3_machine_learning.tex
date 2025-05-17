@@ -28,7 +28,7 @@ Despite its limitations, linear regression serves as a foundational model in mac
 \section{Logistic Regression}
 Logistic regression is a widely used classification method for binary outcomes, modelling the probability that a given input belongs to one of two classes. 
 Rather than producing an output that corresponds to a value in the range of  $(-\infty, +\infty)$ (as in the case of linear regression), it produces an output in the range $(0,1)$, which can be interpreted as a probability. 
-Logistic regression uses a sigmoid (logistic) function to map the model output to the range , making it ideal for likelihood estimation. 
+Logistic regression uses a sigmoid (logistic) function to map the model output to the range, making it ideal for likelihood estimation. 
 
 In short, a logistic regression model produces an output that answers the question: ``what is the probability of a belonging to a class when we assume a linear decision boundary?''
 
@@ -109,7 +109,7 @@ In addition to a well-chosen loss function, the optimisation algorithm must also
 
 \section{Optimisation}
 The optimisation process involves adjusting the model’s internal parameters—-typically numbered in the millions or even billions—-to minimise the chosen loss function across a given dataset. 
-This is most often done using stochastic gradient descent (SGD) or one of its many variants (e.g., Adam~\cite{adam}, RMSProp~\cite{rmsprop}, or Adadelta~\cite{adadelta}) which iteratively updates model parameters in the direction that minimises the chosen loss function by comparing model predictions to the ground truth.
+This is most often done using stochastic gradient descent (SGD) or one of its many variants (\textit{e.g.}, Adam~\cite{adam}, RMSProp~\cite{rmsprop}, or Adadelta~\cite{adadelta}) which iteratively updates model parameters in the direction that minimises the chosen loss function by comparing model predictions to the ground truth.
 
 The optimisation landscape of many ML models is highly non-convex---it often contains numerous local minima, saddle points, and flat regions. 
 In practice, modern optimisation algorithms, combined with techniques like learning rate scheduling~\cite{learning_rate_scheduling}, regularisation~\cite{xu2009robustness,jakubovitz2018improving,ross2018improving}, momentum~\cite{momentum}, and batch normalisation~\cite{batch_normalisation}, enable effective navigation of this complex terrain. 
@@ -168,7 +168,7 @@ These biases may manifest as systematic errors or unfair outcomes, such as unequ
 For example, crash safety models historically based on the 50th percentile male body standard have resulted in vehicle designs that provide significantly less protection for female-bodied individuals, contributing to higher rates of injury and fatality for female-bodied people in car accidents~\cite{evans2001gender}. 
 In ML, researchers found neural networks that unintentionally detect self-reported racial information through methods they were unable to explain ``either by spatial location, in the frequency domain, or that were caused by common anatomic and phenotype confounders associated with racial identity''~\cite{gichoya2022ai}.
 Nevertheless, the problems of bias are not intractable. 
-After raising awareness about the racial and gender discrepancies in commercially available facial recognition systems~\cite{buolamwini2018gender}, subsequent research found that the discrepancies substantially reduced by the next year~\cite{raji2019actionable}, perhaps with nothing more than changing the sampling method~\cite{sadaiyandi2023stratified} (though we can't be sure because the models in question were closed source and then largely removed in the wake of ``Black Lives Matter'' protesters in the United States~\cite{blm_facial_recognition}. 
+After raising awareness about the racial and gender discrepancies in commercially available facial recognition systems~\cite{buolamwini2018gender}, subsequent research found that the discrepancies substantially reduced by the next year~\cite{raji2019actionable}, perhaps with nothing more than changing the sampling method~\cite{sadaiyandi2023stratified} though we can't be sure because the models in question were closed source and then largely removed in the wake of ``Black Lives Matter'' protesters in the United States~\cite{blm_facial_recognition}. 
 However, computer science as a whole has struggled with racial and gender imbalances during the hiring process~\cite{rattan2019identical,yarger2020algorithmic} and other research critiques the field's focus on algorithmic solutions to larger societal problems~\cite{birhane2021algorithmic}.
 While this thesis did not examine the role of adversarial attacks and defences in bias mitigation, other researchers have discussed this~\cite{chang2020adversarial,zhang2018mitigating,yang2022algorithmic}.
 

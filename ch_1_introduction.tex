@@ -9,10 +9,10 @@ While machine learning models hold immense promise—such as lowering healthcare
 Therefore, a systematic analysis of the ``trustworthiness'' of these ML systems is required.
 This project is a systematic approach to measuring the trustworthiness of these systems.
 
-In particular, the following work seeks to categorise and quantify the effect of inputs that causes errors at run-time (attacks) and methods designed to mitigate their effect (defences), primarily in Paper I and Paper III.
-In addition, methods for measuring and predicting the cost-efficacy of these attacks and defences are also examined in Papers II, III, \& IV.
-A simple and efficient method for minimising the attack surface of a classification model is presented in Paper V.
-Finally, a framework and software tooling for safety-critical ML verification and validation is outlined in Paper VI.
+In particular, the following work seeks to categorise and quantify the effect of inputs that causes errors at run-time (attacks) and methods designed to mitigate their effect (defences), primarily in Paper I and Paper III\@.
+In addition, methods for measuring and predicting the cost-efficacy of these attacks and defences are also examined in Papers II, III, \& IV\@.
+A simple and efficient method for minimising the attack surface of a classification model is presented in Paper V\@.
+Finally, a framework and software tooling for safety-critical ML verification and validation is outlined in Paper VI\@.
 
 \section{Motivations}
 \label{sec:motivations}
@@ -36,7 +36,7 @@ Furthermore, it has been shown that there's an inherent tension between the mode
 ML Models will, at best, obscure biased data behind opaque or hard-to-interpret decisions~\cite{buolamwini2018gender}.
 
 The inherent risks to user privacy~\cite{abelson2021bugs} and questionable ability of ML models to be safely deployed in the real-world~\cite{meyers,croce_reliable_2020,dohmatob_generalized_2019,meyers_aft,meyers} pose ongoing problems that have yet to be solved.
-In 1966, the ``Summer Vision Project" was designed to solve the problem of computer image-based classification at the Massachusetts Institute of Technology~\cite{summervision}; however, as recently as 2023, it was clear that ML systems ``consistently fail to meet established safety-critical standards by a wide margin''~\cite{meyers}.
+In 1966, the ``Summer Vision Project'' was designed to solve the problem of computer image-based classification at the Massachusetts Institute of Technology~\cite{summervision}; however, as recently as 2023, it was clear that ML systems ``consistently fail to meet established safety-critical standards by a wide margin''~\cite{meyers}.
 However, the intent of this text is not to be overly pessimistic. 
 Automated systems capable of learning have tremendous positive potential as well---from real-time translation and office-task automation to data-driven agriculture and reduced healthcare costs. 
 To put it simply, models deployed safely have the potential to improve or save human lives. 
@@ -65,7 +65,7 @@ Modern models can often outperform humans on specific tasks in which large amoun
 
 \textit{Feminism} in the words of famous scholar and feminist, Bell Hooks, is ``for all people, female and male, liberation from sexist role patterns, domination, and oppression''~\cite{hooks} and other authors highlight the need to focus on the intersection of categories like gender, class, sex, and race. 
 \textit{Intersectionality} is ``the means for dealing with other marginalisations as well.''~\cite{crenshaw}. 
-``Data feminism", is a book by Catherine D'Ignazio and Lauren F. Klein~\cite{data_feminism}, but the framework it provides for thinking about the power relationships with data in the modern world can also be called \textit{data feminism}. 
+``Data feminism'', is a book by Catherine D'Ignazio and Lauren F. Klein~\cite{data_feminism}, but the framework it provides for thinking about the power relationships with data in the modern world can also be called \textit{data feminism}. 
 The central conceit of the book is something that is widely forgotten in the world of data science---that power and data are distributed unequally. 
 This is highlighted famously in a pair of studies by Joy Buolamwini~\textit{et al.}~\cite{buolamwini2018gender,raji2019actionable}.
 
@@ -173,17 +173,17 @@ The goal of an adversarial attack is often to exploit vulnerabilities in the mod
 These attacks can occur during various stages of the machine learning pipeline, including during training, inference, or deployment. 
 Figure~\ref{fig:attack_pipeline} show how each class of attacks targets a different stage of the pipeline depicted in Figure~\ref{fig:model_pipeline}.
 Evasion attacks aim to manipulate input data during the inference phase to deceive the model into misclassifying or ignoring certain inputs. 
-Attackers carefully craft perturbations or modify the input features to mislead the model while still appearing similar to the original input \cite{biggio_evasion_2013,carlini_towards_2017,adversarialpatch,pixelattack,hopskipjump}. 
-In poisoning attacks, the attacker intentionally injects malicious or manipulated training samples into the training dataset where the goal is to influence the model's behaviour during training so that it learns to make incorrect predictions or exhibit unwanted behaviours when presented with specific inputs \cite{biggio_poisoning_2013, saha2020hidden}. 
-Inference attacks exploit the model's output or responses to obtain sensitive information about the training data or other confidential details. By observing the model's predictions or confidence scores for carefully crafted inputs, attackers can extract information that was meant to be kept private \cite{chakraborty_adversarial_2018,orekondy2019knockoff}.
-Model inversion attacks (also called extraction attacks) aim to infer sensitive information about the training data or proprietary model by exploiting the model's outputs. Attackers utilise the model's responses to iteratively reconstruct or approximate training examples that are similar to the ones used during training \cite{chakraborty_adversarial_2018,choquette2021label,li2021membership}.
+Attackers carefully craft perturbations or modify the input features to mislead the model while still appearing similar to the original input~\cite{biggio_evasion_2013,carlini_towards_2017,adversarialpatch,pixelattack,hopskipjump}. 
+In poisoning attacks, the attacker intentionally injects malicious or manipulated training samples into the training dataset where the goal is to influence the model's behaviour during training so that it learns to make incorrect predictions or exhibit unwanted behaviours when presented with specific inputs~\cite{biggio_poisoning_2013,saha2020hidden}. 
+Inference attacks exploit the model's output or responses to obtain sensitive information about the training data or other confidential details. By observing the model's predictions or confidence scores for carefully crafted inputs, attackers can extract information that was meant to be kept private~\cite{chakraborty_adversarial_2018,orekondy2019knockoff}.
+Model inversion attacks (also called extraction attacks) aim to infer sensitive information about the training data or proprietary model by exploiting the model's outputs. Attackers utilise the model's responses to iteratively reconstruct or approximate training examples that are similar to the ones used during training~\cite{chakraborty_adversarial_2018,choquette2021label,li2021membership}.
 
 \subsection{Defences}
 Defences are techniques that are applied to models to mitigate the effects of attacks. 
 They come in several varieties, classed according to the model pipeline stage the effect. 
 Figure~\ref{fig:defence_pipeline} depicts how each stage interacts with the typical machine learning pipeline, described in Figure~\ref{fig:model_pipeline}.
 This might include adding some Gaussian noise to the data (\textit{pre-processing}) or model output (\textit{post-processing}) with the expectation that the model will be less sensitive to adversaries. 
-If the model-builder changes the input data (e.g., by adding or removing noise), then this is called a preprocessing defence. 
+If the model-builder changes the input data (\textit{e.g.}, by adding or removing noise), then this is called a preprocessing defence. 
 If the modeller changes a trained model with the expectation of more robust inference, then that is called a transformation defence. 
 A post-processing defence is when raw output of model inference is changed before being presented to a user. 
 Alternatively, known adversarial examples can simply be labelled appropriately and incorporated into a new generation of training data.
@@ -198,10 +198,10 @@ Several of these statistical defences are explored in Papers I-IV, while Paper V
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\linewidth]{images/defence_diagram.png}
+    \includegraphics[width=0.5\linewidth]{images/defence.png}
     \caption{
     A typical machine learning model can be defended against an attacker in several ways. 
-    If the model-builder changes the input data (e.g. by adding or removing noise), then this is called a preprocessing defence. 
+    If the model-builder changes the input data (\textit{e.g.} by adding or removing noise), then this is called a preprocessing defence. 
     If the modeller changes a trained model with the expectation of more robust inference, then that is called a transformation defence. 
     A post-processing defence is when raw output of model inference is changed before being presented to a user. 
     While these techniques are not always applied during the hyper-parameter tuning stage, their effect on the end user must nonetheless be considered. 

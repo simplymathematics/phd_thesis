@@ -19,7 +19,7 @@ Creating formal specifications requires a precise and often abstract understandi
 An important example of formal verification is the CompCert C compiler, which has been formally verified to produce assembly code that is functionally equivalent to its source code~\cite{leroy2009formally}. 
 In contrast to conventional compilers, which may contain bugs in optimisation or code generation, CompCert offers mathematical guarantees of correctness, making it appealing for critical systems such as avionics and medical devices.
 In medical devices, formal verification has been applied to implantable cardiac pacemakers, which must maintain life-critical timing constraints to not accidentally kill the person they are meant to help.
-Research efforts, such as those of Jiang et al.~\cite{jiang2012modeling}, have demonstrated how formal models of pacemaker logic can be verified to ensure that the device will never enter dangerous states, even under extreme timing conditions or unexpected cardiac rhythms.
+Research efforts, such as those of Jiang \textit{et al.}~\cite{jiang2012modeling}, have demonstrated how formal models of pacemaker logic can be verified to ensure that the device will never enter dangerous states, even under extreme timing conditions or unexpected cardiac rhythms.
 
 In the domain of machine learning, formal verification is becoming increasingly relevant, as ML models are being deployed in safety-critical applications such as autonomous vehicles, medical diagnostics, and security systems. 
 Verifying the correctness of ML models with respect to a formal specification presents unique challenges compared to traditional software systems. Unlike conventional software, ML models are typically data-driven and may exhibit unpredictable behaviour due to the complex nature of their learned representations. 
@@ -72,7 +72,7 @@ In an AFT model, the log of survival time is modelled as a linear function of co
 \begin{equation*} 
 \log(T) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_k x_k + \varepsilon, \end{equation*}
 
-where $T$ is the survival time, $x_i$ are covariates (e.g., model depth, learning rate, hardware type), $\beta_i$ are model coefficients, and $\varepsilon$ is a random error term. This allows interpretation of covariates as multiplicative effects on the survival time, offering a more intuitive understanding of robustness under adversarial pressure.
+where $T$ is the survival time, $x_i$ are covariates (\textit{e.g.}, model depth, learning rate, hardware type), $\beta_i$ are model coefficients, and $\varepsilon$ is a random error term. This allows interpretation of covariates as multiplicative effects on the survival time, offering a more intuitive understanding of robustness under adversarial pressure.
 
 Survival models play a critical role across a range of domains where understanding time-to-event behaviour is essential. 
 In medicine, survival analysis is extensively used in epidemiological studies to model patient survival times, time until disease recurrence, or time to recovery~\cite{aft_models}. 
@@ -106,7 +106,7 @@ As we move from modelling individual components to reasoning about system-level 
 Historically, marginal gains in model performance have come at the cost of exponentially larger models~\cite{desislavov2021compute}. 
 Large models require increasingly vast datasets~\cite{desislavov2021compute,vapnik1994measuring,blumer1989learnability}, which are collected, catalogued, distributed by narrowing number of elite and well-funded institutions~\cite{koch2021reduced}. 
 By amplifying systematic biases, this concentration introduces critical risks, including gender bias~\cite{lu2020gender}, racial discrimination~\cite{buolamwini2018gender}, and fatal design flaws~\cite{banks2018driver}. 
-These concerns are not new~\cite{corsaro1982something, ramirez2000resource, buolamwini2018gender}; they echo through decades of evidence showing higher fatality rates for female-bodied individuals in car accidents~\cite{evans2001gender}, or neural networks that inadvertently encode racial information from medical images ~\cite{gichoya2022ai}.
+These concerns are not new~\cite{corsaro1982something,ramirez2000resource,buolamwini2018gender}; they echo through decades of evidence showing higher fatality rates for female-bodied individuals in car accidents~\cite{evans2001gender}, or neural networks that inadvertently encode racial information from medical images~\cite{gichoya2022ai}.
 
 Beyond social and ethical implications, data collection and labelling for machine learning itself introduces a host of practical concerns. 
 It is expensive~\cite{roh2019survey}, raises significant privacy issues~\cite{bloom2017self}, extends time-to-market~\cite{lam2004new}, slows innovation~\cite{zirger1996effect}, and relies on vast numbers of outsourced workers~\cite{ai_inequity}.

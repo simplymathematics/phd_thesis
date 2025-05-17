@@ -20,7 +20,7 @@ Papers~II~and~V use popular malware detection datasets to demonstrate the ease o
 \label{sec:attacks}
 ML has proven to be useful in safety-critical applications like system intrusion detection~\cite{kim2003network}, network anomaly detection~\cite{mehmood2015svm}, image recognition~\cite{tzotsos2008support}, aviation~\cite{ai_aviation}, policing~\cite{ai_prison}, security checkpoints~\cite{ai_security}, and medical imaging~\cite{ai_medical_imaging}. 
 However, many such attacks threaten the real-world operation of these systems and can be grouped into several categories~\cite{art2018} \textit{inference} attacks can be used to glean information about the training data~\cite{li2021membership,shokri2017membership,choquette2021label}, \textit{extraction} attacks reveal private information about the model~\cite{extraction_attack}, \textit{poisoning} attacks change model behaviour by targeting the training data~\cite{shafahi2018poison,biggio2012poisoning,biggio_poisoning_2013}, and \textit{evasion} attacks change the model behaviour by targeting the model at run-time~\cite{carlini_towards_2017,carlini2019evaluating,deepfool,hopskipjump,pixelattack,chen2017zoo}. 
-The work in this theses focuses on the last category, evasion attacks, because of the ability of that class of attacks to induce failures at run-time, thus allowing for the failure rate analyses discussed in Chapter~\ref{subsec:methods-metrics} and ~\ref{ch:safety}. 
+The work in this theses focuses on the last category, evasion attacks, because of the ability of that class of attacks to induce failures at run-time, thus allowing for the failure rate analyses discussed in Chapter~\ref{subsec:methods-metrics} and~\ref{ch:safety}. 
 While much work has gone into evaluating the robustness for machine learning models~\cite{deepfool,biggio_evasion_2013,carlini_towards_2017,deka2019adversarial}, these models exist in the real-world, despite the extreme ease of breaking them~\cite{meyers2023safety,biggio_evasion_2013,carlini_towards_2017,trashfire}. 
 
 
@@ -43,9 +43,9 @@ There are many more classes of attacks, and those are outlined in the subsection
 An important aspect of adversarial ML is that attacks can escalate a threat model from black-box assumptions toward white-box capabilities. 
 Even if an adversary initially has limited access to a model, techniques such as model extraction, inference, and membership attacks can allow them to progressively increase their knowledge.
 
-For example, Tram\`er et al.~\cite{tramer2016stealing} demonstrated that querying a ML API with $p+1$ random $p$-dimensional inputs could reveal enough information to reconstruct a model’s decision boundary, thereby enabling model extraction from mere prediction outputs. 
-Similarly, Fredrikson et al.~\cite{fredrikson2015model} showed that attackers can infer sensitive attributes or reverse-engineer category mappings using limited model outputs. 
-Shokri et al.~\cite{shokri2017membership} proposed membership inference attacks that identify whether a particular sample was part of the training set by analysing model responses across multiple low-cost proxy models for the targeted original. 
+For example, Tram\`er \textit{et al.}~\cite{tramer2016stealing} demonstrated that querying a ML API with $p+1$ random $p$-dimensional inputs could reveal enough information to reconstruct a model’s decision boundary, thereby enabling model extraction from mere prediction outputs. 
+Similarly, Fredrikson \textit{et al.}~\cite{fredrikson2015model} showed that attackers can infer sensitive attributes or reverse-engineer category mappings using limited model outputs. 
+Shokri \textit{et al.}~\cite{shokri2017membership} proposed membership inference attacks that identify whether a particular sample was part of the training set by analysing model responses across multiple low-cost proxy models for the targeted original. 
 Moreover, adversarial examples crafted against surrogate models often exhibit \textit{transferability}, meaning they remain effective against the original target model even without direct access~\cite{zhong2020towards,tramer2016stealing}. 
 
 These attacks, initially exploiting only hard labels or soft confidence scores, progressively reveal private information about the model or training set, transitioning a black-box attacker towards more informed, gray-box or white-box capabilities.
@@ -109,7 +109,7 @@ A key challenge for poisoning attacks is stealth.
 If poisoned examples differ too much from clean examples, simple outlier detection methods~\cite{paudice2018detection} or robust training procedures might eliminate them~\cite{cintas_detecting_2020}. 
 Successful poisoning attacks therefore craft inputs that are both adversarial and statistically similar to genuine data.
 
-Beyond individual samples, poisoning can also operate at the feature or label level---feature poisoning modifies the input features of training data without altering labels, nudging the decision boundary~\cite{yerlikaya2022data}; attacks that submit mislabelled data to reduce accuracy~\cite{jha2023label}; and attacks that scale efficiently against large models  ~\cite{geiping2020witches}.
+Beyond individual samples, poisoning can also operate at the feature or label level---feature poisoning modifies the input features of training data without altering labels, nudging the decision boundary~\cite{yerlikaya2022data}; attacks that submit mislabelled data to reduce accuracy~\cite{jha2023label}; and attacks that scale efficiently against large models~\cite{geiping2020witches}.
 The threat of poisoning is exacerbated in distributed learning settings, such as federated learning, where training data is aggregated from many sources. 
 In these scenarios, malicious clients can upload poisoned updates without direct oversight, creating significant vulnerabilities~\cite{bagdasaryan2020backdoor}.
 
