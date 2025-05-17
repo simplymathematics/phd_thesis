@@ -2,11 +2,15 @@ schema: '2.0'
 stages:
   check_tex@ch_5_verification_and_validation.tex:
     cmd: chktex -q -V ch_5_verification_and_validation.tex -n 24 -n 8 -n 1 -n 45 -n
-      17 -n 9 && touch ch_5_verification_and_validation.tex.chktex.flag
+      17 -n 9 -n 23 && touch ch_5_verification_and_validation.tex.chktex.flag
     deps:
     - path: ch_5_verification_and_validation.tex
-      md5: f51cbd82be20863957e5b382d0e1fa5c
-      size: 15269
+      md5: 0f67b4d955eebb2ba35ac50e70b74514
+      size: 16991
+    - path: papers
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
     outs:
     - path: ch_5_verification_and_validation.tex.chktex.flag
       md5: d41d8cd98f00b204e9800998ecf8427e
@@ -19,28 +23,188 @@ stages:
       md5: a926947c9efdf03de73b765d21812f2c
       size: 1595
     - path: ch_1_introduction.tex
-      md5: 2348be4f7d08e3e8cd4777346ea4ce0e
-      size: 32310
+      md5: 436b4ce4dc774abd09aef3d6fc883588
+      size: 32502
     - path: ch_2_safety.tex
-      md5: d5691d10dd2f79e9afd3b9f2daf21182
-      size: 15602
+      md5: e38b6eeb8c68d0ffbf116a31b8624efc
+      size: 15606
     - path: ch_3_machine_learning.tex
-      md5: 4f8935572039b1b172092a28bdc426cc
-      size: 25994
+      md5: bb5d96f1c82c1551fbea6d92bb2d7055
+      size: 26103
     - path: ch_4_adversaries.tex
-      md5: 44acaae0d7e414d17e90483c9f1eb8d6
-      size: 16596
+      md5: 64d8370c43dfdc61a2eac994eaab6ef6
+      size: 17036
     - path: ch_5_verification_and_validation.tex
-      md5: 36916bc4f630a1e82f599b33d297d861
-      size: 15266
+      md5: 0f67b4d955eebb2ba35ac50e70b74514
+      size: 16991
     - path: ch_6_summary_of_contributions.tex
-      md5: c87d9afb75d91d887fe7787a70b1be3c
-      size: 11075
+      md5: 1ed5ab39eef0e38dfd3bdf1992d96162
+      size: 9154
     - path: main.tex
-      md5: 88a18c78d99c18b5898f665bc2bcf3b5
-      size: 1965
+      md5: 27b5bed87dbc8c8dd42409493af03eb1
+      size: 2360
+    - path: papers
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
     outs:
     - path: pre_commit.flag
       md5: d41d8cd98f00b204e9800998ecf8427e
       size: 0
       isexec: true
+  check_tex@ch_2_safety.tex:
+    cmd: chktex -q -V ch_2_safety.tex -n 24 -n 8 -n 1 -n 45 -n 17 -n 9 -n 23 && touch
+      ch_2_safety.tex.chktex.flag
+    deps:
+    - path: ch_2_safety.tex
+      md5: e38b6eeb8c68d0ffbf116a31b8624efc
+      size: 15606
+    - path: papers
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
+    outs:
+    - path: ch_2_safety.tex.chktex.flag
+      md5: d41d8cd98f00b204e9800998ecf8427e
+      size: 0
+      isexec: true
+  check_tex@ch_1_introduction.tex:
+    cmd: chktex -q -V ch_1_introduction.tex -n 24 -n 8 -n 1 -n 45 -n 17 -n 9 -n 23
+      && touch ch_1_introduction.tex.chktex.flag
+    deps:
+    - path: ch_1_introduction.tex
+      md5: 436b4ce4dc774abd09aef3d6fc883588
+      size: 32502
+    - path: papers
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
+    outs:
+    - path: ch_1_introduction.tex.chktex.flag
+      md5: d41d8cd98f00b204e9800998ecf8427e
+      size: 0
+      isexec: true
+  check_tex@ch_3_machine_learning.tex:
+    cmd: chktex -q -V ch_3_machine_learning.tex -n 24 -n 8 -n 1 -n 45 -n 17 -n 9 -n
+      23 && touch ch_3_machine_learning.tex.chktex.flag
+    deps:
+    - path: ch_3_machine_learning.tex
+      md5: bb5d96f1c82c1551fbea6d92bb2d7055
+      size: 26103
+    - path: papers
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
+    outs:
+    - path: ch_3_machine_learning.tex.chktex.flag
+      md5: d41d8cd98f00b204e9800998ecf8427e
+      size: 0
+      isexec: true
+  check_tex@ch_4_adversaries.tex:
+    cmd: chktex -q -V ch_4_adversaries.tex -n 24 -n 8 -n 1 -n 45 -n 17 -n 9 -n 23
+      && touch ch_4_adversaries.tex.chktex.flag
+    deps:
+    - path: ch_4_adversaries.tex
+      md5: 64d8370c43dfdc61a2eac994eaab6ef6
+      size: 17036
+    - path: papers
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
+    outs:
+    - path: ch_4_adversaries.tex.chktex.flag
+      md5: d41d8cd98f00b204e9800998ecf8427e
+      size: 0
+      isexec: true
+  check_tex@ch_6_summary_of_contributions.tex:
+    cmd: chktex -q -V ch_6_summary_of_contributions.tex -n 24 -n 8 -n 1 -n 45 -n 17
+      -n 9 -n 23 && touch ch_6_summary_of_contributions.tex.chktex.flag
+    deps:
+    - path: ch_6_summary_of_contributions.tex
+      md5: 1ed5ab39eef0e38dfd3bdf1992d96162
+      size: 9154
+    - path: papers
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
+    outs:
+    - path: ch_6_summary_of_contributions.tex.chktex.flag
+      md5: d41d8cd98f00b204e9800998ecf8427e
+      size: 0
+      isexec: true
+  check_tex@main.tex:
+    cmd: chktex -q -V main.tex -n 24 -n 8 -n 1 -n 45 -n 17 -n 9 -n 23 && touch main.tex.chktex.flag
+    deps:
+    - path: main.tex
+      md5: 27b5bed87dbc8c8dd42409493af03eb1
+      size: 2360
+    - path: papers
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0
+    outs:
+    - path: main.tex.chktex.flag
+      md5: d41d8cd98f00b204e9800998ecf8427e
+      size: 0
+      isexec: true
+  first_run:
+    cmd: pdflatex  main.tex
+    deps:
+    - path: ch_1_introduction.tex
+      md5: 436b4ce4dc774abd09aef3d6fc883588
+      size: 32502
+    - path: ch_1_introduction.tex.chktex.flag
+      md5: d41d8cd98f00b204e9800998ecf8427e
+      size: 0
+    - path: ch_2_safety.tex
+      md5: e38b6eeb8c68d0ffbf116a31b8624efc
+      size: 15606
+    - path: ch_2_safety.tex.chktex.flag
+      md5: d41d8cd98f00b204e9800998ecf8427e
+      size: 0
+    - path: ch_3_machine_learning.tex
+      md5: bb5d96f1c82c1551fbea6d92bb2d7055
+      size: 26103
+    - path: ch_3_machine_learning.tex.chktex.flag
+      md5: d41d8cd98f00b204e9800998ecf8427e
+      size: 0
+    - path: ch_4_adversaries.tex
+      md5: 64d8370c43dfdc61a2eac994eaab6ef6
+      size: 17036
+    - path: ch_4_adversaries.tex.chktex.flag
+      md5: d41d8cd98f00b204e9800998ecf8427e
+      size: 0
+    - path: ch_5_verification_and_validation.tex
+      md5: 0f67b4d955eebb2ba35ac50e70b74514
+      size: 16991
+    - path: ch_5_verification_and_validation.tex.chktex.flag
+      md5: d41d8cd98f00b204e9800998ecf8427e
+      size: 0
+    - path: ch_6_summary_of_contributions.tex
+      md5: 1ed5ab39eef0e38dfd3bdf1992d96162
+      size: 9154
+    - path: ch_6_summary_of_contributions.tex.chktex.flag
+      md5: d41d8cd98f00b204e9800998ecf8427e
+      size: 0
+    - path: library_sample.bib
+      md5: abd1be956c3e70e49419a905c4fea91e
+      size: 196861
+    - path: main.tex
+      md5: 27b5bed87dbc8c8dd42409493af03eb1
+      size: 2360
+    - path: main.tex.chktex.flag
+      md5: d41d8cd98f00b204e9800998ecf8427e
+      size: 0
+    - path: pre_commit.flag
+      md5: d41d8cd98f00b204e9800998ecf8427e
+      size: 0
+    outs:
+    - path: main.aux
+      md5: 1e2c8b81d4426f928f40509631bcc25f
+      size: 31752
+    - path: main.log
+      md5: ce890498c1c893713b03f599750aab27
+      size: 193198
+    - path: main.out
+      md5: a505a565213d82d3d4930380794072d6
+      size: 7419
