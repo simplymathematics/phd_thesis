@@ -1,23 +1,13 @@
 schema: '2.0'
 stages:
   git_clone_papers@5:
-    cmd: '(git clone https://github.com/simplymathematics/deckard_paper.git paper6)
-      || echo "already cloned" &&  cd paper6 && git submodule init && git submodule
-      update --recursive --remote '
-    outs:
-    - path: paper6
-      md5: d751713988987e9331980363e24189ce.dir
-      size: 0
-      nfiles: 0
+    cmd: ( git clone https://github.com/simplymathematics/deckard_paper.git paper6
+      && cd paper6 && git submodule init && git submodule update --recursive --remote
+      ) || ( echo "already cloned" &&  cd paper6  && git pull )
   git_clone_papers@4:
-    cmd: '(git clone https://github.com/simplymathematics/Gzip-KNN.git paper5) ||
-      echo "already cloned" &&  cd paper5 && git submodule init && git submodule update
-      --recursive --remote '
-    outs:
-    - path: paper5
-      md5: b2be8e6e6f7e25c1bc64c3e761cb9166.dir
-      size: 1728555
-      nfiles: 45
+    cmd: ( git clone https://github.com/simplymathematics/Gzip-KNN.git paper5 && cd
+      paper5 && git submodule init && git submodule update --recursive --remote )
+      || ( echo "already cloned" &&  cd paper5  && git pull )
   copy_pdf@3:
     cmd: cp paper4/main.pdf Paper4.pdf
     deps:
@@ -34,12 +24,12 @@ stages:
     cmd: cp paper2/main.pdf Paper2.pdf
     deps:
     - path: paper2/
-      md5: d83afc2a777fa18fff9dbe13e0b089e1.dir
-      size: 6436442
-      nfiles: 90
+      md5: 917b123f4181b1f86de88fa657b6d244.dir
+      size: 6361049
+      nfiles: 89
     outs:
     - path: Paper2.pdf
-      md5: 4b1a8d1196b1111c3ab87b1238ab9a30
+      md5: 795e616ed15280b431584909130ef9e6
       size: 529140
       isexec: true
   copy_pdf@2:
@@ -58,12 +48,12 @@ stages:
     cmd: cp paper1/main.pdf Paper1.pdf
     deps:
     - path: paper1/
-      md5: 830b9ea53f7d8303d96ea06028d58dcb.dir
-      size: 411678472
+      md5: b35a1d0443f84bcd6c265e9150a3b54e.dir
+      size: 411576269
       nfiles: 92
     outs:
     - path: Paper1.pdf
-      md5: 1a3364994c3b805d143ec4891b34b786
+      md5: b15b9992b353ea36717c00c967b6c47a
       size: 1661018
       isexec: true
   copy_pdf@5:
@@ -82,11 +72,39 @@ stages:
     cmd: cp paper5/main.pdf Paper5.pdf
     deps:
     - path: paper5/
-      md5: 0559870cf46d15c1e5855855e381eb4e.dir
-      size: 70618117
-      nfiles: 142
+      md5: bf727f3465853a2a17d80a70778e0f25.dir
+      size: 71092058
+      nfiles: 141
     outs:
     - path: Paper5.pdf
-      md5: 24319efb2bcb924a19e3a48e79344d9c
+      md5: 487ba50fb5d9a72837d0332a9379ee5c
       size: 555386
       isexec: true
+  git_clone_papers@2:
+    cmd: ( git clone https://github.com/simplymathematics/ml_afr.git paper3 && cd
+      paper3 && git submodule init && git submodule update --recursive --remote )
+      || ( echo "already cloned" &&  cd paper3  && git pull )
+  git_clone_papers@1:
+    cmd: ( git clone https://github.com/simplymathematics/KDD-Paper-EAI-AISEC.git
+      paper2 && cd paper2 && git submodule init && git submodule update --recursive
+      --remote ) || ( echo "already cloned" &&  cd paper2  && git pull )
+  git_clone_papers@0:
+    cmd: ( git clone https://github.com/simplymathematics/springer-ai-review.git paper1
+      && cd paper1 && git submodule init && git submodule update --recursive --remote
+      ) || ( echo "already cloned" &&  cd paper1  && git pull )
+  git_clone_papers@3:
+    cmd: ( git clone https://github.com/simplymathematics/kepler-ml.git paper4 &&
+      cd paper4 && git submodule init && git submodule update --recursive --remote
+      ) || ( echo "already cloned" &&  cd paper4  && git pull )
+  reproduce_papers@4:
+    cmd: 'cd paper5 &&  dvc repro && cp main.pdf ../Paper5.pdf '
+  reproduce_papers@0:
+    cmd: 'cd paper1 &&  dvc repro && cp main.pdf ../Paper1.pdf '
+  reproduce_papers@2:
+    cmd: 'cd paper3 &&  dvc repro && cp main.pdf ../Paper3.pdf '
+  reproduce_papers@3:
+    cmd: 'cd paper4 &&  dvc repro && cp main.pdf ../Paper4.pdf '
+  reproduce_papers@5:
+    cmd: 'cd paper6 &&  dvc repro && cp paper.pdf ../Paper6.pdf '
+  reproduce_papers@1:
+    cmd: 'cd paper2 &&  dvc repro && cp main.pdf ../Paper2.pdf '

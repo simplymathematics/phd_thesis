@@ -29,8 +29,8 @@ stages:
       md5: e38b6eeb8c68d0ffbf116a31b8624efc
       size: 15606
     - path: ch_3_machine_learning.tex
-      md5: bb5d96f1c82c1551fbea6d92bb2d7055
-      size: 26103
+      md5: ecaf8dc426ea0711517ce2f590bd4401
+      size: 26108
     - path: ch_4_adversaries.tex
       md5: 64d8370c43dfdc61a2eac994eaab6ef6
       size: 17036
@@ -41,8 +41,8 @@ stages:
       md5: 1ed5ab39eef0e38dfd3bdf1992d96162
       size: 9154
     - path: main.tex
-      md5: 27b5bed87dbc8c8dd42409493af03eb1
-      size: 2360
+      md5: 5c3b9c472d82f002411a6dfeae16b454
+      size: 2397
     - path: papers
       md5: d751713988987e9331980363e24189ce.dir
       size: 0
@@ -89,8 +89,8 @@ stages:
       23 && touch ch_3_machine_learning.tex.chktex.flag
     deps:
     - path: ch_3_machine_learning.tex
-      md5: bb5d96f1c82c1551fbea6d92bb2d7055
-      size: 26103
+      md5: ecaf8dc426ea0711517ce2f590bd4401
+      size: 26108
     - path: papers
       md5: d751713988987e9331980363e24189ce.dir
       size: 0
@@ -136,8 +136,8 @@ stages:
     cmd: chktex -q -V main.tex -n 24 -n 8 -n 1 -n 45 -n 17 -n 9 -n 23 && touch main.tex.chktex.flag
     deps:
     - path: main.tex
-      md5: 27b5bed87dbc8c8dd42409493af03eb1
-      size: 2360
+      md5: 5c3b9c472d82f002411a6dfeae16b454
+      size: 2397
     - path: papers
       md5: d751713988987e9331980363e24189ce.dir
       size: 0
@@ -163,8 +163,8 @@ stages:
       md5: d41d8cd98f00b204e9800998ecf8427e
       size: 0
     - path: ch_3_machine_learning.tex
-      md5: bb5d96f1c82c1551fbea6d92bb2d7055
-      size: 26103
+      md5: ecaf8dc426ea0711517ce2f590bd4401
+      size: 26108
     - path: ch_3_machine_learning.tex.chktex.flag
       md5: d41d8cd98f00b204e9800998ecf8427e
       size: 0
@@ -187,11 +187,11 @@ stages:
       md5: d41d8cd98f00b204e9800998ecf8427e
       size: 0
     - path: library_sample.bib
-      md5: abd1be956c3e70e49419a905c4fea91e
+      md5: ff0d2c7412f9f9d0e72ec90a337542f0
       size: 196861
     - path: main.tex
-      md5: 27b5bed87dbc8c8dd42409493af03eb1
-      size: 2360
+      md5: 5c3b9c472d82f002411a6dfeae16b454
+      size: 2397
     - path: main.tex.chktex.flag
       md5: d41d8cd98f00b204e9800998ecf8427e
       size: 0
@@ -200,11 +200,48 @@ stages:
       size: 0
     outs:
     - path: main.aux
-      md5: 1e2c8b81d4426f928f40509631bcc25f
-      size: 31752
+      md5: 6cd72aa17967e2fbdd4db975c16461c3
+      size: 48137
     - path: main.log
-      md5: ce890498c1c893713b03f599750aab27
-      size: 193198
+      md5: b93dbafcbe9692ce4cb368e365bc12b4
+      size: 151079
     - path: main.out
-      md5: a505a565213d82d3d4930380794072d6
+      md5: 02c6e6e887d8ac5a928ee7000ef8cb7a
       size: 7419
+  big_run:
+    cmd: latexmk -pdf -use-make main.tex
+    deps:
+    - path: .latexmkrc
+      md5: b09356b64fb7c2e2f5baab9b092175d3
+      size: 148
+    - path: library_sample.bib
+      md5: ff0d2c7412f9f9d0e72ec90a337542f0
+      size: 196861
+    - path: main.aux
+      md5: 44b8987ce13dd134cbdaae7986198c5c
+      size: 48140
+      isexec: true
+    - path: main.log
+      md5: c110b227f8e051649f2c24b350f5660d
+      size: 148860
+      isexec: true
+    - path: main.out
+      md5: 02c6e6e887d8ac5a928ee7000ef8cb7a
+      size: 7419
+      isexec: true
+    - path: main.tex
+      md5: 5c3b9c472d82f002411a6dfeae16b454
+      size: 2397
+    outs:
+    - path: main.bbl
+      md5: 417ea179467073d8a26dd361c181e39d
+      size: 353707
+      isexec: true
+    - path: main.blg
+      md5: a305f706981df47deab28b25838b58ef
+      size: 1281
+      isexec: true
+    - path: main.pdf
+      md5: 0bc8a936db03ec6d4ec43b2b32855750
+      size: 5965067
+      isexec: true

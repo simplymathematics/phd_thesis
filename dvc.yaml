@@ -31,39 +31,73 @@ stages:
         - papers
       outs:
         - ${item}.chktex.flag
-  # first_run:
-  #   cmd: pdflatex  main.tex 
-  #   deps:
-  #     - main.tex
-  #     - library_sample.bib
-  #     - ch_1_introduction.tex
-  #     - ch_2_safety.tex
-  #     - ch_3_machine_learning.tex
-  #     - ch_4_adversaries.tex
-  #     - ch_5_verification_and_validation.tex
-  #     - ch_6_summary_of_contributions.tex
-  #     - pre_commit.flag
-  #     - ch_1_introduction.tex.chktex.flag
-  #     - ch_2_safety.tex.chktex.flag
-  #     - ch_3_machine_learning.tex.chktex.flag
-  #     - ch_4_adversaries.tex.chktex.flag
-  #     - ch_5_verification_and_validation.tex.chktex.flag
-  #     - ch_6_summary_of_contributions.tex.chktex.flag
-  #     - main.tex.chktex.flag
-  #   outs:
-  #     - main.aux
-  #     - main.log
-  #     - main.out
-  # big_run:
-  #   cmd: pdflatex main.tex && biber main && pdflatex  main.tex && pdflatex  main.tex
-  #   deps:
-  #     - main.tex
-  #     - library_sample.bib
-  #     - main.aux
-  #     - main.log
-  #     - main.out
-  #   outs:
-  #     - main.bbl
-  #     - main.blg
-  #     - main.pdf
+  render_papers:
+    foreach:
+      - input: papers/paper1
+        output: papers/Paper1.pdf
+      - input: papers/paper2
+        output: papers/Paper2.pdf
+      - input: papers/paper3
+        output: papers/Paper3.pdf
+      - input: papers/paper4
+        output: papers/Paper4.pdf
+      - input: papers/paper5
+        output: papers/Paper5.pdf
+      - input: papers/paper6
+        output: papers/Paper6.pdf
+    do:
+      deps:
+        - ${item.input}
+      outs:
+        - ${item.output}
+      cmd: >-
+        cd ${item.input} && dvc repro && touch ${item.input}.flag
+  first_run:
+    cmd: pdflatex  main.tex 
+    deps:
+      - main.tex
+      - library_sample.bib
+      - ch_1_introduction.tex
+      - ch_2_safety.tex
+      - ch_3_machine_learning.tex
+      - ch_4_adversaries.tex
+      - ch_5_verification_and_validation.tex
+      - ch_6_summary_of_contributions.tex
+      - pre_commit.flag
+      - ch_1_introduction.tex.chktex.flag
+      - ch_2_safety.tex.chktex.flag
+      - ch_3_machine_learning.tex.chktex.flag
+      - ch_4_adversaries.tex.chktex.flag
+      - ch_5_verification_and_validation.tex.chktex.flag
+      - ch_6_summary_of_contributions.tex.chktex.flag
+      - main.tex.chktex.flag
+      - papers/Paper1.pdf
+      - papers/Paper2.pdf
+      - papers/Paper3.pdf
+      - papers/Paper4.pdf
+      - papers/Paper5.pdf
+      - papers/Paper6.pdf
+      - papers/paper1.flag
+      - papers/paper2.flag
+      - papers/paper3.flag
+      - papers/paper4.flag
+      - papers/paper5.flag
+      - papers/paper6.flag
+    outs:
+      - main.aux
+      - main.log
+      - main.out
+  big_run:
+    cmd: latexmk -pdf -use-make main.tex
+    deps:
+      - main.tex
+      - library_sample.bib
+      - main.aux
+      - main.log
+      - main.out
+      - .latexmkrc
+    outs:
+      - main.bbl
+      - main.blg
+      - main.pdf
   
