@@ -31,27 +31,27 @@ stages:
         - papers
       outs:
         - ${item}.chktex.flag
-  render_papers:
-    foreach:
-      - input: papers/paper1
-        output: papers/Paper1.pdf
-      - input: papers/paper2
-        output: papers/Paper2.pdf
-      - input: papers/paper3
-        output: papers/Paper3.pdf
-      - input: papers/paper4
-        output: papers/Paper4.pdf
-      - input: papers/paper5
-        output: papers/Paper5.pdf
-      - input: papers/paper6
-        output: papers/Paper6.pdf
-    do:
-      deps:
-        - ${item.input}
-      outs:
-        - ${item.output}
-      cmd: >-
-        cd ${item.input} && dvc repro && touch ${item.input}.flag
+  # render_papers:
+  #   foreach:
+  #     - input: papers/paper1
+  #       output: papers/Paper1.pdf
+  #     - input: papers/paper2
+  #       output: papers/Paper2.pdf
+  #     - input: papers/paper3
+  #       output: papers/Paper3.pdf
+  #     - input: papers/paper4
+  #       output: papers/Paper4.pdf
+  #     - input: papers/paper5
+  #       output: papers/Paper5.pdf
+  #     - input: papers/paper6
+  #       output: papers/Paper6.pdf
+  #   do:
+  #     deps:
+  #       - ${item.input}
+  #     outs:
+  #       - ${item.output}
+  #     cmd: >-
+  #       cd ${item.input} && dvc repro && touch ${item.input}.flag
   first_run:
     cmd: pdflatex  main.tex 
     deps:

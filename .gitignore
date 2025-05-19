@@ -10,3 +10,5 @@ main.out
 main.run.xml
 main.toc
 /main.pdf
+main.fdb_latexmk
+main.fls
