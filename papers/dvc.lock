@@ -98,13 +98,43 @@ stages:
       ) || ( echo "already cloned" &&  cd paper4  && git pull )
   reproduce_papers@4:
     cmd: 'cd paper5 &&  dvc repro && cp main.pdf ../Paper5.pdf '
+    outs:
+    - path: Paper5.pdf
+      md5: de13d49edae53c92482c058afaa7ea2b
+      size: 557341
+      isexec: true
   reproduce_papers@0:
     cmd: 'cd paper1 &&  dvc repro && cp main.pdf ../Paper1.pdf '
+    outs:
+    - path: Paper1.pdf
+      md5: bcc5f84ce8c56de9f6d9f0768aba05b7
+      size: 1660923
+      isexec: true
   reproduce_papers@2:
     cmd: 'cd paper3 &&  dvc repro && cp main.pdf ../Paper3.pdf '
+    outs:
+    - path: Paper3.pdf
+      md5: 65c5bb2699e99bebb838f10a64a937db
+      size: 379386
+      isexec: true
   reproduce_papers@3:
     cmd: 'cd paper4 &&  dvc repro && cp main.pdf ../Paper4.pdf '
+    outs:
+    - path: Paper4.pdf
+      md5: 969feb7dd12fcba6008552fccadc8a01
+      size: 806679
+      isexec: true
   reproduce_papers@5:
     cmd: 'cd paper6 &&  dvc repro && cp paper.pdf ../Paper6.pdf '
+    outs:
+    - path: Paper6.pdf
+      md5: 34b3846d92668441951f44727d9f185e
+      size: 190188
+      isexec: true
   reproduce_papers@1:
     cmd: 'cd paper2 &&  dvc repro && cp main.pdf ../Paper2.pdf '
+    outs:
+    - path: Paper2.pdf
+      md5: fe3b508abee6b8d0f44e34e04825814a
+      size: 529140
+      isexec: true
