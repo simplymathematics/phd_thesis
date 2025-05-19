@@ -1,3 +1,0 @@
-dvc
-pre-commit
-dvc-gdrive
